@@ -9,6 +9,9 @@ public class Subject implements Serializable {
 	 */
 	private static final long serialVersionUID = 3204470690617560091L;
 
+	private String suid;
+
+	private String[] kw;
 	private String begin;
 	private String end;
 	private String location;
@@ -115,9 +118,39 @@ public class Subject implements Serializable {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public synchronized final void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the suid
+	 */
+	public synchronized final String getSuid() {
+		return suid;
+	}
+
+	/**
+	 * @param suid
+	 *            the suid to set
+	 */
+	public synchronized final void setSuid(String suid) {
+		this.suid = suid;
+	}
+
+	/**
+	 * @return the kw
+	 */
+	public synchronized final String[] getKw() {
+		return kw;
+	}
+
+	/**
+	 * @param kw the kw to set
+	 */
+	public synchronized final void setKw(String[] kw) {
+		this.kw = kw;
 	}
 }
