@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.naming.directory.InvalidAttributesException;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +61,6 @@ public class TimetableRepository {
 		conv = new TimetableConverter();
 	}
 
-	
 	public List<Faculty> getSemGroups(String semester) throws InvalidAttributesException, IOException,
 			URISyntaxException {
 		timetableSemGroup = MessageFormat.format(timetableSemGroup, semester);
@@ -101,12 +103,6 @@ public class TimetableRepository {
 	public List<Day<Subject>> getTimetable(String semester, String semgroup) throws InvalidAttributesException,
 			URISyntaxException, XmlPullParserException, IOException {
 		String kw = getCalendar().get("all");
-		return getTimetable(semester, semgroup, kw);
-	}
-
-	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw)
-			throws InvalidAttributesException, URISyntaxException, RestClientException, XmlPullParserException,
-			IOException {
 		if (getCalendar().containsKey(kw)) {
 
 			timetableReport = MessageFormat.format(timetableReport, semester, semgroup, kw, "");
@@ -122,13 +118,91 @@ public class TimetableRepository {
 		return null;
 	}
 
+	public List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid)
+			throws InvalidAttributesException, URISyntaxException, RestClientException, XmlPullParserException,
+			IOException {
+		if (suid == null || suid.length == 0) {
+			return getTimetable(semester, semgroup);
+		}
+		List<Day<Subject>> timetable = getTimetable(semester, semgroup);
+		for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
+			List<Subject> subjList = day.next().getDayContent();
+			for (Iterator<Subject> subj = subjList.iterator(); subj.hasNext();) {
+				if (!ArrayUtils.contains(suid, subj.next().getSuid())) {
+					subj.remove();
+				}
+			}
+		}
+		return timetable;
+
+	}
+
+	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw)
+			throws InvalidAttributesException, URISyntaxException, RestClientException, XmlPullParserException,
+			IOException {
+
+		List<Day<Subject>> timetable = getTimetable(semester, semgroup);
+		for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
+			List<Subject> subjList = day.next().getDayContent();
+			for (Iterator<Subject> subj = subjList.iterator(); subj.hasNext();) {
+				if (!ArrayUtils.contains(subj.next().getKw(), kw)) {
+					subj.remove();
+				}
+			}
+		}
+		return timetable;
+
+	}
+
+	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw, String[] suid)
+			throws InvalidAttributesException, URISyntaxException, RestClientException, XmlPullParserException,
+			IOException {
+		if (suid == null || suid.length == 0) {
+			return getTimetable(semester, semgroup, kw);
+		}
+		List<Day<Subject>> timetable = getTimetable(semester, semgroup, kw);
+		for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
+			List<Subject> subjList = day.next().getDayContent();
+			for (Iterator<Subject> subj = subjList.iterator(); subj.hasNext();) {
+				if (!ArrayUtils.contains(suid, subj.next().getSuid())) {
+					subj.remove();
+				}
+			}
+		}
+		return timetable;
+
+	}
+
 	public Day<Subject> getTimetable(String semester, String semgroup, String kw, int day)
 			throws InvalidAttributesException, URISyntaxException, RestClientException, XmlPullParserException,
 			IOException {
 		day = day - 1;
 		List<Day<Subject>> days = getTimetable(semester, semgroup, kw);
-		if (days!= null && days.size() > 0) {
+		if (days != null && days.size() > 0) {
 			return days.get(day);
+		}
+		return null;
+	}
+
+	public Map<String, String> getCourse(String semester, String semgroup) throws InvalidAttributesException,
+			URISyntaxException, XmlPullParserException, IOException {
+		Map<String, String> response = new TreeMap<String, String>();
+		for (Day<Subject> day : getTimetable(semester, semgroup)) {
+			for (Subject subj : day.getDayContent()) {
+				response.put(subj.getSuid(), subj.getDescription());
+			}
+		}
+		return response;
+	}
+
+	public Subject getCourse(String semester, String semgroup, String id) throws InvalidAttributesException,
+			URISyntaxException, XmlPullParserException, IOException {
+		for (Day<Subject> day : getTimetable(semester, semgroup)) {
+			for (Subject subj : day.getDayContent()) {
+				if (subj.getSuid().equals(id)) {
+					return subj;
+				}
+			}
 		}
 		return null;
 	}

@@ -2,6 +2,8 @@ package com.htwk.app.repository.helper.impl;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,25 +58,25 @@ public class TimetableConverter extends HTMLConverter {
 						String temp = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							faculty.setName(temp);
-							logger.debug(temp);
+//							logger.debug(temp);
 						}
 						temp = new String(parser.getAttributeValue(1).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							faculty.setId(temp);
-							logger.debug(temp);
+//							logger.debug(temp);
 						}
 					} else if (tagName.equalsIgnoreCase("studiengang")) {
 						course = new Course();
 						String temp = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							course.setName(temp);
-							logger.debug(temp);
+//							logger.debug(temp);
 						}
 
 						temp = new String(parser.getAttributeValue(1).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							course.setId(temp);
-							logger.debug(temp);
+//							logger.debug(temp);
 						}
 						faculty.getCourses().add(course);
 
@@ -82,7 +84,7 @@ public class TimetableConverter extends HTMLConverter {
 						String temp = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							course.getSemGroups().add(temp);
-							logger.debug(temp);
+//							logger.debug(temp);
 						}
 
 					}
@@ -112,7 +114,8 @@ public class TimetableConverter extends HTMLConverter {
 		return null;
 	}
 
-	public Map<String, String> getCal(String content) throws InvalidAttributesException, XmlPullParserException, IOException {
+	public Map<String, String> getCal(String content) throws InvalidAttributesException, XmlPullParserException,
+			IOException {
 		if (content == null || content.isEmpty()) {
 			throw new InvalidAttributesException();
 		}
@@ -172,6 +175,7 @@ public class TimetableConverter extends HTMLConverter {
 
 				Subject subject = new Subject();
 
+				subject.setKw((td[0] == null) ? new String[]{} : td[0].text().replaceAll("\\s+", "").split(","));
 				subject.setBegin((td[1] == null) ? "" : td[1].text());
 				subject.setEnd((td[2] == null) ? "" : td[2].text());
 				subject.setLocation((td[3] == null) ? "" : td[3].text());
@@ -179,6 +183,11 @@ public class TimetableConverter extends HTMLConverter {
 				subject.setType((td[5] == null) ? "" : td[5].text());
 				subject.setDocent((td[6] == null) ? "" : td[6].text());
 				subject.setNotes((td[7] == null) ? "" : td[7].text());
+
+				String suid = (subject.getDescription().length() > 15) ? subject.getDescription().substring(0, 15) : "";
+
+				subject.setSuid(getSuid(suid));
+
 				day.getDayContent().add(subject);
 			}
 			// truncate the last tables which not needed
@@ -187,5 +196,27 @@ public class TimetableConverter extends HTMLConverter {
 			}
 		}
 		return days;
+	}
+
+	private String getSuid(String suid) {
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("MD5");
+
+			md.update(suid.getBytes());
+
+			byte byteData[] = md.digest();
+
+			// convert the byte to hex format method 1
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < byteData.length; i++) {
+				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+			}
+			return sb.toString();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

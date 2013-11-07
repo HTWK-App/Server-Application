@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestClientException;
 import org.xmlpull.v1.XmlPullParserException;
@@ -33,13 +34,13 @@ public class TimetableController {
 	@Autowired
 	private TimetableRepository repo;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String redirectHome() {
-		return "redirect:/timetable/";
+		return "redirect:/timetable";
 	}
 
 	@Cacheable("timeCache")
-	@RequestMapping(value = "/", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	@RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	String home() throws InvalidAttributesException, IOException {
 		return "";
@@ -65,18 +66,52 @@ public class TimetableController {
 	@RequestMapping(value = "/{semester}/{fak}/{semgroup}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	List<Day<Subject>> getTimetable(@PathVariable(value = "semester") String semester,
+			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
+			@RequestParam(value = "suid", required = false, defaultValue = "") String suid)
+			throws InvalidAttributesException, IOException, URISyntaxException, XmlPullParserException {
+		String[] suidArray = null;
+		if (suid.contains(",")) {
+			suidArray = suid.split(",");
+		}else if (!suid.isEmpty()){
+			suidArray = new String[]{suid};
+		}
+		return repo.getTimetable(semester, semgroup, suidArray);
+	}
+
+	@Cacheable("timeCache")
+	@RequestMapping(value = "/{semester}/{fak}/{semgroup}/list", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	public @ResponseBody
+	Map<String, String> getCourse(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup)
 			throws InvalidAttributesException, IOException, URISyntaxException, XmlPullParserException {
-		return repo.getTimetable(semester, semgroup);
+		return repo.getCourse(semester, semgroup);
+	}
+
+	@Cacheable("timeCache")
+	@RequestMapping(value = "/{semester}/{fak}/{semgroup}/list/{id}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	public @ResponseBody
+	Subject getCourse(@PathVariable(value = "semester") String semester, @PathVariable(value = "fak") String fak,
+			@PathVariable(value = "semgroup") String semgroup, @PathVariable(value = "id") String id)
+			throws InvalidAttributesException, IOException, URISyntaxException, XmlPullParserException {
+		return repo.getCourse(semester, semgroup, id);
 	}
 
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/{semester}/{fak}/{semgroup}/{kw}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	List<Day<Subject>> getTimetable(@PathVariable(value = "semester") String semester,
+	List<Day<Subject>> getTimetableByKW(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
-			@PathVariable(value = "kw") String kw) throws InvalidAttributesException, IOException, URISyntaxException, RestClientException, XmlPullParserException {
-		return repo.getTimetable(semester, semgroup, kw);
+			@PathVariable(value = "kw") String kw,
+			@RequestParam(value = "suid", required = false, defaultValue = "") String suid)
+			throws InvalidAttributesException, IOException, URISyntaxException, RestClientException,
+			XmlPullParserException {
+		String[] suidArray = null;
+		if (suid.contains(",")) {
+			suidArray = suid.split(",");
+		}else if (!suid.isEmpty()){
+			suidArray = new String[]{suid};
+		}
+		return repo.getTimetable(semester, semgroup, kw, suidArray);
 	}
 
 	@Cacheable("timeCache")
@@ -85,7 +120,8 @@ public class TimetableController {
 	Day<Subject> getTimetable(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
 			@PathVariable(value = "kw") String kw, @PathVariable(value = "day") int day)
-			throws InvalidAttributesException, IOException, URISyntaxException, RestClientException, XmlPullParserException {
+			throws InvalidAttributesException, IOException, URISyntaxException, RestClientException,
+			XmlPullParserException {
 		return repo.getTimetable(semester, semgroup, kw, day);
 	}
 
