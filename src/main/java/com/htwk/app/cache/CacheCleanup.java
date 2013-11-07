@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
-import com.htwk.app.HomeController;
-
 @Service
 public class CacheCleanup {
 
@@ -32,10 +30,8 @@ public class CacheCleanup {
 	@Value("${cache.timeUnit}") 
 	private String timeUnit;
 	
-	
 	@Autowired
 	CacheManager cacheManager;
-
 
 	@PreDestroy
 	public void shutdown() {
@@ -49,7 +45,7 @@ public class CacheCleanup {
                         @Override
                         public void run() {
                                 for (String cacheName : cacheManager.getCacheNames()) {
-                                        logger.debug("cleanup of Cache:" + cacheName);
+                                        logger.trace("cleanup of Cache:" + cacheName);
                                         ((GuavaCache) cacheManager.getCache(cacheName)).getNativeCache().cleanUp();
                                 }
                         }
