@@ -1,5 +1,7 @@
 package com.htwk.app.utils;
 
+import java.util.Properties;
+
 public class MailUtils {
 
 	public static String decryptMail(String mail){
@@ -34,4 +36,5 @@ public class MailUtils {
 		}
 		return (char)n;
 	}
+	
 }
