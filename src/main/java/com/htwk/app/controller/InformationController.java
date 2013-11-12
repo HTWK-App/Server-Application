@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.htwk.app.model.info.Building;
+import com.htwk.app.model.info.News;
 import com.htwk.app.model.info.Staff;
 import com.htwk.app.repository.InformationRepository;
 
@@ -28,20 +30,20 @@ public class InformationController {
 	@Autowired
 	private InformationRepository repo;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
 	String home() {
 		return "";
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String redirectHome() {
-		return "redirect:/info/";
+		return "redirect:/info";
 	}
 
 	@RequestMapping(value = "/staff", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Staff> getProf() throws InvalidAttributesException, URISyntaxException {
+	List<Staff> getStaff() throws InvalidAttributesException, URISyntaxException {
 		return repo.getStaff();
 	}
 
@@ -50,12 +52,32 @@ public class InformationController {
 	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws InvalidAttributesException, URISyntaxException {
 		return repo.getStaff(cuid);
 	}
-	
+
 	@RequestMapping(value = "/staff/{cuid}/detail", method = RequestMethod.GET)
 	public @ResponseBody
 	Staff getStaffDetailed(@PathVariable(value = "cuid") String cuid) throws InvalidAttributesException,
 			URISyntaxException, IOException, ParseException {
 		return repo.getStaffDetailed(cuid);
 	}
+
+	@RequestMapping(value = "/building", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Building> getBuildings() throws InvalidAttributesException, URISyntaxException, IOException, ParseException {
+		return repo.getBuildings();
+	}
+
+	@RequestMapping(value = "/building/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	Building getBuilding(@PathVariable(value = "id") String id) throws InvalidAttributesException, URISyntaxException,
+			IOException, ParseException {
+		return repo.getBuilding(id);
+	}
+	
+	@RequestMapping(value = "/news", method = RequestMethod.GET)
+	public @ResponseBody
+	List<News> getNews() throws InvalidAttributesException, URISyntaxException, IOException, ParseException {
+		return repo.getNews();
+	}
+	
 
 }

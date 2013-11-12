@@ -15,7 +15,9 @@ import javax.naming.directory.InvalidAttributesException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Staff;
 import com.htwk.app.repository.helper.HTMLConverter;
 import com.htwk.app.utils.MailUtils;
@@ -82,21 +84,69 @@ public class InformationConverter extends HTMLConverter {
 		for (Element div : doc.select("div.phonelist_detail")) {
 			staff.setFullName((div.select("h1") == null) ? "" : div.select("h1").first().text());
 			staff.setDescription((div.select("div.info p") == null) ? "" : div.select("div.info p").first().text());
-			staff.setTelefax((div.select("span.fax").first() == null) ? "" : div.select("span.fax")
-					.first().text());
+			staff.setTelefax((div.select("span.fax").first() == null) ? "" : div.select("span.fax").first().text());
 			staff.setPictureLink((div.select("div.info p") == null) ? "" : UrlUtils.getHtwkUrl(div
 					.select("div.info img").first().attr("src")));
-			staff.setPrivatePage((div.select("span.www a").first() == null) ? "" : UrlUtils.getHtwkUrl(div.select("span.www a")
-					.first().attr("href")));
-			
-			String timestamp = (doc.select("p.last_update") == null)? "" : doc.select("p.last_update").text();
-			timestamp = timestamp.substring(24,34);
+			staff.setPrivatePage((div.select("span.www a").first() == null) ? "" : UrlUtils.getHtwkUrl(div
+					.select("span.www a").first().attr("href")));
+
+			String timestamp = (doc.select("p.last_update") == null) ? "" : doc.select("p.last_update").text();
+			timestamp = timestamp.substring(24, 34);
 			DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 			Date date = dateFormat.parse(timestamp);
-			logger.debug(""+timestamp+ ":"+date.toString());
+			logger.debug("" + timestamp + ":" + date.toString());
 			staff.setLastChange(new Timestamp(date.getTime()));
 		}
 
 		return staff;
+	}
+
+	public Building getBuildingInfo(String detailLink) throws InvalidAttributesException, IOException, ParseException {
+		if (detailLink == null || detailLink.isEmpty()) {
+			throw new InvalidAttributesException();
+		}
+
+		URL url = new URL(detailLink);
+		logger.debug("fetch HTML-Doc for url:" + detailLink);
+		Document doc = Jsoup.parse(url, 5000);
+
+		for (Element main : doc.select("div#content")) {
+			logger.debug("found main content in document");
+			Building building = new Building();
+			String fullName = main.select("h1.csc-firstHeader").text();
+			building.setId(fullName.substring(fullName.indexOf("(") + 1, fullName.indexOf(")")));
+			building.setFullName(fullName);
+
+			building.setPictureLink((main.select("div.csc-default img").first() == null) ? "" : UrlUtils
+					.getHtwkUrl(main.select("div.csc-default img").first().attr("src")));
+
+			Elements p = main.select("div.csc-default").first().select("div.csc-textpic-text p");
+			
+			// separate Street and Postcode/City by ", "
+			building.setAddress(Jsoup.parse(p.last().select("b").html().replace("<br />", ", ")).text());
+
+			for (Element pDescription : p) {
+				building.getDescription().add(pDescription.text());
+			}
+			building.getDescription().remove(building.getDescription().size() - 1);
+
+			building.setDetailLink(detailLink);
+
+			Element script = main.select("div.tx-lumogooglemaps-pi1 script").last();
+			String latlng = script.html().substring(script.html().indexOf("new google.maps.LatLng("));
+			latlng = latlng.substring(23, latlng.indexOf(")"));
+			logger.debug("detected latlng :" + latlng);
+			building.setLatLng(latlng);
+
+			String timestamp = (main.select("p.last_update") == null) ? "" : doc.select("p.last_update").text();
+			timestamp = timestamp.substring(24, 34);
+			DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+			Date date = dateFormat.parse(timestamp);
+			logger.debug("found timestamp :" + timestamp);
+			building.setLastChange(new Timestamp(date.getTime()));
+
+			return building;
+		}
+		return null;
 	}
 }
