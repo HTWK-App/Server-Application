@@ -2,61 +2,25 @@ package com.htwk.app.model.mail;
 
 import java.io.Serializable;
 
-public class MailCredentials implements Serializable {
+import com.htwk.app.model.impl.Credentials;
+
+public class MailCredentials extends Credentials implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1934432139660328365L;
-	private String username;
-	private String password;
-	
+
 	private String protocol;
 	private String host;
 	private int port;
 
 	public MailCredentials(String username, String password) {
-		this.username = username;
-		this.password = password;
+		super(username, password);
 	}
 
 	public MailCredentials() {
-	}
-
-	/**
-	 * @return the username
-	 */
-	public synchronized final String getUsername() {
-		return username;
-	}
-
-	/**
-	 * @param username
-	 *            the username to set
-	 */
-	public synchronized final void setUsername(String username) {
-		this.username = username;
-	}
-
-	/**
-	 * @return the password
-	 */
-	public synchronized final String getPassword() {
-		return password;
-	}
-
-	/**
-	 * @param password
-	 *            the password to set
-	 */
-	public synchronized final void setPassword(String password) {
-		this.password = password;
-	}
-
-	@Override
-	public String toString() {
-		return username + ":" + password;
-
+		super();
 	}
 
 	/**
@@ -67,7 +31,8 @@ public class MailCredentials implements Serializable {
 	}
 
 	/**
-	 * @param protocol the protocol to set
+	 * @param protocol
+	 *            the protocol to set
 	 */
 	public synchronized final void setProtocol(String protocol) {
 		this.protocol = protocol;
@@ -81,7 +46,8 @@ public class MailCredentials implements Serializable {
 	}
 
 	/**
-	 * @param host the host to set
+	 * @param host
+	 *            the host to set
 	 */
 	public synchronized final void setHost(String host) {
 		this.host = host;
@@ -95,7 +61,8 @@ public class MailCredentials implements Serializable {
 	}
 
 	/**
-	 * @param port the port to set
+	 * @param port
+	 *            the port to set
 	 */
 	public synchronized final void setPort(int port) {
 		this.port = port;
