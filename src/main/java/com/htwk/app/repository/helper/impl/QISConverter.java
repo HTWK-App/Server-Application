@@ -31,7 +31,9 @@ public class QISConverter {
 					Element[] td = tr.select("td").toArray(new Element[4]);
 					modul = new Modul();
 					modul.setId((td[0].text() == null) ? "" : td[0].text());
-					modul.setDescription((td[1].text() == null) ? "" : td[1].text());
+					String description = (td[1].text() == null) ? "" : td[1].text();
+					modul.setTitle(description.split(" <")[0]);
+					modul.setDescription(description.substring(description.indexOf("<")+1, description.indexOf(">")));
 					modul.setEcts((td[2].text() == null) ? "" : td[2].text());
 					modul.setMark((td[3].text() == null) ? "" : td[3].text());
 					semester.getModules().add(modul);
@@ -40,7 +42,9 @@ public class QISConverter {
 					Element[] td = tr.select("td").toArray(new Element[4]);
 					Modul submodul = new Modul();
 					submodul.setId((td[0].text() == null) ? "" : td[0].text());
-					submodul.setDescription((td[1].text() == null) ? "" : td[1].text());
+					String description = (td[1].text() == null) ? "" : td[1].text();
+					submodul.setTitle(description.split(" <")[0]);
+					submodul.setDescription(description.substring(description.indexOf("<")+1, description.indexOf(">")));
 					submodul.setEcts((td[2].text() == null) ? "" : td[2].text());
 					submodul.setMark((td[3].text() == null) ? "" : td[3].text());
 					modul.getSubmodul().add(submodul);
