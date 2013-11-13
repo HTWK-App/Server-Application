@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:cache="http://www.springframework.org/schema/cache"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -29,9 +27,26 @@
 					</list>
 				</property>
 			</bean>
+			<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+			<!-- <property name="supportedMediaTypes"> -->
+			<!-- <list> -->
+			<!-- <value>image/jpeg</value> -->
+			<!-- <value>image/png</value> -->
+			<!-- </list> -->
+			<!-- </property> -->
+			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
+<!-- 	<bean -->
+<!-- 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
+<!-- 		<property name="messageConverters"> -->
+<!-- 			<util:list> -->
+<!-- 				<bean id="byteArrayMessageConverter" -->
+<!-- 					class="org.springframework.http.converter.ByteArrayHttpMessageConverter" /> -->
+<!-- 			</util:list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
@@ -46,7 +61,7 @@
 	</bean>
 
 	<context:component-scan base-package="com.htwk.app" />
-	
-	<cache:annotation-driven/>
+
+	<cache:annotation-driven />
 
 </beans>
