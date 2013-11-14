@@ -1,6 +1,5 @@
 package com.htwk.app.utils;
 
-import java.util.Properties;
 
 public class MailUtils {
 
