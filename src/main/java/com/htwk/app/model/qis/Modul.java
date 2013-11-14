@@ -11,6 +11,7 @@ public class Modul implements Serializable {
 	 */
 	private static final long serialVersionUID = -7580435071758310706L;
 	private String id;
+	private String title; 
 	private String description;
 	private String ects;
 	private String mark;
@@ -93,6 +94,20 @@ public class Modul implements Serializable {
 	 */
 	public synchronized final void setSubmodul(List<Modul> submodul) {
 		this.submodul = submodul;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public synchronized final String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public synchronized final void setTitle(String title) {
+		this.title = title;
 	}
 
 }
