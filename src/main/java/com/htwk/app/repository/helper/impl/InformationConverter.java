@@ -1,6 +1,7 @@
 package com.htwk.app.repository.helper.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -18,6 +19,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.htwk.app.model.info.Building;
+import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
 import com.htwk.app.repository.helper.HTMLConverter;
 import com.htwk.app.utils.MailUtils;
@@ -33,7 +35,6 @@ public class InformationConverter extends HTMLConverter {
 		List<Staff> staffMembers = new ArrayList<Staff>();
 
 		Document doc = Jsoup.parse(content);
-
 		for (Element table : doc.select("table")) {
 			table.select("tr").first().remove();
 
@@ -121,7 +122,7 @@ public class InformationConverter extends HTMLConverter {
 					.getHtwkUrl(main.select("div.csc-default img").first().attr("src")));
 
 			Elements p = main.select("div.csc-default").first().select("div.csc-textpic-text p");
-			
+
 			// separate Street and Postcode/City by ", "
 			building.setAddress(Jsoup.parse(p.last().select("b").html().replace("<br />", ", ")).text());
 
@@ -148,5 +149,50 @@ public class InformationConverter extends HTMLConverter {
 			return building;
 		}
 		return null;
+	}
+
+	public List<Sport> getSportList(String content) throws InvalidAttributesException, UnsupportedEncodingException {
+		if (content == null || content.isEmpty()) {
+			throw new InvalidAttributesException();
+		}
+
+		List<Sport> sports = new ArrayList<Sport>();
+
+		Document doc = Jsoup.parse(content);
+		for (Element div : doc.select("div.event-info-box")) {
+			Sport sport = new Sport();
+			sport.setId(div.attr("id"));
+			sport.setTitle((div.select("h4") == null) ? "" : div.select("h4").text());
+			div.removeClass("h4");
+			sport.setDetailedLink((div.select("a") == null) ? "" : "http://sport.htwk-leipzig.de"
+					+ div.select("a").attr("href"));
+			sport.setPictureLink((div.select("a img") == null) ? "" : div.select("a img ").attr("src"));
+			div.removeClass("a");
+			sport.setDescription(new String(div.text().getBytes("iso-8859-1"), "utf-8"));
+			sports.add(sport);
+		}
+
+		return sports;
+	}
+
+	public Sport getSportDetailed(Sport sport) throws InvalidAttributesException, IOException {
+
+		URL url = new URL(sport.getDetailedLink());
+
+		Document doc = Jsoup.parse(url, 5000);
+		Element div = doc.select("dl.event-infos").first();
+		Element[] dd = div.select("dd").toArray(new Element[10]);
+		sport.setTime((dd[0] == null) ? "" : dd[0].text());
+		sport.setCycle((dd[1] == null) ? "" : dd[1].text());
+		sport.setGender((dd[2] == null) ? "" : dd[2].text());
+		sport.setLeader((dd[3] == null) ? "" : dd[3].text());
+		sport.setLocation((dd[4] == null) ? "" : dd[4].text());
+		sport.setLatLng(null);
+		sport.setCompetitor((dd[5] == null) ? "" : dd[5].text());
+
+		for (Element hint : doc.select("dl.event-infos").last().select("dd")) {
+			sport.getHints().add((hint==null)?"":hint.text());
+		}
+		return sport;
 	}
 }

@@ -36,12 +36,14 @@ public class CacheConfig {
 				.expireAfterWrite(time, TimeUnit.valueOf(timeUnit)).build();
 		Cache<Object, Optional<Object>> buildingCache = CacheBuilder.newBuilder()
 				.expireAfterWrite(time, TimeUnit.valueOf(timeUnit)).build();
+		Cache<Object, Optional<Object>> sportCache = CacheBuilder.newBuilder()
+				.expireAfterWrite(time, TimeUnit.valueOf(timeUnit)).build();
 
 		Cache<Object, Optional<Object>> maxSizeCache = CacheBuilder.newBuilder().maximumSize(10).build();
 
-		cacheManager.setCaches(Arrays
-				.asList(new GuavaCache("timeCache", timeCache), new GuavaCache("maxSizeCache", maxSizeCache),
-						new GuavaCache("staffCache", staffCache), new GuavaCache("buildingCache", buildingCache)));
+		cacheManager.setCaches(Arrays.asList(new GuavaCache("timeCache", timeCache), new GuavaCache("maxSizeCache",
+				maxSizeCache), new GuavaCache("staffCache", staffCache), new GuavaCache("sportCache", sportCache),
+				new GuavaCache("buildingCache", buildingCache)));
 
 		return cacheManager;
 	}

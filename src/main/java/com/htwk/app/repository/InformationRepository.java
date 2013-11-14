@@ -2,7 +2,6 @@ package com.htwk.app.repository;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.common.cache.Cache;
 import com.htwk.app.model.info.Building;
-import com.htwk.app.model.info.News;
+import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
 import com.htwk.app.repository.helper.impl.InformationConverter;
 
@@ -45,9 +44,13 @@ public class InformationRepository {
 	InformationConverter conv = null;
 	Cache<String, Staff> staffCache = null;
 	Cache<String, Building> buildingCache = null;
+	Cache<String, Sport> sportCache = null;
 
 	@Value("${info.staff.url}")
 	private String staffUrl;
+
+	@Value("${info.sport.url}")
+	private String sportUrl;
 
 	@Value("${cache.time.time}")
 	private long time;
@@ -60,22 +63,18 @@ public class InformationRepository {
 	public void init() {
 		restTemplate = new RestTemplate();
 		headers = new HttpHeaders();
-		headers.add("Content-Type", "text/xml;charset=UTF-8");
+		headers.add("Content-Type", "text/xml;charset=utf-8");
 		conv = new InformationConverter();
 		staffCache = (Cache<String, Staff>) cacheManager.getCache("staffCache").getNativeCache();
 		buildingCache = (Cache<String, Building>) cacheManager.getCache("buildingCache").getNativeCache();
+		sportCache = (Cache<String, Sport>) cacheManager.getCache("sportCache").getNativeCache();
 	}
 
-	private List<Staff> getStaffList() throws URISyntaxException, InvalidAttributesException {
+	private List<Staff> getStaffList() throws InvalidAttributesException {
 		if (staffCache.size() > 0) {
 			return new ArrayList<Staff>(new TreeMap<String, Staff>(staffCache.asMap()).values());
 		}
-
-		staffUrl = MessageFormat.format(staffUrl, "");
-
-		uri = new URI(staffUrl);
-		logger.debug("getData from URI: " + uri.toString());
-		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+		response = restTemplate.exchange(staffUrl, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
 
 		if (response != null) {
 			List<Staff> staffMembers = conv.getStaffList(response.getBody());
@@ -88,11 +87,11 @@ public class InformationRepository {
 		return null;
 	}
 
-	public List<Staff> getStaff() throws URISyntaxException, InvalidAttributesException {
+	public List<Staff> getStaff() throws InvalidAttributesException {
 		return getStaffList();
 	}
 
-	public Staff getStaff(String cuid) throws InvalidAttributesException, URISyntaxException {
+	public Staff getStaff(String cuid) throws InvalidAttributesException {
 		Staff staff = staffCache.getIfPresent(cuid);
 		if (staff != null) {
 			return staff;
@@ -110,13 +109,13 @@ public class InformationRepository {
 		return null;
 	}
 
-	public Staff getStaffDetailed(String cuid) throws InvalidAttributesException, URISyntaxException, IOException,
-			ParseException {
-		return conv.getStaffDetailed(getStaff(cuid));
+	public Staff getStaffDetailed(String cuid) throws InvalidAttributesException, IOException, ParseException {
+		Staff staff = conv.getStaffDetailed(getStaff(cuid));
+		staffCache.put(cuid, staff);
+		return staff;
 	}
 
-	private List<Building> getBuildingsList() throws InvalidAttributesException, URISyntaxException, IOException,
-			ParseException {
+	private List<Building> getBuildingsList() throws InvalidAttributesException, IOException, ParseException {
 		if (buildingCache.size() > 0) {
 			return new ArrayList<Building>(new TreeMap<String, Building>(buildingCache.asMap()).values());
 		}
@@ -137,13 +136,11 @@ public class InformationRepository {
 		return buildings;
 	}
 
-	public List<Building> getBuildings() throws InvalidAttributesException, URISyntaxException, IOException,
-			ParseException {
+	public List<Building> getBuildings() throws InvalidAttributesException, IOException, ParseException {
 		return getBuildingsList();
 	}
 
-	public Building getBuilding(String id) throws InvalidAttributesException, URISyntaxException, IOException,
-			ParseException {
+	public Building getBuilding(String id) throws InvalidAttributesException, IOException, ParseException {
 		for (Building building : getBuildingsList()) {
 			if (building.getId().equalsIgnoreCase(id)) {
 				return building;
@@ -152,8 +149,39 @@ public class InformationRepository {
 		return null;
 	}
 
-	public List<News> getNews() {
+	private List<Sport> getSportList() throws InvalidAttributesException, IOException, ParseException {
+		if (sportCache.size() > 0) {
+			return new ArrayList<Sport>(new TreeMap<String, Sport>(sportCache.asMap()).values());
+		}
+
+		response = restTemplate.exchange(sportUrl, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+		if (response != null) {
+			List<Sport> sports = conv.getSportList(response.getBody());
+			for (Sport sport : sports) {
+				sportCache.put(sport.getId(), sport);
+			}
+			return sports;
+		}
 		return null;
+	}
+
+	public List<Sport> getSport() throws InvalidAttributesException, IOException, ParseException {
+		return getSportList();
+	}
+
+	public Sport getSport(String id) throws InvalidAttributesException, IOException, ParseException {
+		for (Sport sport : getSportList()) {
+			if (sport.getId().equalsIgnoreCase(id)) {
+				return sport;
+			}
+		}
+		return null;
+	}
+
+	public Sport getSportDetailed(String id) throws InvalidAttributesException, IOException, ParseException {
+		Sport sportDetailed = conv.getSportDetailed(getSport(id));
+		sportCache.put(id, sportDetailed);
+		return sportDetailed;
 	}
 
 }

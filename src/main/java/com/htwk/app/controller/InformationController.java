@@ -1,7 +1,6 @@
 package com.htwk.app.controller;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.htwk.app.model.info.Building;
-import com.htwk.app.model.info.News;
+import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
 import com.htwk.app.repository.InformationRepository;
 
@@ -43,41 +42,53 @@ public class InformationController {
 
 	@RequestMapping(value = "/staff", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Staff> getStaff() throws InvalidAttributesException, URISyntaxException {
+	List<Staff> getStaff() throws InvalidAttributesException {
 		return repo.getStaff();
 	}
 
 	@RequestMapping(value = "/staff/{cuid}", method = RequestMethod.GET)
 	public @ResponseBody
-	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws InvalidAttributesException, URISyntaxException {
+	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws InvalidAttributesException {
 		return repo.getStaff(cuid);
 	}
 
-	@RequestMapping(value = "/staff/{cuid}/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/staff/{cuid}/detailed", method = RequestMethod.GET)
 	public @ResponseBody
-	Staff getStaffDetailed(@PathVariable(value = "cuid") String cuid) throws InvalidAttributesException,
-			URISyntaxException, IOException, ParseException {
+	Staff getStaffDetailed(@PathVariable(value = "cuid") String cuid) throws InvalidAttributesException, IOException,
+			ParseException {
 		return repo.getStaffDetailed(cuid);
 	}
 
 	@RequestMapping(value = "/building", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Building> getBuildings() throws InvalidAttributesException, URISyntaxException, IOException, ParseException {
+	List<Building> getBuildings() throws InvalidAttributesException, IOException, ParseException {
 		return repo.getBuildings();
 	}
 
 	@RequestMapping(value = "/building/{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	Building getBuilding(@PathVariable(value = "id") String id) throws InvalidAttributesException, URISyntaxException,
-			IOException, ParseException {
+	Building getBuilding(@PathVariable(value = "id") String id) throws InvalidAttributesException, IOException,
+			ParseException {
 		return repo.getBuilding(id);
 	}
-	
-	@RequestMapping(value = "/news", method = RequestMethod.GET)
-	public @ResponseBody
-	List<News> getNews() throws InvalidAttributesException, URISyntaxException, IOException, ParseException {
-		return repo.getNews();
-	}
-	
 
+	@RequestMapping(value = "/sport", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Sport> getSport() throws InvalidAttributesException, IOException, ParseException {
+		return repo.getSport();
+	}
+
+	@RequestMapping(value = "/sport/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	Sport getSport(@PathVariable(value = "id") String id) throws InvalidAttributesException, IOException,
+			ParseException {
+		return repo.getSport(id);
+	}
+
+	@RequestMapping(value = "/sport/{id}/detailed", method = RequestMethod.GET)
+	public @ResponseBody
+	Sport getSportDetailed(@PathVariable(value = "id") String id) throws InvalidAttributesException, IOException,
+			ParseException {
+		return repo.getSportDetailed(id);
+	}
 }
