@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.naming.directory.InvalidAttributesException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,10 +25,7 @@ import com.htwk.app.utils.UrlUtils;
 
 public class InformationConverter extends HTMLConverter {
 
-	public List<Staff> getStaffList(String content) throws InvalidAttributesException {
-		if (content == null || content.isEmpty()) {
-			throw new InvalidAttributesException();
-		}
+	public List<Staff> getStaffList(String content) {
 
 		List<Staff> staffMembers = new ArrayList<Staff>();
 
@@ -74,10 +69,7 @@ public class InformationConverter extends HTMLConverter {
 		return staffMembers;
 	}
 
-	public Staff getStaffDetailed(Staff staff) throws IOException, InvalidAttributesException, ParseException {
-		if (staff == null) {
-			throw new InvalidAttributesException();
-		}
+	public Staff getStaffDetailed(Staff staff) throws IOException, ParseException {
 
 		URL url = new URL(staff.getDetailLink());
 		Document doc = Jsoup.parse(url, 1000);
@@ -102,10 +94,7 @@ public class InformationConverter extends HTMLConverter {
 		return staff;
 	}
 
-	public Building getBuildingInfo(String detailLink) throws InvalidAttributesException, IOException, ParseException {
-		if (detailLink == null || detailLink.isEmpty()) {
-			throw new InvalidAttributesException();
-		}
+	public Building getBuildingInfo(String detailLink) throws IOException, ParseException {
 
 		URL url = new URL(detailLink);
 		logger.debug("fetch HTML-Doc for url:" + detailLink);
@@ -151,10 +140,7 @@ public class InformationConverter extends HTMLConverter {
 		return null;
 	}
 
-	public List<Sport> getSportList(String content) throws InvalidAttributesException, UnsupportedEncodingException {
-		if (content == null || content.isEmpty()) {
-			throw new InvalidAttributesException();
-		}
+	public List<Sport> getSportList(String content) throws UnsupportedEncodingException {
 
 		List<Sport> sports = new ArrayList<Sport>();
 
@@ -175,7 +161,7 @@ public class InformationConverter extends HTMLConverter {
 		return sports;
 	}
 
-	public Sport getSportDetailed(Sport sport) throws InvalidAttributesException, IOException {
+	public Sport getSportDetailed(Sport sport) throws IOException {
 
 		URL url = new URL(sport.getDetailedLink());
 
@@ -191,7 +177,7 @@ public class InformationConverter extends HTMLConverter {
 		sport.setCompetitor((dd[5] == null) ? "" : dd[5].text());
 
 		for (Element hint : doc.select("dl.event-infos").last().select("dd")) {
-			sport.getHints().add((hint==null)?"":hint.text());
+			sport.getHints().add((hint == null) ? "" : hint.text());
 		}
 		return sport;
 	}

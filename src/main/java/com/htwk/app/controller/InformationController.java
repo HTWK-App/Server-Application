@@ -42,20 +42,19 @@ public class InformationController {
 
 	@RequestMapping(value = "/staff", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Staff> getStaff() throws InvalidAttributesException {
+	List<Staff> getStaff() {
 		return repo.getStaff();
 	}
 
 	@RequestMapping(value = "/staff/{cuid}", method = RequestMethod.GET)
 	public @ResponseBody
-	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws InvalidAttributesException {
+	Staff getStaff(@PathVariable(value = "cuid") String cuid) {
 		return repo.getStaff(cuid);
 	}
 
 	@RequestMapping(value = "/staff/{cuid}/detailed", method = RequestMethod.GET)
 	public @ResponseBody
-	Staff getStaffDetailed(@PathVariable(value = "cuid") String cuid) throws InvalidAttributesException, IOException,
-			ParseException {
+	Staff getStaffDetailed(@PathVariable(value = "cuid") String cuid) throws IOException, ParseException {
 		return repo.getStaffDetailed(cuid);
 	}
 
@@ -67,28 +66,25 @@ public class InformationController {
 
 	@RequestMapping(value = "/building/{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	Building getBuilding(@PathVariable(value = "id") String id) throws InvalidAttributesException, IOException,
-			ParseException {
+	Building getBuilding(@PathVariable(value = "id") String id) throws IOException, ParseException {
 		return repo.getBuilding(id);
 	}
 
 	@RequestMapping(value = "/sport", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Sport> getSport() throws InvalidAttributesException, IOException, ParseException {
+	List<Sport> getSport() throws IOException, ParseException {
 		return repo.getSport();
 	}
 
 	@RequestMapping(value = "/sport/{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	Sport getSport(@PathVariable(value = "id") String id) throws InvalidAttributesException, IOException,
-			ParseException {
+	Sport getSport(@PathVariable(value = "id") String id) throws IOException, ParseException {
 		return repo.getSport(id);
 	}
 
 	@RequestMapping(value = "/sport/{id}/detailed", method = RequestMethod.GET)
 	public @ResponseBody
-	Sport getSportDetailed(@PathVariable(value = "id") String id) throws InvalidAttributesException, IOException,
-			ParseException {
+	Sport getSportDetailed(@PathVariable(value = "id") String id) throws IOException, ParseException {
 		return repo.getSportDetailed(id);
 	}
 }

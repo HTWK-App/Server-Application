@@ -2,23 +2,18 @@ package com.htwk.app.repository.helper.impl;
  
 import java.io.IOException;
 import java.io.StringReader;
- 
-import javax.naming.directory.InvalidAttributesException;
- 
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
- 
+
 import com.htwk.app.model.impl.Day;
 import com.htwk.app.model.mensa.Meal;
 import com.htwk.app.repository.helper.XMLConverter;
  
 public class MensaConverter extends XMLConverter {
  
-    public Day<Meal> getObject(String content) throws InvalidAttributesException, XmlPullParserException, IOException {
-        if (content == null || content.isEmpty()) {
-            throw new InvalidAttributesException();
-        }
+    public Day<Meal> getObject(String content) throws XmlPullParserException, IOException {
         Day<Meal> day = new Day<Meal>();
  
         factory = XmlPullParserFactory.newInstance();

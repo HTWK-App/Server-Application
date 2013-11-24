@@ -17,26 +17,29 @@ import com.htwk.app.model.qis.Semester;
 import com.htwk.app.repository.QISRepository;
 
 @Controller
-@RequestMapping(value="/qis")
+@RequestMapping(value = "/qis")
 public class QISController {
 
 	private static final Logger logger = LoggerFactory.getLogger(QISController.class);
-	
+
 	@Autowired
 	private QISRepository repo;
-	
-	@RequestMapping(value="", method = RequestMethod.GET,  produces="application/json")
-	public @ResponseBody String home(){
+
+	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody
+	String home() {
 		return "";
 	}
-	
-	@RequestMapping(value="/", method = RequestMethod.GET)
-	public String redirectHome(){
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String redirectHome() {
 		return "redirect:/qis";
 	}
-	
-	@RequestMapping(value="/get", method = RequestMethod.GET)
-	public @ResponseBody List<Semester> getGISData(@RequestParam(value = "credentials") String enryptedCredentials) throws RestClientException, UnsupportedEncodingException{
+
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Semester> getGISData(@RequestParam(value = "credentials") String enryptedCredentials)
+			throws RestClientException, UnsupportedEncodingException {
 		return repo.getQISData(enryptedCredentials);
-	}	
+	}
 }

@@ -49,8 +49,8 @@ public class TimetableController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/{semester}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	List<Faculty> getSemGroups(@PathVariable(value = "semester") String semester) throws InvalidAttributesException,
-			IOException, URISyntaxException {
+	List<Faculty> getSemGroups(@PathVariable(value = "semester") String semester) throws IOException,
+			URISyntaxException {
 		return repo.getSemGroups(semester);
 	}
 
@@ -58,7 +58,7 @@ public class TimetableController {
 	@RequestMapping(value = "/{semester}/{fak}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Faculty getSemGroupByFaculty(@PathVariable(value = "semester") String semester,
-			@PathVariable(value = "fak") String fak) throws InvalidAttributesException, IOException, URISyntaxException {
+			@PathVariable(value = "fak") String fak) throws IOException, URISyntaxException {
 		return repo.getSemGroups(semester, fak);
 	}
 
@@ -67,13 +67,13 @@ public class TimetableController {
 	public @ResponseBody
 	List<Day<Subject>> getTimetable(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
-			@RequestParam(value = "suid", required = false, defaultValue = "") String suid)
-			throws InvalidAttributesException, IOException, URISyntaxException, XmlPullParserException {
+			@RequestParam(value = "suid", required = false, defaultValue = "") String suid) throws IOException,
+			URISyntaxException, XmlPullParserException {
 		String[] suidArray = null;
 		if (suid.contains(",")) {
 			suidArray = suid.split(",");
-		}else if (!suid.isEmpty()){
-			suidArray = new String[]{suid};
+		} else if (!suid.isEmpty()) {
+			suidArray = new String[] { suid };
 		}
 		return repo.getTimetable(semester, semgroup, suidArray);
 	}
@@ -83,7 +83,7 @@ public class TimetableController {
 	public @ResponseBody
 	Map<String, String> getCourse(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup)
-			throws InvalidAttributesException, IOException, URISyntaxException, XmlPullParserException {
+			throws IOException, URISyntaxException, XmlPullParserException {
 		return repo.getCourse(semester, semgroup);
 	}
 
@@ -102,14 +102,13 @@ public class TimetableController {
 	List<Day<Subject>> getTimetableByKW(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
 			@PathVariable(value = "kw") String kw,
-			@RequestParam(value = "suid", required = false, defaultValue = "") String suid)
-			throws InvalidAttributesException, IOException, URISyntaxException, RestClientException,
-			XmlPullParserException {
+			@RequestParam(value = "suid", required = false, defaultValue = "") String suid) throws IOException,
+			URISyntaxException, RestClientException, XmlPullParserException {
 		String[] suidArray = null;
 		if (suid.contains(",")) {
 			suidArray = suid.split(",");
-		}else if (!suid.isEmpty()){
-			suidArray = new String[]{suid};
+		} else if (!suid.isEmpty()) {
+			suidArray = new String[] { suid };
 		}
 		return repo.getTimetable(semester, semgroup, kw, suidArray);
 	}
@@ -119,9 +118,8 @@ public class TimetableController {
 	public @ResponseBody
 	Day<Subject> getTimetable(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
-			@PathVariable(value = "kw") String kw, @PathVariable(value = "day") int day)
-			throws InvalidAttributesException, IOException, URISyntaxException, RestClientException,
-			XmlPullParserException {
+			@PathVariable(value = "kw") String kw, @PathVariable(value = "day") int day) throws IOException,
+			URISyntaxException, RestClientException, XmlPullParserException {
 		return repo.getTimetable(semester, semgroup, kw, day);
 	}
 

@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.naming.directory.InvalidAttributesException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,11 +24,7 @@ import com.htwk.app.repository.helper.HTMLConverter;
 
 public class TimetableConverter extends HTMLConverter {
 
-	public List<Faculty> getSemGroup(String content) throws InvalidAttributesException {
-
-		if (content == null || content.isEmpty()) {
-			throw new InvalidAttributesException();
-		}
+	public List<Faculty> getSemGroup(String content) {
 
 		List<Faculty> faculties = new ArrayList<Faculty>();
 
@@ -58,25 +52,25 @@ public class TimetableConverter extends HTMLConverter {
 						String temp = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							faculty.setName(temp);
-//							logger.debug(temp);
+							// logger.debug(temp);
 						}
 						temp = new String(parser.getAttributeValue(1).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							faculty.setId(temp);
-//							logger.debug(temp);
+							// logger.debug(temp);
 						}
 					} else if (tagName.equalsIgnoreCase("studiengang")) {
 						course = new Course();
 						String temp = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							course.setName(temp);
-//							logger.debug(temp);
+							// logger.debug(temp);
 						}
 
 						temp = new String(parser.getAttributeValue(1).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							course.setId(temp);
-//							logger.debug(temp);
+							// logger.debug(temp);
 						}
 						faculty.getCourses().add(course);
 
@@ -84,7 +78,7 @@ public class TimetableConverter extends HTMLConverter {
 						String temp = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
 						if (temp != null) {
 							course.getSemGroups().add(temp);
-//							logger.debug(temp);
+							// logger.debug(temp);
 						}
 
 					}
@@ -114,12 +108,7 @@ public class TimetableConverter extends HTMLConverter {
 		return null;
 	}
 
-	public Map<String, String> getCal(String content) throws InvalidAttributesException, XmlPullParserException,
-			IOException {
-		if (content == null || content.isEmpty()) {
-			throw new InvalidAttributesException();
-		}
-
+	public Map<String, String> getCal(String content) throws XmlPullParserException, IOException {
 		Map<String, String> cal = new TreeMap<String, String>();
 
 		factory = XmlPullParserFactory.newInstance();
@@ -157,10 +146,7 @@ public class TimetableConverter extends HTMLConverter {
 
 	}
 
-	public List<Day<Subject>> getTimetable(String content) throws InvalidAttributesException {
-		if (content == null || content.isEmpty()) {
-			throw new InvalidAttributesException();
-		}
+	public List<Day<Subject>> getTimetable(String content) {
 
 		List<Day<Subject>> days = new ArrayList<Day<Subject>>();
 
@@ -175,7 +161,7 @@ public class TimetableConverter extends HTMLConverter {
 
 				Subject subject = new Subject();
 
-				subject.setKw((td[0] == null) ? new String[]{} : td[0].text().replaceAll("\\s+", "").split(","));
+				subject.setKw((td[0] == null) ? new String[] {} : td[0].text().replaceAll("\\s+", "").split(","));
 				subject.setBegin((td[1] == null) ? "" : td[1].text());
 				subject.setEnd((td[2] == null) ? "" : td[2].text());
 				subject.setLocation((td[3] == null) ? "" : td[3].text());

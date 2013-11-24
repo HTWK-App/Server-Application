@@ -2,14 +2,12 @@ package com.htwk.app.repository;
 
 import java.io.IOException;
 import java.net.URI;
-import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
-import javax.naming.directory.InvalidAttributesException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +68,7 @@ public class InformationRepository {
 		sportCache = (Cache<String, Sport>) cacheManager.getCache("sportCache").getNativeCache();
 	}
 
-	private List<Staff> getStaffList() throws InvalidAttributesException {
+	private List<Staff> getStaffList(){
 		if (staffCache.size() > 0) {
 			return new ArrayList<Staff>(new TreeMap<String, Staff>(staffCache.asMap()).values());
 		}
@@ -87,11 +85,11 @@ public class InformationRepository {
 		return null;
 	}
 
-	public List<Staff> getStaff() throws InvalidAttributesException {
+	public List<Staff> getStaff() {
 		return getStaffList();
 	}
-
-	public Staff getStaff(String cuid) throws InvalidAttributesException {
+	
+	public Staff getStaff(String cuid){
 		Staff staff = staffCache.getIfPresent(cuid);
 		if (staff != null) {
 			return staff;
@@ -109,13 +107,13 @@ public class InformationRepository {
 		return null;
 	}
 
-	public Staff getStaffDetailed(String cuid) throws InvalidAttributesException, IOException, ParseException {
+	public Staff getStaffDetailed(String cuid) throws IOException, ParseException {
 		Staff staff = conv.getStaffDetailed(getStaff(cuid));
 		staffCache.put(cuid, staff);
 		return staff;
 	}
 
-	private List<Building> getBuildingsList() throws InvalidAttributesException, IOException, ParseException {
+	private List<Building> getBuildingsList() throws IOException, ParseException {
 		if (buildingCache.size() > 0) {
 			return new ArrayList<Building>(new TreeMap<String, Building>(buildingCache.asMap()).values());
 		}
@@ -136,11 +134,11 @@ public class InformationRepository {
 		return buildings;
 	}
 
-	public List<Building> getBuildings() throws InvalidAttributesException, IOException, ParseException {
+	public List<Building> getBuildings() throws IOException, ParseException {
 		return getBuildingsList();
 	}
 
-	public Building getBuilding(String id) throws InvalidAttributesException, IOException, ParseException {
+	public Building getBuilding(String id) throws IOException, ParseException {
 		for (Building building : getBuildingsList()) {
 			if (building.getId().equalsIgnoreCase(id)) {
 				return building;
@@ -149,7 +147,7 @@ public class InformationRepository {
 		return null;
 	}
 
-	private List<Sport> getSportList() throws InvalidAttributesException, IOException, ParseException {
+	private List<Sport> getSportList() throws IOException, ParseException {
 		if (sportCache.size() > 0) {
 			return new ArrayList<Sport>(new TreeMap<String, Sport>(sportCache.asMap()).values());
 		}
@@ -165,11 +163,11 @@ public class InformationRepository {
 		return null;
 	}
 
-	public List<Sport> getSport() throws InvalidAttributesException, IOException, ParseException {
+	public List<Sport> getSport() throws IOException, ParseException {
 		return getSportList();
 	}
 
-	public Sport getSport(String id) throws InvalidAttributesException, IOException, ParseException {
+	public Sport getSport(String id) throws IOException, ParseException {
 		for (Sport sport : getSportList()) {
 			if (sport.getId().equalsIgnoreCase(id)) {
 				return sport;
@@ -178,7 +176,7 @@ public class InformationRepository {
 		return null;
 	}
 
-	public Sport getSportDetailed(String id) throws InvalidAttributesException, IOException, ParseException {
+	public Sport getSportDetailed(String id) throws IOException, ParseException {
 		Sport sportDetailed = conv.getSportDetailed(getSport(id));
 		sportCache.put(id, sportDetailed);
 		return sportDetailed;

@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
-import javax.naming.directory.InvalidAttributesException;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
@@ -61,8 +60,7 @@ public class TimetableRepository {
 		conv = new TimetableConverter();
 	}
 
-	public List<Faculty> getSemGroups(String semester) throws InvalidAttributesException, IOException,
-			URISyntaxException {
+	public List<Faculty> getSemGroups(String semester) throws IOException, URISyntaxException {
 		timetableSemGroup = MessageFormat.format(timetableSemGroup, semester);
 
 		uri = new URI(timetableUrl + timetableSemGroup);
@@ -77,8 +75,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Faculty getSemGroups(String semester, String fak) throws InvalidAttributesException, IOException,
-			URISyntaxException {
+	public Faculty getSemGroups(String semester, String fak) throws IOException, URISyntaxException {
 		for (Faculty fac : getSemGroups(semester)) {
 			if (fac.getId().equalsIgnoreCase(fak)) {
 				return fac;
@@ -87,8 +84,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Map<String, String> getCalendar() throws InvalidAttributesException, URISyntaxException,
-			XmlPullParserException, IOException {
+	public Map<String, String> getCalendar() throws URISyntaxException, XmlPullParserException, IOException {
 		uri = new URI(timetableUrl + timetableCal);
 		logger.debug("getData from URI: " + uri.toString());
 		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
@@ -100,8 +96,8 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup) throws InvalidAttributesException,
-			URISyntaxException, XmlPullParserException, IOException {
+	public List<Day<Subject>> getTimetable(String semester, String semgroup) throws URISyntaxException,
+			XmlPullParserException, IOException {
 		String kw = getCalendar().get("all");
 		if (getCalendar().containsKey(kw)) {
 
@@ -118,9 +114,8 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid)
-			throws InvalidAttributesException, URISyntaxException, RestClientException, XmlPullParserException,
-			IOException {
+	public List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid) throws URISyntaxException,
+			RestClientException, XmlPullParserException, IOException {
 		if (suid == null || suid.length == 0) {
 			return getTimetable(semester, semgroup);
 		}
@@ -137,9 +132,8 @@ public class TimetableRepository {
 
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw)
-			throws InvalidAttributesException, URISyntaxException, RestClientException, XmlPullParserException,
-			IOException {
+	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw) throws URISyntaxException,
+			RestClientException, XmlPullParserException, IOException {
 
 		List<Day<Subject>> timetable = getTimetable(semester, semgroup);
 		for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
@@ -155,8 +149,7 @@ public class TimetableRepository {
 	}
 
 	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw, String[] suid)
-			throws InvalidAttributesException, URISyntaxException, RestClientException, XmlPullParserException,
-			IOException {
+			throws URISyntaxException, RestClientException, XmlPullParserException, IOException {
 		if (suid == null || suid.length == 0) {
 			return getTimetable(semester, semgroup, kw);
 		}
@@ -173,9 +166,8 @@ public class TimetableRepository {
 
 	}
 
-	public Day<Subject> getTimetable(String semester, String semgroup, String kw, int day)
-			throws InvalidAttributesException, URISyntaxException, RestClientException, XmlPullParserException,
-			IOException {
+	public Day<Subject> getTimetable(String semester, String semgroup, String kw, int day) throws URISyntaxException,
+			RestClientException, XmlPullParserException, IOException {
 		day = day - 1;
 		List<Day<Subject>> days = getTimetable(semester, semgroup, kw);
 		if (days != null && days.size() > 0) {
@@ -184,8 +176,8 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Map<String, String> getCourse(String semester, String semgroup) throws InvalidAttributesException,
-			URISyntaxException, XmlPullParserException, IOException {
+	public Map<String, String> getCourse(String semester, String semgroup) throws URISyntaxException,
+			XmlPullParserException, IOException {
 		Map<String, String> response = new TreeMap<String, String>();
 		for (Day<Subject> day : getTimetable(semester, semgroup)) {
 			for (Subject subj : day.getDayContent()) {
@@ -195,8 +187,8 @@ public class TimetableRepository {
 		return response;
 	}
 
-	public Subject getCourse(String semester, String semgroup, String id) throws InvalidAttributesException,
-			URISyntaxException, XmlPullParserException, IOException {
+	public Subject getCourse(String semester, String semgroup, String id) throws URISyntaxException,
+			XmlPullParserException, IOException {
 		for (Day<Subject> day : getTimetable(semester, semgroup)) {
 			for (Subject subj : day.getDayContent()) {
 				if (subj.getSuid().equals(id)) {
