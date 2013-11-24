@@ -8,30 +8,23 @@ import javax.mail.MessagingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.encrypt.Encryptors;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Repository;
 
 import com.htwk.app.model.mail.Mail;
 import com.htwk.app.model.mail.MailCredentials;
 import com.htwk.app.repository.helper.impl.EmailReceiver;
+import com.htwk.app.service.AuthenticationService;
 
 @Repository
 public class MailBoxRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(MailBoxRepository.class);
 
-	private TextEncryptor encryptor;
 	private EmailReceiver receiver;
 
-	@Value("${mail.salt}") 
-	private String salt;
-
-	@Value("${mail.secret}")
-	private String secret;
-	
 	@Value("${mail.get.protocol}")
 	private String getProtocol;
 	
@@ -50,14 +43,16 @@ public class MailBoxRepository {
 	@Value("${mail.send.port}")
 	private int sendPort;
 
+	@Autowired
+	private AuthenticationService authService;
+	
 	@PostConstruct
 	public void init() {
-		encryptor = Encryptors.text(secret, salt);
 		receiver = new EmailReceiver();
 	}
 
 	public List<Mail> getMails(String enryptedCredentials, int offset) throws MessagingException, IOException {
-		MailCredentials credentails = decryptCredentials(enryptedCredentials);
+		MailCredentials credentails = new MailCredentials(authService.decryptCredentials(enryptedCredentials));
 		credentails.setProtocol(getProtocol);
 		credentails.setHost(getHost);
 		credentails.setPort(getPort);
@@ -66,7 +61,7 @@ public class MailBoxRepository {
 	}
 
 	public List<Mail> getNewMails(String enryptedCredentials) throws MessagingException, IOException {
-		MailCredentials credentails = decryptCredentials(enryptedCredentials);
+		MailCredentials credentails = new MailCredentials(authService.decryptCredentials(enryptedCredentials));
 		credentails.setProtocol(getProtocol);
 		credentails.setHost(getHost);
 		credentails.setPort(getPort);
@@ -75,7 +70,7 @@ public class MailBoxRepository {
 	}
 	
 	public void sendMail(Mail mail, String enryptedCredentials) throws MessagingException{
-		MailCredentials credentails = decryptCredentials(enryptedCredentials);
+		MailCredentials credentails = new MailCredentials(authService.decryptCredentials(enryptedCredentials));
 		credentails.setProtocol(sendProtocol);
 		credentails.setHost(sendHost);
 		credentails.setPort(sendPort);
@@ -85,7 +80,7 @@ public class MailBoxRepository {
 
 	public ResponseEntity<byte[]> getAttachment(int mail, String attachmentName, String enryptedCredentials)
 			throws MessagingException, IOException {
-		MailCredentials credentails = decryptCredentials(enryptedCredentials);
+		MailCredentials credentails = new MailCredentials(authService.decryptCredentials(enryptedCredentials));
 		credentails.setProtocol(getProtocol);
 		credentails.setHost(getHost);
 		credentails.setPort(getPort);
@@ -93,13 +88,4 @@ public class MailBoxRepository {
 		return receiver.downloadAttachment(mail, attachmentName, credentails);
 	}
 	
-	public String encryptCredentials(MailCredentials credentials) {
-		return encryptor.encrypt(credentials.toString());
-	}
-
-	private MailCredentials decryptCredentials(String enryptedCredentials) {
-		String[] decrypted = encryptor.decrypt(enryptedCredentials).split(":");
-		return new MailCredentials(decrypted[0], decrypted[1]);
-	}
-
 }

@@ -11,13 +11,12 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.encrypt.Encryptors;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,9 +24,9 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.htwk.app.model.impl.Credentials;
-import com.htwk.app.model.mail.MailCredentials;
 import com.htwk.app.model.qis.Semester;
 import com.htwk.app.repository.helper.impl.QISConverter;
+import com.htwk.app.service.AuthenticationService;
 
 @Repository
 public class QISRepository {
@@ -38,34 +37,30 @@ public class QISRepository {
 	HttpHeaders headers = null;
 	URI uri = null;
 	QISConverter conv = null;
-	private TextEncryptor encryptor;
-	
-	@Value("${mail.salt}") 
-	private String salt;
 
-	@Value("${mail.secret}")
-	private String secret;
-	
 	@Value("${qis.url}")
 	private String qisUrl;
-	
+
+	@Autowired
+	private AuthenticationService authService;
+
 	@PostConstruct
 	public void init() {
 		restTemplate = new RestTemplate();
 		headers = new HttpHeaders();
 		conv = new QISConverter();
-		encryptor = Encryptors.text(secret, salt);
 	}
-	
-	public List<Semester> getQISData(String enryptedCredentials) throws RestClientException, UnsupportedEncodingException {
 
-		Credentials credentials = decryptCredentials(enryptedCredentials);
+	public List<Semester> getQISData(String enryptedCredentials) throws RestClientException,
+			UnsupportedEncodingException {
+
+		Credentials credentials = authService.decryptCredentials(enryptedCredentials);
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		map.add("username", ""+credentials.getUsername());
-		map.add("password", ""+credentials.getPassword());
+		map.add("username", "" + credentials.getUsername());
+		map.add("password", "" + credentials.getPassword());
 		map.add("submit", "Anmelden");
-		
-		//get authenticated
+
+		// get authenticated
 		ResponseEntity<String> response = restTemplate.postForEntity(qisUrl, map, String.class);
 
 		String loggedinUrl = response.getHeaders().getLocation().toString();
@@ -73,15 +68,15 @@ public class QISRepository {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cookie", "JSESSIONID=" + getSessionId(response.getHeaders()));
-		//get link to detailed view
+		// get link to detailed view
 		response = restTemplate
 				.exchange(
 						"https://qisserver.htwk-leipzig.de/qisserver/rds?state=notenspiegelStudent&next=tree.vm&nextdir=qispos/notenspiegel/student&navigationPosition=functions%2CnotenspiegelStudent&breadcrumb=notenspiegel&topitem=functions&subitem=notenspiegelStudent&asi="
 								+ asi, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
 
-		//get mark
-		response = restTemplate.exchange(getDetailLink(response.getBody().toString()),
-				HttpMethod.GET, new HttpEntity<String>(headers), String.class);
+		// get mark
+		response = restTemplate.exchange(getDetailLink(response.getBody().toString()), HttpMethod.GET,
+				new HttpEntity<String>(headers), String.class);
 
 		return conv.getSemesterAsList(response.getBody().toString());
 	}
@@ -101,8 +96,7 @@ public class QISRepository {
 	}
 
 	public static String getDetailLink(String content) throws UnsupportedEncodingException {
-		String temp = content.substring(
-				content.indexOf("class=\"Konto\" href=") + "class=\"Konto\" href=".length(),
+		String temp = content.substring(content.indexOf("class=\"Konto\" href=") + "class=\"Konto\" href=".length(),
 				content.indexOf(" title=\"Leistungen anzeigen\""));
 		return URLDecoder.decode(temp.replace("&amp;", "&"), "UTF-8");
 	}
@@ -117,15 +111,6 @@ public class QISRepository {
 			}
 		}
 		return map;
-	}
-	
-	public String encryptCredentials(Credentials credentials) {
-		return encryptor.encrypt(credentials.toString());
-	}
-
-	private Credentials decryptCredentials(String enryptedCredentials) {
-		String[] decrypted = encryptor.decrypt(enryptedCredentials).split(":");
-		return new Credentials(decrypted[0], decrypted[1]);
 	}
 
 }

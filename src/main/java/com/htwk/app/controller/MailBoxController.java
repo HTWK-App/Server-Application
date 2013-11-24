@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.htwk.app.model.mail.Mail;
-import com.htwk.app.model.mail.MailCredentials;
 import com.htwk.app.repository.MailBoxRepository;
 
 @Controller
@@ -39,16 +38,6 @@ public class MailBoxController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String redirectHome() {
 		return "redirect:/mailbox";
-	}
-
-	@RequestMapping(value = "/get", method = RequestMethod.POST)
-	public @ResponseBody
-	String encryptCredentials(@RequestParam(value = "username") String username,
-			@RequestParam(value = "password") String password) {
-		MailCredentials credentials = new MailCredentials();
-		credentials.setUsername(username);
-		credentials.setPassword(password);
-		return repo.encryptCredentials(credentials);
 	}
 
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
@@ -79,16 +68,15 @@ public class MailBoxController {
 	public @ResponseBody
 	String sendMails(@RequestParam(value = "credentials") String enryptedCredentials,
 			@RequestParam(value = "to") String[] to,
-			@RequestParam(value = "cc", required=false, defaultValue="")String[] cc,
-			@RequestParam(value = "subject") String subject,
-			@RequestParam(value = "message")String message)
+			@RequestParam(value = "cc", required = false, defaultValue = "") String[] cc,
+			@RequestParam(value = "subject") String subject, @RequestParam(value = "message") String message)
 			throws MessagingException, IOException {
 		Mail mail = new Mail();
 		mail.setToList(Arrays.asList(to));
 		mail.setCcList(Arrays.asList(cc));
 		mail.setSubject(subject);
 		mail.setMessage(message);
-		 repo.sendMail(mail, enryptedCredentials);
+		repo.sendMail(mail, enryptedCredentials);
 		return "";
 	}
 }

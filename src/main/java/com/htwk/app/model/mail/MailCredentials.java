@@ -23,6 +23,10 @@ public class MailCredentials extends Credentials implements Serializable {
 		super();
 	}
 
+	public MailCredentials(Credentials credentials) {
+		super(credentials.getUsername(),credentials.getPassword());
+	}
+
 	/**
 	 * @return the protocol
 	 */
