@@ -50,12 +50,6 @@ public class InformationRepository {
 	@Value("${info.sport.url}")
 	private String sportUrl;
 
-	@Value("${cache.time.time}")
-	private long time;
-
-	@Value("${cache.time.timeUnit}")
-	private String timeUnit;
-
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
