@@ -1,8 +1,6 @@
 package com.htwk.app.repository;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +35,6 @@ public class TimetableRepository {
 	RestTemplate restTemplate = null;
 	ResponseEntity<String> response = null;
 	HttpHeaders headers = null;
-	URI uri = null;
 	TimetableConverter conv = null;
 
 	@Value("${timetable.url}")
@@ -60,22 +57,21 @@ public class TimetableRepository {
 		conv = new TimetableConverter();
 	}
 
-	public List<Faculty> getSemGroups(String semester) throws IOException, URISyntaxException {
+	public List<Faculty> getSemGroups(String semester) throws IOException {
 		timetableSemGroup = MessageFormat.format(timetableSemGroup, semester);
 
-		uri = new URI(timetableUrl + timetableSemGroup);
-		logger.debug("getData from URI: " + uri.toString());
+		String uri = timetableUrl + timetableSemGroup;
+		logger.debug("getData from URI: " + uri);
 		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
 
 		if (response != null) {
 			return conv.getSemGroup(response.getBody());
-			// return response.getBody();
 		}
 
 		return null;
 	}
 
-	public Faculty getSemGroups(String semester, String fak) throws IOException, URISyntaxException {
+	public Faculty getSemGroups(String semester, String fak) throws IOException {
 		for (Faculty fac : getSemGroups(semester)) {
 			if (fac.getId().equalsIgnoreCase(fak)) {
 				return fac;
@@ -84,38 +80,34 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Map<String, String> getCalendar() throws URISyntaxException, XmlPullParserException, IOException {
-		uri = new URI(timetableUrl + timetableCal);
-		logger.debug("getData from URI: " + uri.toString());
+	public Map<String, String> getCalendar() throws XmlPullParserException, IOException {
+		String uri = timetableUrl + timetableCal;
+		logger.debug("getData from URI: " + uri);
 		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
 
 		if (response != null) {
 			return conv.getCal(response.getBody());
-			// return response.getBody();
 		}
 		return null;
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup) throws URISyntaxException,
-			XmlPullParserException, IOException {
+	public List<Day<Subject>> getTimetable(String semester, String semgroup) throws XmlPullParserException, IOException {
 		String kw = getCalendar().get("all");
 		if (getCalendar().containsKey(kw)) {
 
-			timetableReport = MessageFormat.format(timetableReport, semester, semgroup, kw, "");
-			uri = new URI(timetableUrl + timetableReport);
-			logger.debug("getData from URI: " + uri.toString());
+			String uri = timetableUrl + MessageFormat.format(timetableReport, semester, semgroup, kw, "");
+			logger.debug("getData from URI: " + uri);
 			response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
 
 			if (response != null) {
 				return conv.getTimetable(response.getBody());
-
 			}
 		}
 		return null;
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid) throws URISyntaxException,
-			RestClientException, XmlPullParserException, IOException {
+	public List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid) throws RestClientException,
+			XmlPullParserException, IOException {
 		if (suid == null || suid.length == 0) {
 			return getTimetable(semester, semgroup);
 		}
@@ -132,8 +124,8 @@ public class TimetableRepository {
 
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw) throws URISyntaxException,
-			RestClientException, XmlPullParserException, IOException {
+	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw) throws RestClientException,
+			XmlPullParserException, IOException {
 
 		List<Day<Subject>> timetable = getTimetable(semester, semgroup);
 		for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
@@ -149,7 +141,7 @@ public class TimetableRepository {
 	}
 
 	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw, String[] suid)
-			throws URISyntaxException, RestClientException, XmlPullParserException, IOException {
+			throws RestClientException, XmlPullParserException, IOException {
 		if (suid == null || suid.length == 0) {
 			return getTimetable(semester, semgroup, kw);
 		}
@@ -166,8 +158,8 @@ public class TimetableRepository {
 
 	}
 
-	public Day<Subject> getTimetable(String semester, String semgroup, String kw, int day) throws URISyntaxException,
-			RestClientException, XmlPullParserException, IOException {
+	public Day<Subject> getTimetable(String semester, String semgroup, String kw, int day) throws RestClientException,
+			XmlPullParserException, IOException {
 		day = day - 1;
 		List<Day<Subject>> days = getTimetable(semester, semgroup, kw);
 		if (days != null && days.size() > 0) {
@@ -176,8 +168,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Map<String, String> getCourse(String semester, String semgroup) throws URISyntaxException,
-			XmlPullParserException, IOException {
+	public Map<String, String> getCourse(String semester, String semgroup) throws XmlPullParserException, IOException {
 		Map<String, String> response = new TreeMap<String, String>();
 		for (Day<Subject> day : getTimetable(semester, semgroup)) {
 			for (Subject subj : day.getDayContent()) {
@@ -187,8 +178,7 @@ public class TimetableRepository {
 		return response;
 	}
 
-	public Subject getCourse(String semester, String semgroup, String id) throws URISyntaxException,
-			XmlPullParserException, IOException {
+	public Subject getCourse(String semester, String semgroup, String id) throws XmlPullParserException, IOException {
 		for (Day<Subject> day : getTimetable(semester, semgroup)) {
 			for (Subject subj : day.getDayContent()) {
 				if (subj.getSuid().equals(id)) {

@@ -200,8 +200,7 @@ public class TimetableConverter extends HTMLConverter {
 			}
 			return sb.toString();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("md5 algorithm not found:" + e);
 		}
 		return null;
 	}

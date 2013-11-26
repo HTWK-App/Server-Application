@@ -39,7 +39,6 @@ public class TimetableController {
 		return "redirect:/timetable";
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	String home() throws InvalidAttributesException, IOException {
@@ -68,7 +67,7 @@ public class TimetableController {
 	List<Day<Subject>> getTimetable(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
 			@RequestParam(value = "suid", required = false, defaultValue = "") String suid) throws IOException,
-			URISyntaxException, XmlPullParserException {
+			XmlPullParserException {
 		String[] suidArray = null;
 		if (suid.contains(",")) {
 			suidArray = suid.split(",");
@@ -83,7 +82,7 @@ public class TimetableController {
 	public @ResponseBody
 	Map<String, String> getCourse(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup)
-			throws IOException, URISyntaxException, XmlPullParserException {
+			throws IOException, XmlPullParserException {
 		return repo.getCourse(semester, semgroup);
 	}
 
@@ -92,7 +91,7 @@ public class TimetableController {
 	public @ResponseBody
 	Subject getCourse(@PathVariable(value = "semester") String semester, @PathVariable(value = "fak") String fak,
 			@PathVariable(value = "semgroup") String semgroup, @PathVariable(value = "id") String id)
-			throws InvalidAttributesException, IOException, URISyntaxException, XmlPullParserException {
+			throws InvalidAttributesException, IOException, XmlPullParserException {
 		return repo.getCourse(semester, semgroup, id);
 	}
 
@@ -103,7 +102,7 @@ public class TimetableController {
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
 			@PathVariable(value = "kw") String kw,
 			@RequestParam(value = "suid", required = false, defaultValue = "") String suid) throws IOException,
-			URISyntaxException, RestClientException, XmlPullParserException {
+			RestClientException, XmlPullParserException {
 		String[] suidArray = null;
 		if (suid.contains(",")) {
 			suidArray = suid.split(",");
@@ -119,15 +118,14 @@ public class TimetableController {
 	Day<Subject> getTimetable(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
 			@PathVariable(value = "kw") String kw, @PathVariable(value = "day") int day) throws IOException,
-			URISyntaxException, RestClientException, XmlPullParserException {
+			RestClientException, XmlPullParserException {
 		return repo.getTimetable(semester, semgroup, kw, day);
 	}
 
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/cal", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	Map<String, String> getCalendar() throws InvalidAttributesException, IOException, URISyntaxException,
-			XmlPullParserException {
+	Map<String, String> getCalendar() throws InvalidAttributesException, IOException, XmlPullParserException {
 		return repo.getCalendar();
 	}
 
