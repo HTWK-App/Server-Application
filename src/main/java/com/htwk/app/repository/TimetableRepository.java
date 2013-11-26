@@ -12,7 +12,9 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,6 +24,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.xmlpull.v1.XmlPullParserException;
 
+import com.google.common.cache.Cache;
 import com.htwk.app.model.impl.Day;
 import com.htwk.app.model.timetable.Faculty;
 import com.htwk.app.model.timetable.Subject;
@@ -32,10 +35,11 @@ public class TimetableRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimetableRepository.class);
 
-	RestTemplate restTemplate = null;
-	ResponseEntity<String> response = null;
-	HttpHeaders headers = null;
-	TimetableConverter conv = null;
+	private RestTemplate restTemplate = null;
+	private ResponseEntity<String> response = null;
+	private HttpHeaders headers = null;
+	private TimetableConverter conv = null;
+	private Cache<String, Object> cache;
 
 	@Value("${timetable.url}")
 	private String timetableUrl;
@@ -49,22 +53,31 @@ public class TimetableRepository {
 	@Value("${timetable.semgr}")
 	private String timetableSemGroup;
 
+	@Autowired
+	private CacheManager cacheManager;
+
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		restTemplate = new RestTemplate();
 		headers = new HttpHeaders();
 		headers.add("Content-Type", "text/xml;charset=UTF-8");
 		conv = new TimetableConverter();
+		cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
 	}
 
 	public List<Faculty> getSemGroups(String semester) throws IOException {
+		Object semGroups = cache.getIfPresent(semester);
+		if (semGroups != null) {
+			return conv.getSemGroup(semGroups.toString());
+		}
 		timetableSemGroup = MessageFormat.format(timetableSemGroup, semester);
 
 		String uri = timetableUrl + timetableSemGroup;
 		logger.debug("getData from URI: " + uri);
 		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
-
 		if (response != null) {
+			cache.put(semester, response.getBody().toString());
 			return conv.getSemGroup(response.getBody());
 		}
 
@@ -81,11 +94,17 @@ public class TimetableRepository {
 	}
 
 	public Map<String, String> getCalendar() throws XmlPullParserException, IOException {
+		Object cal = cache.getIfPresent("cal");
+		if (cal != null) {
+			return conv.getCal(cal.toString());
+		}
+
 		String uri = timetableUrl + timetableCal;
 		logger.debug("getData from URI: " + uri);
 		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
 
 		if (response != null) {
+			cache.put("cal", response.getBody().toString());
 			return conv.getCal(response.getBody());
 		}
 		return null;

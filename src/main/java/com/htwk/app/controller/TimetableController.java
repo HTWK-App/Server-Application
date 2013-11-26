@@ -62,10 +62,10 @@ public class TimetableController {
 	}
 
 	@Cacheable("timeCache")
-	@RequestMapping(value = "/{semester}/{fak}/{semgroup}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	@RequestMapping(value = "/{semester}/{fak}/timetable", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	List<Day<Subject>> getTimetable(@PathVariable(value = "semester") String semester,
-			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
+			@PathVariable(value = "fak") String fak, @RequestParam(value = "semgroup") String semgroup,
 			@RequestParam(value = "suid", required = false, defaultValue = "") String suid) throws IOException,
 			XmlPullParserException {
 		String[] suidArray = null;
@@ -78,28 +78,28 @@ public class TimetableController {
 	}
 
 	@Cacheable("timeCache")
-	@RequestMapping(value = "/{semester}/{fak}/{semgroup}/list", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	@RequestMapping(value = "/{semester}/{fak}/courses", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Map<String, String> getCourse(@PathVariable(value = "semester") String semester,
-			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup)
+			@PathVariable(value = "fak") String fak, @RequestParam(value = "semgroup") String semgroup)
 			throws IOException, XmlPullParserException {
 		return repo.getCourse(semester, semgroup);
 	}
 
 	@Cacheable("timeCache")
-	@RequestMapping(value = "/{semester}/{fak}/{semgroup}/list/{id}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	@RequestMapping(value = "/{semester}/{fak}/courses/{id}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Subject getCourse(@PathVariable(value = "semester") String semester, @PathVariable(value = "fak") String fak,
-			@PathVariable(value = "semgroup") String semgroup, @PathVariable(value = "id") String id)
+			@RequestParam(value = "semgroup") String semgroup, @PathVariable(value = "id") String id)
 			throws InvalidAttributesException, IOException, XmlPullParserException {
 		return repo.getCourse(semester, semgroup, id);
 	}
 
 	@Cacheable("timeCache")
-	@RequestMapping(value = "/{semester}/{fak}/{semgroup}/{kw}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	@RequestMapping(value = "/{semester}/{fak}/week/{kw}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	List<Day<Subject>> getTimetableByKW(@PathVariable(value = "semester") String semester,
-			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
+			@PathVariable(value = "fak") String fak, @RequestParam(value = "semgroup") String semgroup,
 			@PathVariable(value = "kw") String kw,
 			@RequestParam(value = "suid", required = false, defaultValue = "") String suid) throws IOException,
 			RestClientException, XmlPullParserException {
@@ -113,10 +113,10 @@ public class TimetableController {
 	}
 
 	@Cacheable("timeCache")
-	@RequestMapping(value = "/{semester}/{fak}/{semgroup}/{kw}/{day}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	@RequestMapping(value = "/{semester}/{fak}/week/{kw}/{day}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Day<Subject> getTimetable(@PathVariable(value = "semester") String semester,
-			@PathVariable(value = "fak") String fak, @PathVariable(value = "semgroup") String semgroup,
+			@PathVariable(value = "fak") String fak, @RequestParam(value = "semgroup") String semgroup,
 			@PathVariable(value = "kw") String kw, @PathVariable(value = "day") int day) throws IOException,
 			RestClientException, XmlPullParserException {
 		return repo.getTimetable(semester, semgroup, kw, day);

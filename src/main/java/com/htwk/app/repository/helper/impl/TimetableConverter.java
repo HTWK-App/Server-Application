@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -114,7 +115,6 @@ public class TimetableConverter extends HTMLConverter {
 		factory = XmlPullParserFactory.newInstance();
 		parser = factory.newPullParser();
 		parser.setInput(new StringReader(content));
-		logger.debug("input-encoding {}", parser.getInputEncoding());
 
 		int eventType = parser.getEventType();
 
@@ -136,6 +136,11 @@ public class TimetableConverter extends HTMLConverter {
 						cal.put("all", key);
 					}
 				}
+				if (tagName.equalsIgnoreCase("period")) {
+					String key = "semester";
+					String value = new String(parser.getAttributeValue(1).getBytes("iso-8859-1"), "utf-8");
+					cal.put(key, value);
+				}
 			case XmlPullParser.END_TAG:
 				break;
 
@@ -156,28 +161,33 @@ public class TimetableConverter extends HTMLConverter {
 		for (Element table : doc.select("table tbody")) {
 			Day<Subject> day = new Day<Subject>();
 			table.select("tr").first().remove();
-			for (Element tr : table.select("tr")) {
-				Element[] td = tr.select("td").toArray(new Element[8]);
+			String[] weekdays = { "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" };
+			if (table.parent().previousElementSibling() != null
+					&& ArrayUtils.contains(weekdays, table.parent().previousElementSibling().text())) {
 
-				Subject subject = new Subject();
+				day.setId(table.parent().previousElementSibling().text());
+				for (Element tr : table.select("tr")) {
+					Element[] td = tr.select("td").toArray(new Element[8]);
 
-				subject.setKw((td[0] == null) ? new String[] {} : td[0].text().replaceAll("\\s+", "").split(","));
-				subject.setBegin((td[1] == null) ? "" : td[1].text());
-				subject.setEnd((td[2] == null) ? "" : td[2].text());
-				subject.setLocation((td[3] == null) ? "" : td[3].text());
-				subject.setDescription((td[4] == null) ? "" : td[4].text());
-				subject.setType((td[5] == null) ? "" : td[5].text());
-				subject.setDocent((td[6] == null) ? "" : td[6].text());
-				subject.setNotes((td[7] == null) ? "" : td[7].text());
+					Subject subject = new Subject();
 
-				String suid = (subject.getDescription().length() > 15) ? subject.getDescription().substring(0, 15) : "";
+					subject.setKw((td[0] == null) ? new String[] {} : td[0].text().replaceAll("\\s+", "").split(","));
+					subject.setBegin((td[1] == null) ? "" : td[1].text());
+					subject.setEnd((td[2] == null) ? "" : td[2].text());
+					subject.setLocation((td[3] == null) ? "" : td[3].text());
+					subject.setDescription((td[4] == null) ? "" : td[4].text());
+					subject.setType((td[5] == null) ? "" : td[5].text());
+					subject.setDocent((td[6] == null) ? "" : td[6].text());
+					subject.setNotes((td[7] == null) ? "" : td[7].text());
 
-				subject.setSuid(getSuid(suid));
+					String suid = (subject.getDescription().length() > 15) ? subject.getDescription().substring(0, 15)
+							: "";
 
-				day.getDayContent().add(subject);
-			}
-			// truncate the last tables which not needed
-			if (days.size() < 5) {
+					subject.setSuid(getSuid(suid));
+
+					day.getDayContent().add(subject);
+
+				}
 				days.add(day);
 			}
 		}
