@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
+	private static final Logger logger = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
+	
 	public static final String DEFAULT_ERROR_VIEW = "error";
 
 	@ExceptionHandler(value = Exception.class)
@@ -23,13 +27,16 @@ public class GlobalControllerExceptionHandler {
 		// the framework handle it - like the OrderNotFoundException example
 		// at the start of this post.
 		// AnnotationUtils is a Spring Framework utility class.
+		logger.error("Exception for uri{} : {}", req.getRequestURL(), e);
+		
 		if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)
 			throw e;
 
 		// Otherwise setup and send the user to a default error-view.
 		Map<String, Object> errorResponse = new HashMap<String, Object>();
-		errorResponse.put("exception", e.toString());
 		errorResponse.put("url", req.getRequestURL());
+		errorResponse.put("exception", e.toString());
+		errorResponse.put("message", e.getMessage());
 		return errorResponse;
 	}
 
