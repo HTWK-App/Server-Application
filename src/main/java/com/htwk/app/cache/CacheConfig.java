@@ -20,10 +20,10 @@ import com.google.common.cache.CacheBuilder;
 @ComponentScan(basePackages = { "com.htwk.app" })
 public class CacheConfig {
 
-	@Value("${cache.time.time}")
-	private long time;
+	@Value("${cache.expTime}")
+	private Long time;
 
-	@Value("${cache.time.timeUnit}")
+	@Value("${cache.expTimeUnit}")
 	private String timeUnit;
 
 	@Bean
