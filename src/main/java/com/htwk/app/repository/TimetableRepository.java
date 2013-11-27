@@ -53,6 +53,9 @@ public class TimetableRepository {
 	@Value("${timetable.semgr}")
 	private String timetableSemGroup;
 
+	@Value("${timetable.profs}")
+	private String timetableProfs;
+
 	@Autowired
 	private CacheManager cacheManager;
 
@@ -73,10 +76,9 @@ public class TimetableRepository {
 		}
 		timetableSemGroup = MessageFormat.format(timetableSemGroup, semester);
 
-		String uri = timetableUrl + timetableSemGroup;
-		logger.debug("getData from URI: " + uri);
-		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
-		if (response != null) {
+		response = restTemplate.exchange(timetableUrl + timetableSemGroup, HttpMethod.GET, new HttpEntity<Object>(
+				headers), String.class);
+		if (response.hasBody()) {
 			cache.put(semester, response.getBody().toString());
 			return conv.getSemGroup(response.getBody());
 		}
@@ -115,11 +117,12 @@ public class TimetableRepository {
 		if (getCalendar().containsKey(kw)) {
 
 			String uri = timetableUrl + MessageFormat.format(timetableReport, semester, semgroup, kw, "");
-			logger.debug("getData from URI: " + uri);
+			String profsUri = timetableUrl + MessageFormat.format(timetableProfs, semester);
+			logger.debug("getData from URI: " + uri + profsUri);
 			response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
-
-			if (response != null) {
-				return conv.getTimetable(response.getBody());
+			ResponseEntity<String> profsContent = restTemplate.exchange(profsUri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+			if (response.hasBody() && profsContent.hasBody()) {
+				return conv.getTimetable(response.getBody(), profsContent.getBody());
 			}
 		}
 		return null;

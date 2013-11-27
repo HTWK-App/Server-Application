@@ -18,6 +18,7 @@ public class Subject implements Serializable {
 	private String description;
 	private String type;
 	private String docent;
+	private String docentDetailed;
 	private String notes;
 
 	/**
@@ -152,5 +153,19 @@ public class Subject implements Serializable {
 	 */
 	public synchronized final void setKw(String[] kw) {
 		this.kw = kw;
+	}
+
+	/**
+	 * @return the docentDetailed
+	 */
+	public synchronized final String getDocentDetailed() {
+		return docentDetailed;
+	}
+
+	/**
+	 * @param docentDetailed the docentDetailed to set
+	 */
+	public synchronized final void setDocentDetailed(String docentDetailed) {
+		this.docentDetailed = docentDetailed;
 	}
 }

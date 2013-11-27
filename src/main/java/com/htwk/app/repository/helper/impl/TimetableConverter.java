@@ -2,6 +2,7 @@ package com.htwk.app.repository.helper.impl;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -109,6 +110,16 @@ public class TimetableConverter extends HTMLConverter {
 		return null;
 	}
 
+	private Map<String, String> getProfs(String content) {
+		Map<String, String> profs = new TreeMap<String, String>();
+
+		Document doc = Jsoup.parse(content);
+		for (Element tr : doc.select("kurztext")) {
+			profs.put("" + tr.attr("id"), "" + tr.select("dozent").attr("name"));
+		}
+		return profs;
+	}
+
 	public Map<String, String> getCal(String content) throws XmlPullParserException, IOException {
 		Map<String, String> cal = new TreeMap<String, String>();
 
@@ -151,7 +162,9 @@ public class TimetableConverter extends HTMLConverter {
 
 	}
 
-	public List<Day<Subject>> getTimetable(String content) {
+	public List<Day<Subject>> getTimetable(String content, String profsContent) throws UnsupportedEncodingException {
+
+		Map<String, String> profs = getProfs(profsContent);
 
 		List<Day<Subject>> days = new ArrayList<Day<Subject>>();
 
@@ -178,6 +191,9 @@ public class TimetableConverter extends HTMLConverter {
 					subject.setDescription((td[4] == null) ? "" : td[4].text());
 					subject.setType((td[5] == null) ? "" : td[5].text());
 					subject.setDocent((td[6] == null) ? "" : td[6].text());
+					String docentDetailed= (subject.getDocent()==null)?"":profs.get(subject.getDocent()); 
+					docentDetailed = (docentDetailed==null)?"":new String(docentDetailed.getBytes("iso-8859-1"), "utf-8");
+					subject.setDocentDetailed(docentDetailed);
 					subject.setNotes((td[7] == null) ? "" : td[7].text());
 
 					String suid = (subject.getDescription().length() > 15) ? subject.getDescription().substring(0, 15)
