@@ -1,78 +1,37 @@
 package com.htwk.app.repository.helper.impl;
- 
-import java.io.IOException;
-import java.io.StringReader;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import com.htwk.app.model.impl.Day;
 import com.htwk.app.model.mensa.Meal;
 import com.htwk.app.repository.helper.XMLConverter;
- 
+
 public class MensaConverter extends XMLConverter {
- 
-    public Day<Meal> getObject(String content) throws XmlPullParserException, IOException {
-        Day<Meal> day = new Day<Meal>();
- 
-        factory = XmlPullParserFactory.newInstance();
-        parser = factory.newPullParser();
-        parser.setInput(new StringReader(content));
- 
-        int eventType = parser.getEventType();
-        int i = 0;
-        Meal meal = new Meal();
- 
-        while (eventType != XmlPullParser.END_DOCUMENT) {
- 
-            switch (eventType) {
- 
-            case XmlPullParser.START_DOCUMENT:
-                break;
- 
-            case XmlPullParser.START_TAG:
- 
-                String tagName = parser.getName();
- 
-                if (tagName.equalsIgnoreCase("name")) {
-                    String temp = parser.nextText();
-                    if (temp != null) {
-                        meal.setTitle(temp);
-                        logger.debug(temp);
-                    }
-                } else if (tagName.equalsIgnoreCase("price")) {
-                    Double temp = new Double(parser.nextText());
-                    if (temp != null) {
-                        meal.getPrice().put(meal.getPrice().size(), temp);
-                        logger.debug("" + temp);
-                    }
-                } else if (tagName.equalsIgnoreCase("tagging")) {
-                    String temp = parser.nextText();
-                    if (temp != null) {
-                        meal.getAddititves().put(0, temp);
-                        logger.debug("" + temp);
-                    }
-                } else if (tagName.equalsIgnoreCase("name1")) {
-                    String temp = parser.nextText();
-                    if (temp != null) {
-                        meal.getIngredients().add(temp);
-                        logger.debug(temp);
-                    }
-                }
-            case XmlPullParser.END_TAG:
-                String endTag = parser.getName();
-                if (endTag.equalsIgnoreCase("group")) {
-                    if ((i % 2) != 0) {
-                        day.getDayContent().add(meal);
-                        meal = new Meal();
-                    }
-                    i++;
-                }
-                break;
-            }
-            eventType = parser.next();
-        }
-        return day;
-    }
+
+	public Day<Meal> getObject(String content) {
+		Day<Meal> day = new Day<Meal>();
+
+		Document doc = Jsoup.parse(content);
+
+		for (Element group : doc.select("group")) {
+			Meal meal = new Meal();
+			meal.setTitle(group.select("name").first().text());
+
+			for (Element price : group.select("price")) {
+				logger.debug("{},{}", price.attr("consumerID"), price.text());
+				meal.getPrice().put(Integer.parseInt(price.attr("consumerID")), Double.parseDouble(price.text()));
+			}
+			for (Element tags : group.select("tagging")) {
+				meal.getAddititves().put(Integer.parseInt(tags.attr("taggingID")), tags.text());
+			}
+			for (Element component : group.select("component")) {
+				meal.getIngredients().add(component.text());
+			}
+			day.getDayContent().add(meal);
+		}
+		return day;
+	}
+
 }

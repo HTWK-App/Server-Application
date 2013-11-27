@@ -1,8 +1,5 @@
 package com.htwk.app.controller;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.xmlpull.v1.XmlPullParserException;
 
 import com.google.gson.JsonObject;
 import com.htwk.app.model.impl.Day;
@@ -52,15 +48,13 @@ public class MensaController {
 		location.addProperty("Mensa Schönauer Straße", 140);
 		location.addProperty("Mensa Tierklinik", 170);
 		json.add("location", location);
-
 		return "" + json;
 	}
 
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/{location}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	Day<Meal> getMenuByLocation(@PathVariable(value = "location") String location) throws IOException,
-			URISyntaxException, XmlPullParserException {
+	Day<Meal> getMenuByLocation(@PathVariable(value = "location") String location) {
 		return repo.get(location);
 	}
 
@@ -68,7 +62,7 @@ public class MensaController {
 	@RequestMapping(value = "/{location}/{date}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Day<Meal> getMenuByLocationAndDate(@PathVariable(value = "location") String location,
-			@PathVariable(value = "date") String date) throws IOException, URISyntaxException, XmlPullParserException {
+			@PathVariable(value = "date") String date) {
 		return repo.get(location, date);
 	}
 }

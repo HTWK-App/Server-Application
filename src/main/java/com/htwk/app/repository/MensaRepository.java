@@ -1,8 +1,5 @@
 package com.htwk.app.repository;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,7 +14,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
-import org.xmlpull.v1.XmlPullParserException;
 
 import com.htwk.app.model.impl.Day;
 import com.htwk.app.model.mensa.Meal;
@@ -31,7 +27,7 @@ public class MensaRepository {
 	RestTemplate restTemplate = null;
 	ResponseEntity<String> response = null;
 	HttpHeaders headers = null;
-	URI uri = null;
+	String uri = null;
 	MensaConverter conv = null;
 
 	@PostConstruct
@@ -52,19 +48,18 @@ public class MensaRepository {
 	@Value("${mensa.url}")
 	private String mensaUrl;
 
-	public Day<Meal> get(String location, String date) throws IOException, URISyntaxException, XmlPullParserException {
-		uri = new URI(mensaUrl + "?location=" + location + "&date=" + date);
-		logger.debug("getData from URI: " + uri.toString());
+	public Day<Meal> get(String location, String date) {
+		uri = mensaUrl + "?location=" + location + "&date=" + date;
 		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
 
-		if (response != null) {
+		if (response.hasBody()) {
 			return conv.getObject(response.getBody());
 		}
 
 		return null;
 	}
 
-	public Day<Meal> get(String location) throws IOException, URISyntaxException, XmlPullParserException {
+	public Day<Meal> get(String location) {
 		SimpleDateFormat formatdate = new SimpleDateFormat("yyyyMMdd");
 		return get(location, formatdate.format(new Date()));
 	}
