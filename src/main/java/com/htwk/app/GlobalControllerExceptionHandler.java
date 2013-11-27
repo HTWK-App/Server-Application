@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -27,7 +28,7 @@ public class GlobalControllerExceptionHandler {
 		// the framework handle it - like the OrderNotFoundException example
 		// at the start of this post.
 		// AnnotationUtils is a Spring Framework utility class.
-		logger.error("Exception for uri{} : {}", req.getRequestURL(), e);
+		logger.error("Exception for uri {} : {}", req.getRequestURL(), ExceptionUtils.getStackTrace(e));
 		
 		if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)
 			throw e;
