@@ -22,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import org.xmlpull.v1.XmlPullParserException;
 
 import com.google.common.cache.Cache;
 import com.htwk.app.model.impl.Day;
@@ -95,7 +94,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Map<String, String> getCalendar() throws XmlPullParserException, IOException {
+	public Map<String, String> getCalendar() throws IOException {
 		Object cal = cache.getIfPresent("cal");
 		if (cal != null) {
 			return conv.getCal(cal.toString());
@@ -112,7 +111,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup) throws XmlPullParserException, IOException {
+	public List<Day<Subject>> getTimetable(String semester, String semgroup) throws IOException {
 		String kw = getCalendar().get("all");
 		if (getCalendar().containsKey(kw)) {
 
@@ -120,7 +119,8 @@ public class TimetableRepository {
 			String profsUri = timetableUrl + MessageFormat.format(timetableProfs, semester);
 			logger.debug("getData from URI: " + uri + profsUri);
 			response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
-			ResponseEntity<String> profsContent = restTemplate.exchange(profsUri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+			ResponseEntity<String> profsContent = restTemplate.exchange(profsUri, HttpMethod.GET,
+					new HttpEntity<Object>(headers), String.class);
 			if (response.hasBody() && profsContent.hasBody()) {
 				return conv.getTimetable(response.getBody(), profsContent.getBody());
 			}
@@ -129,7 +129,7 @@ public class TimetableRepository {
 	}
 
 	public List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid) throws RestClientException,
-			XmlPullParserException, IOException {
+			IOException {
 		if (suid == null || suid.length == 0) {
 			return getTimetable(semester, semgroup);
 		}
@@ -147,7 +147,7 @@ public class TimetableRepository {
 	}
 
 	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw) throws RestClientException,
-			XmlPullParserException, IOException {
+			IOException {
 
 		List<Day<Subject>> timetable = getTimetable(semester, semgroup);
 		for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
@@ -163,7 +163,7 @@ public class TimetableRepository {
 	}
 
 	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw, String[] suid)
-			throws RestClientException, XmlPullParserException, IOException {
+			throws RestClientException, IOException {
 		if (suid == null || suid.length == 0) {
 			return getTimetable(semester, semgroup, kw);
 		}
@@ -181,7 +181,7 @@ public class TimetableRepository {
 	}
 
 	public Day<Subject> getTimetable(String semester, String semgroup, String kw, int day) throws RestClientException,
-			XmlPullParserException, IOException {
+			IOException {
 		day = day - 1;
 		List<Day<Subject>> days = getTimetable(semester, semgroup, kw);
 		if (days != null && days.size() > 0) {
@@ -190,7 +190,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Map<String, String> getCourse(String semester, String semgroup) throws XmlPullParserException, IOException {
+	public Map<String, String> getCourse(String semester, String semgroup) throws IOException {
 		Map<String, String> response = new TreeMap<String, String>();
 		for (Day<Subject> day : getTimetable(semester, semgroup)) {
 			for (Subject subj : day.getDayContent()) {
@@ -200,7 +200,7 @@ public class TimetableRepository {
 		return response;
 	}
 
-	public Subject getCourse(String semester, String semgroup, String id) throws XmlPullParserException, IOException {
+	public Subject getCourse(String semester, String semgroup, String id) throws IOException {
 		for (Day<Subject> day : getTimetable(semester, semgroup)) {
 			for (Subject subj : day.getDayContent()) {
 				if (subj.getSuid().equals(id)) {

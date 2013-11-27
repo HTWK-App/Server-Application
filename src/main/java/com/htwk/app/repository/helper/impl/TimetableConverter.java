@@ -1,7 +1,6 @@
 package com.htwk.app.repository.helper.impl;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,9 +13,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.htwk.app.model.impl.Day;
 import com.htwk.app.model.timetable.Course;
@@ -26,88 +22,28 @@ import com.htwk.app.repository.helper.HTMLConverter;
 
 public class TimetableConverter extends HTMLConverter {
 
-	public List<Faculty> getSemGroup(String content) {
+	public List<Faculty> getSemGroup(String content) throws UnsupportedEncodingException {
 
 		List<Faculty> faculties = new ArrayList<Faculty>();
-
-		try {
-			factory = XmlPullParserFactory.newInstance();
-			parser = factory.newPullParser();
-			parser.setInput(new StringReader(content));
-			logger.debug("input-encoding {}", parser.getInputEncoding());
-
-			int eventType = parser.getEventType();
-			int i = 0;
-			Faculty faculty = new Faculty();
-			Course course = null;
-
-			while (eventType != XmlPullParser.END_DOCUMENT) {
-
-				switch (eventType) {
-
-				case XmlPullParser.START_DOCUMENT:
-					break;
-
-				case XmlPullParser.START_TAG:
-					String tagName = parser.getName();
-					if (tagName.equalsIgnoreCase("fakultaet")) {
-						String temp = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
-						if (temp != null) {
-							faculty.setName(temp);
-							// logger.debug(temp);
-						}
-						temp = new String(parser.getAttributeValue(1).getBytes("iso-8859-1"), "utf-8");
-						if (temp != null) {
-							faculty.setId(temp);
-							// logger.debug(temp);
-						}
-					} else if (tagName.equalsIgnoreCase("studiengang")) {
-						course = new Course();
-						String temp = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
-						if (temp != null) {
-							course.setName(temp);
-							// logger.debug(temp);
-						}
-
-						temp = new String(parser.getAttributeValue(1).getBytes("iso-8859-1"), "utf-8");
-						if (temp != null) {
-							course.setId(temp);
-							// logger.debug(temp);
-						}
-						faculty.getCourses().add(course);
-
-					} else if (tagName.equalsIgnoreCase("semgrp")) {
-						String temp = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
-						if (temp != null) {
-							course.getSemGroups().add(temp);
-							// logger.debug(temp);
-						}
-
-					}
-				case XmlPullParser.END_TAG:
-					String endTag = parser.getName();
-					if (endTag.equalsIgnoreCase("fakultaet")) {
-						if ((i % 2) != 0) {
-							faculties.add(faculty);
-							faculty = new Faculty();
-						}
-						i++;
-					}
-
-					break;
+		
+		Document doc = Jsoup.parse(content);
+		for(Element faculty : doc.select("fakultaet")){
+			Faculty fac = new Faculty();
+			fac.setId(new String(faculty.attr("id").getBytes("iso-8859-1"), "utf-8"));
+			fac.setName(new String(faculty.attr("name").getBytes("iso-8859-1"), "utf-8"));
+			for(Element course : faculty.select("studiengang")){
+				Course cou = new Course();
+				cou.setId(new String(course.attr("id").getBytes("iso-8859-1"), "utf-8"));
+				cou.setName(new String(course.attr("name").getBytes("iso-8859-1"), "utf-8"));
+				for(Element semgroup : course.select("semgrp")){
+					cou.getSemGroups().add(semgroup.attr("name"));
 				}
-
-				eventType = parser.next();
+				fac.getCourses().add(cou);
 			}
-			return faculties;
-
-		} catch (XmlPullParserException e) {
-			logger.error("error while converting xml:", e);
-		} catch (IOException e) {
-			logger.error("error while converting xml:", e);
+			faculties.add(fac);
 		}
-
-		return null;
+		return faculties;
+		
 	}
 
 	private Map<String, String> getProfs(String content) {
@@ -120,44 +56,20 @@ public class TimetableConverter extends HTMLConverter {
 		return profs;
 	}
 
-	public Map<String, String> getCal(String content) throws XmlPullParserException, IOException {
+	public Map<String, String> getCal(String content) throws IOException {
 		Map<String, String> cal = new TreeMap<String, String>();
 
-		factory = XmlPullParserFactory.newInstance();
-		parser = factory.newPullParser();
-		parser.setInput(new StringReader(content));
+		Document doc = Jsoup.parse(content);
+		for (Element woche : doc.select("woche")) {
+			String key = woche.attr("id");
+			String value = woche.attr("name");
+			cal.put(key, value);
 
-		int eventType = parser.getEventType();
-
-		while (eventType != XmlPullParser.END_DOCUMENT) {
-
-			switch (eventType) {
-
-			case XmlPullParser.START_DOCUMENT:
-				break;
-
-			case XmlPullParser.START_TAG:
-				String tagName = parser.getName();
-				if (tagName.equalsIgnoreCase("woche")) {
-					String key = new String(parser.getAttributeValue(1).getBytes("iso-8859-1"), "utf-8");
-					String value = new String(parser.getAttributeValue(0).getBytes("iso-8859-1"), "utf-8");
-					cal.put(key, value);
-
-					if (value.equalsIgnoreCase("Alle Wochen")) {
-						cal.put("all", key);
-					}
-				}
-				if (tagName.equalsIgnoreCase("period")) {
-					String key = "semester";
-					String value = new String(parser.getAttributeValue(1).getBytes("iso-8859-1"), "utf-8");
-					cal.put(key, value);
-				}
-			case XmlPullParser.END_TAG:
-				break;
-
+			if (value.equalsIgnoreCase("Alle Wochen")) {
+				cal.put("all", key);
 			}
-			eventType = parser.next();
 		}
+		cal.put("semester", doc.select("period").first().attr("id"));
 		return cal;
 
 	}
@@ -191,8 +103,9 @@ public class TimetableConverter extends HTMLConverter {
 					subject.setDescription((td[4] == null) ? "" : td[4].text());
 					subject.setType((td[5] == null) ? "" : td[5].text());
 					subject.setDocent((td[6] == null) ? "" : td[6].text());
-					String docentDetailed= (subject.getDocent()==null)?"":profs.get(subject.getDocent()); 
-					docentDetailed = (docentDetailed==null)?"":new String(docentDetailed.getBytes("iso-8859-1"), "utf-8");
+					String docentDetailed = (subject.getDocent() == null) ? "" : profs.get(subject.getDocent());
+					docentDetailed = (docentDetailed == null) ? "" : new String(docentDetailed.getBytes("iso-8859-1"),
+							"utf-8");
 					subject.setDocentDetailed(docentDetailed);
 					subject.setNotes((td[7] == null) ? "" : td[7].text());
 

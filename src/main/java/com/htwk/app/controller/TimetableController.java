@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestClientException;
-import org.xmlpull.v1.XmlPullParserException;
 
 import com.htwk.app.model.impl.Day;
 import com.htwk.app.model.timetable.Faculty;
@@ -66,8 +65,7 @@ public class TimetableController {
 	public @ResponseBody
 	List<Day<Subject>> getTimetable(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @RequestParam(value = "semgroup") String semgroup,
-			@RequestParam(value = "suid", required = false, defaultValue = "") String suid) throws IOException,
-			XmlPullParserException {
+			@RequestParam(value = "suid", required = false, defaultValue = "") String suid) throws IOException {
 		String[] suidArray = null;
 		if (suid.contains(",")) {
 			suidArray = suid.split(",");
@@ -82,7 +80,7 @@ public class TimetableController {
 	public @ResponseBody
 	Map<String, String> getCourse(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @RequestParam(value = "semgroup") String semgroup)
-			throws IOException, XmlPullParserException {
+			throws IOException {
 		return repo.getCourse(semester, semgroup);
 	}
 
@@ -91,7 +89,7 @@ public class TimetableController {
 	public @ResponseBody
 	Subject getCourse(@PathVariable(value = "semester") String semester, @PathVariable(value = "fak") String fak,
 			@RequestParam(value = "semgroup") String semgroup, @PathVariable(value = "id") String id)
-			throws InvalidAttributesException, IOException, XmlPullParserException {
+			throws InvalidAttributesException, IOException {
 		return repo.getCourse(semester, semgroup, id);
 	}
 
@@ -102,7 +100,7 @@ public class TimetableController {
 			@PathVariable(value = "fak") String fak, @RequestParam(value = "semgroup") String semgroup,
 			@PathVariable(value = "kw") String kw,
 			@RequestParam(value = "suid", required = false, defaultValue = "") String suid) throws IOException,
-			RestClientException, XmlPullParserException {
+			RestClientException {
 		String[] suidArray = null;
 		if (suid.contains(",")) {
 			suidArray = suid.split(",");
@@ -118,14 +116,14 @@ public class TimetableController {
 	Day<Subject> getTimetable(@PathVariable(value = "semester") String semester,
 			@PathVariable(value = "fak") String fak, @RequestParam(value = "semgroup") String semgroup,
 			@PathVariable(value = "kw") String kw, @PathVariable(value = "day") int day) throws IOException,
-			RestClientException, XmlPullParserException {
+			RestClientException {
 		return repo.getTimetable(semester, semgroup, kw, day);
 	}
 
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/cal", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	Map<String, String> getCalendar() throws InvalidAttributesException, IOException, XmlPullParserException {
+	Map<String, String> getCalendar() throws InvalidAttributesException, IOException {
 		return repo.getCalendar();
 	}
 

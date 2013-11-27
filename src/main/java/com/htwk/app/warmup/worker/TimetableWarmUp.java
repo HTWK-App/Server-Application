@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.xmlpull.v1.XmlPullParserException;
 
 import com.htwk.app.model.timetable.Course;
 import com.htwk.app.model.timetable.Faculty;
@@ -56,7 +55,7 @@ public class TimetableWarmUp implements WarmUp {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void warmUp() throws IOException, ParseException, XmlPullParserException {
+	public void warmUp() throws IOException, ParseException {
 		restTemplate.getForEntity(serverPath + "/timetable/cal", String.class);
 
 		String semester = repo.getCalendar().get("semester");
@@ -67,10 +66,10 @@ public class TimetableWarmUp implements WarmUp {
 			restTemplate.getForEntity(facultyUrl, String.class);
 			for (Course course : fac.getCourses()) {
 				for (String semgroup : course.getSemGroups()) {
-					String semgroupAddition = "?semgroup="+ semgroup;
-					restTemplate.getForEntity(facultyUrl +semgroupAddition, String.class);
-					restTemplate.getForEntity(facultyUrl+"/courses" + semgroupAddition, String.class);
-					
+					String semgroupAddition = "?semgroup=" + semgroup;
+					restTemplate.getForEntity(facultyUrl + semgroupAddition, String.class);
+					restTemplate.getForEntity(facultyUrl + "/courses" + semgroupAddition, String.class);
+
 				}
 			}
 		}

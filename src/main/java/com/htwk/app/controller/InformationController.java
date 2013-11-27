@@ -9,6 +9,8 @@ import javax.naming.directory.InvalidAttributesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
+import com.htwk.app.model.info.StaffShort;
 import com.htwk.app.repository.InformationRepository;
 
 @Controller
@@ -42,20 +45,22 @@ public class InformationController {
 
 	@RequestMapping(value = "/staff", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Staff> getStaff() {
+	List<StaffShort> getStaff() throws IOException, ParseException {
 		return repo.getStaff();
 	}
 
+	@Cacheable("timeCache")
 	@RequestMapping(value = "/staff/{cuid}", method = RequestMethod.GET)
 	public @ResponseBody
-	Staff getStaff(@PathVariable(value = "cuid") String cuid) {
+	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws IOException, ParseException {
 		return repo.getStaff(cuid);
 	}
 
-	@RequestMapping(value = "/staff/{cuid}/detailed", method = RequestMethod.GET)
+	@Cacheable("timeCache")
+	@RequestMapping(value = "/staff/{cuid}/pic", method = RequestMethod.GET)
 	public @ResponseBody
-	Staff getStaffDetailed(@PathVariable(value = "cuid") String cuid) throws IOException, ParseException {
-		return repo.getStaffDetailed(cuid);
+	ResponseEntity<byte[]> getStaffPic(@PathVariable(value = "cuid") String cuid) throws IOException, ParseException {
+		return repo.getStaffPic(cuid);
 	}
 
 	@RequestMapping(value = "/building", method = RequestMethod.GET)
@@ -82,9 +87,10 @@ public class InformationController {
 		return repo.getSport(id);
 	}
 
-	@RequestMapping(value = "/sport/{id}/detailed", method = RequestMethod.GET)
+	@Cacheable("timeCache")
+	@RequestMapping(value = "/sport/{id}/pic", method = RequestMethod.GET)
 	public @ResponseBody
-	Sport getSportDetailed(@PathVariable(value = "id") String id) throws IOException, ParseException {
-		return repo.getSportDetailed(id);
+	ResponseEntity<byte[]> getSportPic(@PathVariable(value = "id") String id) throws IOException, ParseException {
+		return repo.getSportPic(id);
 	}
 }

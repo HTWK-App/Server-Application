@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -19,12 +21,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.common.cache.Cache;
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
+import com.htwk.app.model.info.StaffShort;
 import com.htwk.app.repository.helper.impl.InformationConverter;
 
 @Repository
@@ -62,7 +66,7 @@ public class InformationRepository {
 		sportCache = (Cache<String, Sport>) cacheManager.getCache("sportCache").getNativeCache();
 	}
 
-	private List<Staff> getStaffList(){
+	private List<Staff> getStaffList() {
 		if (staffCache.size() > 0) {
 			return new ArrayList<Staff>(new TreeMap<String, Staff>(staffCache.asMap()).values());
 		}
@@ -75,36 +79,49 @@ public class InformationRepository {
 			}
 			return staffMembers;
 		}
-
 		return null;
 	}
 
-	public List<Staff> getStaff() {
-		return getStaffList();
+	public List<StaffShort> getStaff() throws IOException, ParseException {
+		List<StaffShort> shorts = new ArrayList<StaffShort>();
+		for (Staff staff : getStaffList()) {
+			shorts.add(new StaffShort(staff));
+		}
+		Collections.sort(shorts, new Comparator<StaffShort>() {
+			@Override
+			public int compare(StaffShort o1, StaffShort o2) {
+				int facultyResult = o1.getFaculty().compareTo(o2.getFaculty());
+				if (facultyResult != 0) {
+					return facultyResult;
+				}
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		return shorts;
 	}
-	
-	public Staff getStaff(String cuid){
+
+	public Staff getStaff(String cuid) throws IOException, ParseException {
 		Staff staff = staffCache.getIfPresent(cuid);
 		if (staff != null) {
-			return staff;
+			return getStaffDetailed(staff);
 		}
-		List<Staff> staffMembers = getStaffList();
-
-		// int i = 0;
-		for (Staff staffMember : staffMembers) {
+		for (Staff staffMember : getStaffList()) {
 			if (staffMember.getCuid().equals(cuid)) {
-				// return staffMembers.subList(i, i+1);
+				staffMember = getStaffDetailed(staffMember);
 				return staffMember;
 			}
-			// i++;
 		}
 		return null;
 	}
 
-	public Staff getStaffDetailed(String cuid) throws IOException, ParseException {
-		Staff staff = conv.getStaffDetailed(getStaff(cuid));
-		staffCache.put(cuid, staff);
+	private Staff getStaffDetailed(Staff staff) throws IOException, ParseException {
+		staff = conv.getStaffDetailed(staff);
+		staffCache.put(staff.getCuid(), staff);
 		return staff;
+	}
+
+	public ResponseEntity<byte[]> getStaffPic(String cuid) throws IOException, ParseException {
+		return restTemplate.exchange(getStaff(cuid).getPictureLink(), HttpMethod.GET, null, byte[].class);
 	}
 
 	private List<Building> getBuildingsList() throws IOException, ParseException {
@@ -164,16 +181,22 @@ public class InformationRepository {
 	public Sport getSport(String id) throws IOException, ParseException {
 		for (Sport sport : getSportList()) {
 			if (sport.getId().equalsIgnoreCase(id)) {
-				return sport;
+				return getSportDetailed(sport);
 			}
 		}
 		return null;
 	}
 
-	public Sport getSportDetailed(String id) throws IOException, ParseException {
-		Sport sportDetailed = conv.getSportDetailed(getSport(id));
-		sportCache.put(id, sportDetailed);
+	private Sport getSportDetailed(Sport sport) throws IOException, ParseException {
+		Sport sportDetailed = conv.getSportDetailed(sport);
 		return sportDetailed;
+	}
+
+	public ResponseEntity<byte[]> getSportPic(String id) throws RestClientException, IOException, ParseException {
+		HttpHeaders headers = new HttpHeaders();
+	    headers.set("Content-Type", "image/png; charset=binary");
+	    HttpEntity<String> entity = new HttpEntity<String>(headers);
+		return restTemplate.exchange(""+getSport(id).getPictureLink(), HttpMethod.GET, entity, byte[].class);
 	}
 
 }

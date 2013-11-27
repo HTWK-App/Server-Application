@@ -87,7 +87,7 @@ public class InformationConverter extends HTMLConverter {
 			timestamp = timestamp.substring(24, 34);
 			DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 			Date date = dateFormat.parse(timestamp);
-			logger.debug("" + timestamp + ":" + date.toString());
+			// logger.debug("" + timestamp + ":" + date.toString());
 			staff.setLastChange(new Timestamp(date.getTime()));
 		}
 
