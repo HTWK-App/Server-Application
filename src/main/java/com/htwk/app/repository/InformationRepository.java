@@ -121,7 +121,10 @@ public class InformationRepository {
 	}
 
 	public ResponseEntity<byte[]> getStaffPic(String cuid) throws IOException, ParseException {
-		return restTemplate.exchange(getStaff(cuid).getPictureLink(), HttpMethod.GET, null, byte[].class);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.set("Content-Type", "image/jpg; charset=binary");
+	    HttpEntity<String> entity = new HttpEntity<String>(headers);
+		return restTemplate.exchange(getStaff(cuid).getPictureLink(), HttpMethod.GET, entity, byte[].class);
 	}
 
 	private List<Building> getBuildingsList() throws IOException, ParseException {
@@ -179,6 +182,11 @@ public class InformationRepository {
 	}
 
 	public Sport getSport(String id) throws IOException, ParseException {
+		Sport cachedSport = sportCache.getIfPresent(id);
+		if(cachedSport != null){
+			return getSportDetailed(cachedSport);
+		}
+		
 		for (Sport sport : getSportList()) {
 			if (sport.getId().equalsIgnoreCase(id)) {
 				return getSportDetailed(sport);

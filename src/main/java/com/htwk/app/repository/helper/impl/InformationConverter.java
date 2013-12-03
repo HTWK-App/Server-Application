@@ -72,7 +72,7 @@ public class InformationConverter extends HTMLConverter {
 	public Staff getStaffDetailed(Staff staff) throws IOException, ParseException {
 
 		URL url = new URL(staff.getDetailLink());
-		Document doc = Jsoup.parse(url, 1000);
+		Document doc = Jsoup.parse(url, 5000);
 
 		for (Element div : doc.select("div.phonelist_detail")) {
 			staff.setFullName((div.select("h1") == null) ? "" : div.select("h1").first().text());
@@ -149,7 +149,7 @@ public class InformationConverter extends HTMLConverter {
 			Sport sport = new Sport();
 			sport.setId(div.attr("id"));
 			sport.setTitle((div.select("h4") == null) ? "" : div.select("h4").text());
-			div.removeClass("h4");
+			div.select("h4").remove();
 			sport.setDetailedLink((div.select("a") == null) ? "" : "http://sport.htwk-leipzig.de"
 					+ div.select("a").attr("href"));
 			sport.setPictureLink((div.select("a img") == null) ? "" : div.select("a img ").attr("src"));
@@ -172,11 +172,13 @@ public class InformationConverter extends HTMLConverter {
 		sport.setCycle((dd[1] == null) ? "" : dd[1].text());
 		sport.setGender((dd[2] == null) ? "" : dd[2].text());
 		sport.setLeader((dd[3] == null) ? "" : dd[3].text());
-		sport.setLocation((dd[4] == null) ? "" : dd[4].text());
+		sport.setLocation((dd[4] == null) ? "" : dd[4].text().replace(" Karte", ""));
+		
 		sport.setLatLng(null);
 		sport.setCompetitor((dd[5] == null) ? "" : dd[5].text());
 
 		for (Element hint : doc.select("dl.event-infos").last().select("dd")) {
+			sport.getHints().clear();
 			sport.getHints().add((hint == null) ? "" : hint.text());
 		}
 		return sport;
