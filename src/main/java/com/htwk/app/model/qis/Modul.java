@@ -11,8 +11,12 @@ public class Modul implements Serializable {
 	 */
 	private static final long serialVersionUID = -7580435071758310706L;
 	private String id;
-	private String title; 
+	private String title;
+
 	private String description;
+	private String examDate;
+	private String prof;
+
 	private String ects;
 	private String mark;
 
@@ -31,21 +35,6 @@ public class Modul implements Serializable {
 	 */
 	public synchronized final void setId(String id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public synchronized final String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public synchronized final void setDescription(String description) {
-		this.description = description;
 	}
 
 	/**
@@ -82,10 +71,10 @@ public class Modul implements Serializable {
 	 * @return the submodul
 	 */
 	public synchronized final List<Modul> getSubmodul() {
-		if (submodul == null){
+		if (submodul == null) {
 			submodul = new ArrayList<Modul>();
 		}
-			return submodul;
+		return submodul;
 	}
 
 	/**
@@ -104,10 +93,56 @@ public class Modul implements Serializable {
 	}
 
 	/**
-	 * @param title the title to set
+	 * @param title
+	 *            the title to set
 	 */
 	public synchronized final void setTitle(String title) {
 		this.title = title;
+	}
+
+	/**
+	 * @return the examDate
+	 */
+	public synchronized final String getExamDate() {
+		return examDate;
+	}
+
+	/**
+	 * @param examDate
+	 *            the examDate to set
+	 */
+	public synchronized final void setExamDate(String examDate) {
+		this.examDate = examDate;
+	}
+
+	/**
+	 * @return the prof
+	 */
+	public synchronized final String getProf() {
+		return prof;
+	}
+
+	/**
+	 * @param prof
+	 *            the prof to set
+	 */
+	public synchronized final void setProf(String prof) {
+		this.prof = prof;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public synchronized final String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description
+	 *            the description to set
+	 */
+	public synchronized final void setDescription(String description) {
+		this.description = description;
 	}
 
 }

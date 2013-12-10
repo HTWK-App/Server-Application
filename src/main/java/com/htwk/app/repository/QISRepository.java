@@ -95,13 +95,13 @@ public class QISRepository {
 		return cookie.substring(start + 1, end);
 	}
 
-	public static String getDetailLink(String content) throws UnsupportedEncodingException {
+	private String getDetailLink(String content) throws UnsupportedEncodingException {
 		String temp = content.substring(content.indexOf("class=\"Konto\" href=") + "class=\"Konto\" href=".length(),
 				content.indexOf(" title=\"Leistungen anzeigen\""));
 		return URLDecoder.decode(temp.replace("&amp;", "&"), "UTF-8");
 	}
 
-	public Map<String, String> getQueryMap(String url) {
+	private Map<String, String> getQueryMap(String url) {
 		String[] params = url.split("[&]");
 		Map<String, String> map = new HashMap<String, String>();
 		for (String param : params) {

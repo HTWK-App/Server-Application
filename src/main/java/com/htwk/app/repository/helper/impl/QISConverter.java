@@ -31,11 +31,25 @@ public class QISConverter {
 					Element[] td = tr.select("td").toArray(new Element[4]);
 					modul = new Modul();
 					modul.setId((td[0].text() == null) ? "" : td[0].text());
+
 					String description = (td[1].text() == null) ? "" : td[1].text();
 					modul.setTitle(description.split(" <")[0]);
-					modul.setDescription(description.substring(description.indexOf("<")+1, description.indexOf(">")));
+					description = description.substring(description.indexOf("<") + 1, description.indexOf(">"));
+					modul.setDescription(description);
+					String[] desc = description.split(";");
+
+					for (int i = 0; i < desc.length; i++) {
+						if (desc[i].contains("am ")) {
+							modul.setExamDate(desc[i]);
+							if ((i + 1) < desc.length) {
+								modul.setProf(desc[i + 1]);
+							}
+						}
+					}
+
 					modul.setEcts((td[2].text() == null) ? "" : td[2].text());
 					modul.setMark((td[3].text() == null) ? "" : td[3].text());
+
 					semester.getModules().add(modul);
 				}
 				if (tr.hasClass("Pl")) {
@@ -44,7 +58,18 @@ public class QISConverter {
 					submodul.setId((td[0].text() == null) ? "" : td[0].text());
 					String description = (td[1].text() == null) ? "" : td[1].text();
 					submodul.setTitle(description.split(" <")[0]);
-					submodul.setDescription(description.substring(description.indexOf("<")+1, description.indexOf(">")));
+					description = description.substring(description.indexOf("<") + 1, description.indexOf(">"));
+					submodul.setDescription(description);
+					String[] desc = description.split(";");
+
+					for (int i = 0; i < desc.length; i++) {
+						if (desc[i].contains("am ")) {
+							submodul.setExamDate(desc[i]);
+							if ((i + 1) < desc.length) {
+								submodul.setProf(desc[i + 1]);
+							}
+						}
+					}
 					submodul.setEcts((td[2].text() == null) ? "" : td[2].text());
 					submodul.setMark((td[3].text() == null) ? "" : td[3].text());
 					modul.getSubmodul().add(submodul);
@@ -52,7 +77,7 @@ public class QISConverter {
 			}
 			response.add(semester);
 		}
-		//remove all elements which are null
+		// remove all elements which are null
 		response.removeAll(Collections.singleton(null));
 		return response;
 	}
