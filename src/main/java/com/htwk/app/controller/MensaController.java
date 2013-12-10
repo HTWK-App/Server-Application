@@ -1,5 +1,8 @@
 package com.htwk.app.controller;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,31 +27,32 @@ public class MensaController {
 	@Autowired
 	private MensaRepository repo;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String redirectHome() {
-		return "redirect:/mensa/";
+		return "redirect:/mensa";
 	}
 
 	@Cacheable("timeCache")
-	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public @ResponseBody
-	String home() {
-		JsonObject json = new JsonObject();
-
-		JsonObject location = new JsonObject();
-		location.addProperty("Cafeteria Dittrichring", 153);
-		location.addProperty("Cafeteria Koburger Straﬂe", 121);
-		location.addProperty("Cafeteria Philipp-Rosenthal-Straﬂe", 127);
-		location.addProperty("Cafeteria W‰chterstraﬂe", 129);
-		location.addProperty("Mensa Academica", 118);
-		location.addProperty("Mensa am Park", 106);
-		location.addProperty("Mensa am Elsterbecken", 115);
-		location.addProperty("Mensaria Liebigstraﬂe", 162);
-		location.addProperty("Mensa Peterssteinweg", 111);
-		location.addProperty("Mensa Schˆnauer Straﬂe", 140);
-		location.addProperty("Mensa Tierklinik", 170);
-		json.add("location", location);
-		return "" + json;
+	Map<String, Object> home() {
+		Map<String, Object> response = new TreeMap<String, Object>();
+		
+		Map<String, Object> location = new TreeMap<String, Object>();
+		location.put("Cafeteria Dittrichring", 153);
+		location.put("Cafeteria Koburger Straﬂe", 121);
+		location.put("Cafeteria Philipp-Rosenthal-Straﬂe", 127);
+		location.put("Cafeteria W‰chterstraﬂe", 129);
+		location.put("Mensa Academica", 118);
+		location.put("Mensa am Park", 106);
+		location.put("Mensa am Elsterbecken", 115);
+		location.put("Mensaria Liebigstraﬂe", 162);
+		location.put("Mensa Peterssteinweg", 111);
+		location.put("Mensa Schˆnauer Straﬂe", 140);
+		location.put("Mensa Tierklinik", 170);
+		
+		response.put("location", location);
+		return response;
 	}
 
 	@Cacheable("timeCache")
