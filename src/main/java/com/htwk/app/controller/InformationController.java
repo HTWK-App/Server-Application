@@ -56,7 +56,6 @@ public class InformationController {
 		return "redirect:/info";
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "/staff", method = RequestMethod.GET)
 	public @ResponseBody
 	List<StaffShort> getStaff() throws IOException, ParseException {

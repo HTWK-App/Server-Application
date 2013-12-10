@@ -67,6 +67,7 @@ public class InformationRepository {
 	}
 
 	private List<Staff> getStaffList() {
+		staffCache.cleanUp();
 		if (staffCache.size() > 0) {
 			return new ArrayList<Staff>(new TreeMap<String, Staff>(staffCache.asMap()).values());
 		}
@@ -101,6 +102,7 @@ public class InformationRepository {
 	}
 
 	public Staff getStaff(String cuid) throws IOException, ParseException {
+		staffCache.cleanUp();
 		Staff staff = staffCache.getIfPresent(cuid);
 		if (staff != null) {
 			return getStaffDetailed(staff);
@@ -128,6 +130,7 @@ public class InformationRepository {
 	}
 
 	private List<Building> getBuildingsList() throws IOException, ParseException {
+		buildingCache.cleanUp();
 		if (buildingCache.size() > 0) {
 			return new ArrayList<Building>(new TreeMap<String, Building>(buildingCache.asMap()).values());
 		}
@@ -162,6 +165,7 @@ public class InformationRepository {
 	}
 
 	private List<Sport> getSportList() throws IOException, ParseException {
+		sportCache.cleanUp();
 		if (sportCache.size() > 0) {
 			return new ArrayList<Sport>(new TreeMap<String, Sport>(sportCache.asMap()).values());
 		}
@@ -182,6 +186,7 @@ public class InformationRepository {
 	}
 
 	public Sport getSport(String id) throws IOException, ParseException {
+		sportCache.cleanUp();
 		Sport cachedSport = sportCache.getIfPresent(id);
 		if(cachedSport != null){
 			return getSportDetailed(cachedSport);
