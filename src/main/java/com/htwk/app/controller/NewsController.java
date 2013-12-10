@@ -1,6 +1,7 @@
 package com.htwk.app.controller;
 
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.htwk.app.model.info.News;
 import com.htwk.app.repository.NewsRepository;
 
 @Controller
@@ -22,10 +26,10 @@ public class NewsController {
 	@Autowired
 	private NewsRepository repo;
 
-	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public @ResponseBody
-	Map<String, String> home() {
-		return repo.getNewsCategories();
+	List<News> home() throws UnsupportedEncodingException {
+		return repo.getNews();
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -33,8 +37,11 @@ public class NewsController {
 		return "redirect:/news";
 	}
 
-	@RequestMapping(value = "/get", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody String home(@RequestParam(value = "feed", required = false, defaultValue = "") String key) {
-		return repo.getNewsFeed(key);
+	@RequestMapping(value = "/get", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody
+	String home(@RequestParam(value = "feed", required = false, defaultValue = "") String key,
+			@RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
+			@RequestParam(value = "offset", required = false, defaultValue = "0") int offset) {
+		return new Gson().toJson(repo.getNewsFeed(key, limit, offset));
 	}
 }
