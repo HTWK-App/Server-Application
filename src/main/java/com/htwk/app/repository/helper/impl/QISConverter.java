@@ -66,7 +66,16 @@ public class QISConverter {
 						if (desc[i].contains("am ")) {
 							submodul.setExamDate(desc[i]);
 							if ((i + 1) < desc.length) {
-								submodul.setProf(desc[i + 1]);
+								String prof = desc[i + 1];
+								if (!prof.contains("Versuch")) {
+									submodul.setProf(desc[i + 1]);
+								}
+							}
+							if ((i + 2) < desc.length) {
+								String prof = desc[i + 1];
+								if (!prof.contains("Versuch")) {
+									submodul.setProf(desc[i + 2]);
+								}
 							}
 						}
 					}
