@@ -17,13 +17,13 @@
 		<org.springframework-integration-version>2.2.5.RELEASE</org.springframework-integration-version>
 	</properties>
 	<dependencies>
-		<!-- XML Converter -->
+		<!-- ImageConversion -->
 		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.4.4</version>
+			<groupId>com.mortennobel</groupId>
+			<artifactId>java-image-scaling</artifactId>
+			<version>0.8.5</version>
 		</dependency>
-
+		
 		<!-- Apache -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -74,6 +74,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+			<version>2.1.4.RELEASE</version>
 		</dependency>
 
 		<!-- Mail Support -->
@@ -227,6 +232,15 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<!-- <resources> -->
+		<!-- <resource> -->
+		<!-- Needs to be here globally for common resources. -->
+		<!-- <directory>src/main/resources${env}</directory> -->
+		<!-- </resource> -->
+		<!-- </resources> -->
+		<!-- <filters> -->
+		<!-- <filter>src/main/resources/application.${env}.properties</filter> -->
+		<!-- </filters> -->
 		<plugins>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -262,6 +276,32 @@
 					<mainClass>org.test.int1.Main</mainClass>
 				</configuration>
 			</plugin>
+			<!-- <plugin> -->
+			<!-- <artifactId>maven-war-plugin</artifactId> -->
+			<!-- <version>2.3</version> -->
+			<!-- <configuration> -->
+			<!-- <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors> -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
 		</plugins>
 	</build>
+	<!-- <profiles> -->
+	<!-- <profile> -->
+	<!-- <id>dev</id> -->
+	<!-- <properties> -->
+	<!-- <env>dev</env> -->
+	<!-- <profileName>dev</profileName> -->
+	<!-- </properties> -->
+	<!-- <activation> -->
+	<!-- <activeByDefault>true</activeByDefault> -->
+	<!-- </activation> -->
+	<!-- </profile> -->
+	<!-- <profile> -->
+	<!-- <id>prod</id> -->
+	<!-- <properties> -->
+	<!-- <env>prod</env> -->
+	<!-- <profileName>prod</profileName> -->
+	<!-- </properties> -->
+	<!-- </profile> -->
+	<!-- </profiles> -->
 </project>
