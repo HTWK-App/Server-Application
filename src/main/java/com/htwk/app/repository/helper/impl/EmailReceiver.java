@@ -138,6 +138,33 @@ public class EmailReceiver {
 		store.close();
 		return Lists.reverse(mails);
 	}
+	
+	public Mail getEmail(int mailId , MailCredentials credentials, String salt) throws MessagingException, IOException {
+		Properties properties = getServerProperties(credentials.getProtocol(), credentials.getHost(),
+				"" + credentials.getPort());
+		Session session = Session.getDefaultInstance(properties);
+
+		// connects to the message store
+		Store store = session.getStore(credentials.getProtocol());
+		store.connect(credentials.getUsername(), credentials.getPassword());
+
+		// opens the inbox folder
+		Folder folderInbox = store.getFolder("INBOX");
+		folderInbox.open(Folder.READ_ONLY);
+
+		logger.debug("unread:" + folderInbox.getUnreadMessageCount() + ", new:" + folderInbox.getNewMessageCount());
+
+		// fetches new messages from server
+		int msgnum[] = new int[] { mailId };
+		Message[] messages = folderInbox.getMessages(msgnum);
+
+		Mail mail = getMails(messages).get(0);
+
+		// disconnect
+		folderInbox.close(false);
+		store.close();
+		return mail;
+	}
 
 	public void sendMail(Mail mail, MailCredentials credentials) throws MessagingException {
 		Properties properties = getServerProperties(credentials.getProtocol(), credentials.getHost(),

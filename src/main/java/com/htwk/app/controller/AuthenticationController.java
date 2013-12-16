@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.htwk.app.model.impl.Credentials;
-import com.htwk.app.model.mail.MailCredentials;
+import com.htwk.app.model.impl.EncryptedCredentials;
 import com.htwk.app.service.AuthenticationService;
 
 @Controller
@@ -24,13 +24,20 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public @ResponseBody
-	Credentials decryptCredentials(@RequestParam(value = "credentials") String enryptedCredentials) {
-		return service.decryptCredentials(enryptedCredentials);
+	Credentials decryptCredentials(@RequestParam(value = "credentials") String encryptedCredentials,
+			@RequestParam(value = "salt", required=false, defaultValue="") String salt) {
+		if(salt.isEmpty()){
+			return service.decryptCredentials(encryptedCredentials);
+		}
+		EncryptedCredentials encCred = new EncryptedCredentials();
+		encCred.setEncryptedCredentials(encryptedCredentials);
+		encCred.setSalt(salt);
+		return service.decryptCredentials(encCred);
 	}
-	
+
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public @ResponseBody
-	String encryptCredentials(@RequestParam(value = "username") String username,
+	EncryptedCredentials encryptCredentials(@RequestParam(value = "username") String username,
 			@RequestParam(value = "password") String password) {
 		Credentials credentials = new Credentials();
 		credentials.setUsername(username);

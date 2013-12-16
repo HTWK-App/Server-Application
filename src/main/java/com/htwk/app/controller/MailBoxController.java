@@ -43,30 +43,37 @@ public class MailBoxController {
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Mail> getMails(@RequestParam(value = "credentials") String enryptedCredentials,
+			@RequestParam(value = "salt") String salt,
 			@RequestParam(value = "offset", required = false, defaultValue = "10") int offset)
 			throws MessagingException, IOException {
-		return repo.getMails(enryptedCredentials, offset);
+		return repo.getMails(enryptedCredentials, salt, offset);
 	}
 
 	@RequestMapping(value = "/get/{mailId}", method = RequestMethod.GET)
 	public @ResponseBody
-	ResponseEntity<byte[]> getMailAttachment(@PathVariable(value = "mailId") int mailId,
-			@RequestParam(value = "attachmentName") String attachmentName,
-			@RequestParam(value = "credentials") String enryptedCredentials) throws MessagingException, IOException {
-		logger.debug("" + attachmentName);
-		return repo.getAttachment(mailId, attachmentName, enryptedCredentials);
+	ResponseEntity getMailAttachment(@PathVariable(value = "mailId") int mailId,
+			@RequestParam(value = "attachmentName", required = false, defaultValue = "") String attachmentName,
+			@RequestParam(value = "credentials") String enryptedCredentials,
+			@RequestParam(value = "salt") String salt) throws MessagingException,
+			IOException {
+		if (attachmentName.isEmpty()) {
+			return repo.getMail(mailId, enryptedCredentials, salt);
+		}
+		return repo.getAttachment(mailId, attachmentName, enryptedCredentials, salt);
 	}
 
 	@RequestMapping(value = "/get/new", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Mail> getMails(@RequestParam(value = "credentials") String enryptedCredentials) throws MessagingException,
+	List<Mail> getMails(@RequestParam(value = "credentials") String enryptedCredentials,
+			@RequestParam(value = "salt") String salt) throws MessagingException,
 			IOException {
-		return repo.getNewMails(enryptedCredentials);
+		return repo.getNewMails(enryptedCredentials, salt);
 	}
 
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
 	public @ResponseBody
 	String sendMails(@RequestParam(value = "credentials") String enryptedCredentials,
+			@RequestParam(value = "salt") String salt,
 			@RequestParam(value = "to") String[] to,
 			@RequestParam(value = "cc", required = false, defaultValue = "") String[] cc,
 			@RequestParam(value = "subject") String subject, @RequestParam(value = "message") String message)
@@ -76,7 +83,7 @@ public class MailBoxController {
 		mail.setCcList(Arrays.asList(cc));
 		mail.setSubject(subject);
 		mail.setMessage(message);
-		repo.sendMail(mail, enryptedCredentials);
+		repo.sendMail(mail, enryptedCredentials, salt);
 		return "";
 	}
 }

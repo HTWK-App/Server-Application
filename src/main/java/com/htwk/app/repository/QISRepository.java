@@ -24,6 +24,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.htwk.app.model.impl.Credentials;
+import com.htwk.app.model.impl.EncryptedCredentials;
 import com.htwk.app.model.qis.Semester;
 import com.htwk.app.repository.helper.impl.QISConverter;
 import com.htwk.app.service.AuthenticationService;
@@ -51,13 +52,29 @@ public class QISRepository {
 		conv = new QISConverter();
 	}
 
+	@Deprecated
 	public List<Semester> getQISData(String enryptedCredentials) throws RestClientException,
 			UnsupportedEncodingException {
 
 		Credentials credentials = authService.decryptCredentials(enryptedCredentials);
+		return getNewQISData(credentials);
+	}
+
+	public List<Semester> getQISData(String enryptedCredentials, String salt) throws RestClientException,
+			UnsupportedEncodingException {
+
+		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
+		Credentials credentials = authService.decryptCredentials(encCred);
+		return getNewQISData(credentials);
+	}
+
+	private List<Semester> getNewQISData(Credentials credentials) throws RestClientException,
+			UnsupportedEncodingException {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("username", "" + credentials.getUsername());
 		map.add("password", "" + credentials.getPassword());
+		logger.info("username" + credentials.getUsername() + "password" + credentials.getPassword());
+
 		map.add("submit", "Anmelden");
 
 		// get authenticated

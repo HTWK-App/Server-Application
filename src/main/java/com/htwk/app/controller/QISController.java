@@ -38,8 +38,12 @@ public class QISController {
 
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Semester> getGISData(@RequestParam(value = "credentials") String enryptedCredentials)
-			throws RestClientException, UnsupportedEncodingException {
-		return repo.getQISData(enryptedCredentials);
+	List<Semester> getGISData(@RequestParam(value = "credentials") String enryptedCredentials,
+			@RequestParam(value = "salt", required = false, defaultValue = "") String salt) throws RestClientException,
+			UnsupportedEncodingException {
+		if (salt.isEmpty()) {
+			return repo.getQISData(enryptedCredentials);
+		}
+		return repo.getQISData(enryptedCredentials, salt);
 	}
 }
