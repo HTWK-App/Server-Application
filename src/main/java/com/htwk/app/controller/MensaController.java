@@ -39,15 +39,15 @@ public class MensaController {
 		
 		Map<String, Object> location = new TreeMap<String, Object>();
 		location.put("Cafeteria Dittrichring", 153);
-		location.put("Cafeteria Koburger Straﬂe", 121);
-		location.put("Cafeteria Philipp-Rosenthal-Straﬂe", 127);
-		location.put("Cafeteria W‰chterstraﬂe", 129);
+		location.put("Cafeteria Koburger Stra√üe", 121);
+		location.put("Cafeteria Philipp-Rosenthal-Stra√üe", 127);
+		location.put("Cafeteria W√§chterstra√üe", 129);
 		location.put("Mensa Academica", 118);
 		location.put("Mensa am Park", 106);
 		location.put("Mensa am Elsterbecken", 115);
-		location.put("Mensaria Liebigstraﬂe", 162);
+		location.put("Mensaria Liebigstra√üe", 162);
 		location.put("Mensa Peterssteinweg", 111);
-		location.put("Mensa Schˆnauer Straﬂe", 140);
+		location.put("Mensa Sch√∂nauer Stra√üe", 140);
 		location.put("Mensa Tierklinik", 170);
 		
 		response.put("location", location);

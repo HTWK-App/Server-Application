@@ -21,7 +21,7 @@ public class MensaConverter extends XMLConverter {
 			meal.setTitle(group.select("name").first().text());
 
 			for (Element price : group.select("price")) {
-				logger.debug("{},{}", price.attr("consumerID"), price.text());
+//				logger.debug("{},{}", price.attr("consumerID"), price.text());
 				meal.getPrice().put(Integer.parseInt(price.attr("consumerID")), Double.parseDouble(price.text()));
 			}
 			for (Element tags : group.select("tagging")) {
