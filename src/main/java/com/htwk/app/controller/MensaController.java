@@ -32,7 +32,6 @@ public class MensaController {
 		return "redirect:/mensa";
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public @ResponseBody
 	Map<String, Object> home() {

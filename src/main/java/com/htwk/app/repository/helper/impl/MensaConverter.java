@@ -3,6 +3,7 @@ package com.htwk.app.repository.helper.impl;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.htwk.app.model.impl.Day;
 import com.htwk.app.model.mensa.Meal;
@@ -27,7 +28,13 @@ public class MensaConverter extends XMLConverter {
 				meal.getAddititves().put(Integer.parseInt(tags.attr("taggingID")), tags.text());
 			}
 			for (Element component : group.select("component")) {
-				meal.getIngredients().add(component.text());
+				String componentName = component.select("name1").text();
+				Elements taggings = component.select("tagging");
+				for(Element tags : taggings){
+					componentName += "["+tags.attr("taggingID")+"]"; 
+				}
+				meal.getIngredients().add(componentName);
+				
 			}
 			day.getDayContent().add(meal);
 		}
