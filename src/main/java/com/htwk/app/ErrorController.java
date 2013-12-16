@@ -13,11 +13,11 @@ public class ErrorController {
 
 	@RequestMapping(value = "/error/404", method = RequestMethod.GET)
     public final Map<String, Object> error404(HttpServletRequest req, Exception e) throws Exception{
-       throw new NotFoundException();
+       throw new NotFoundException(req);
     }
 	
 	@RequestMapping(value = "/error/500", method = RequestMethod.GET)
     public final Map<String, Object> error500(HttpServletRequest req, Exception e) throws Exception{
-       throw new NotFoundException();
+       throw new NotFoundException(req);
     }
 }
