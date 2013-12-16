@@ -73,7 +73,6 @@ public class QISRepository {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("username", "" + credentials.getUsername());
 		map.add("password", "" + credentials.getPassword());
-		logger.info("username" + credentials.getUsername() + "password" + credentials.getPassword());
 
 		map.add("submit", "Anmelden");
 
