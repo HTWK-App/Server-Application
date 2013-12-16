@@ -117,9 +117,7 @@ public class InformationRepository {
 	}
 
 	private Staff getStaffDetailed(Staff staff) throws IOException, ParseException {
-		staff = conv.getStaffDetailed(staff);
-		staffCache.put(staff.getCuid(), staff);
-		return staff;
+		return conv.getStaffDetailed(staff);
 	}
 
 	public ResponseEntity<byte[]> getStaffPic(String cuid) throws IOException, ParseException {

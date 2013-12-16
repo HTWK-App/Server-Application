@@ -11,10 +11,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.util.StringUtils;
 
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
