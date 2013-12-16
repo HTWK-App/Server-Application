@@ -100,8 +100,9 @@ public class EmailReceiver {
 		logger.debug("unread:" + folderInbox.getUnreadMessageCount() + ", new:" + folderInbox.getNewMessageCount());
 
 		// fetches new messages from server
-		Message[] messages = folderInbox.getMessages((folderInbox.getMessageCount() - offset),
-				folderInbox.getMessageCount());
+		int mailCount = (folderInbox.getMessageCount() < offset) ? folderInbox.getMessageCount() : folderInbox
+				.getMessageCount() - offset;
+		Message[] messages = folderInbox.getMessages((mailCount), folderInbox.getMessageCount());
 
 		List<Mail> mails = getMails(messages);
 
@@ -138,8 +139,8 @@ public class EmailReceiver {
 		store.close();
 		return Lists.reverse(mails);
 	}
-	
-	public Mail getEmail(int mailId , MailCredentials credentials, String salt) throws MessagingException, IOException {
+
+	public Mail getEmail(int mailId, MailCredentials credentials, String salt) throws MessagingException, IOException {
 		Properties properties = getServerProperties(credentials.getProtocol(), credentials.getHost(),
 				"" + credentials.getPort());
 		Session session = Session.getDefaultInstance(properties);
@@ -151,8 +152,6 @@ public class EmailReceiver {
 		// opens the inbox folder
 		Folder folderInbox = store.getFolder("INBOX");
 		folderInbox.open(Folder.READ_ONLY);
-
-		logger.debug("unread:" + folderInbox.getUnreadMessageCount() + ", new:" + folderInbox.getNewMessageCount());
 
 		// fetches new messages from server
 		int msgnum[] = new int[] { mailId };
