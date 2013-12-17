@@ -100,7 +100,7 @@ public class EmailReceiver {
 		logger.debug("unread:" + folderInbox.getUnreadMessageCount() + ", new:" + folderInbox.getNewMessageCount());
 
 		// fetches new messages from server
-		int mailCount = (folderInbox.getMessageCount() < offset) ? folderInbox.getMessageCount() : folderInbox
+		int mailCount = (folderInbox.getMessageCount() < offset) ? 1 : folderInbox
 				.getMessageCount() - offset;
 		Message[] messages = folderInbox.getMessages((mailCount), folderInbox.getMessageCount());
 
