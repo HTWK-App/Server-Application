@@ -66,8 +66,13 @@ public class InformationController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/staff/{cuid}", method = RequestMethod.GET)
 	public @ResponseBody
-	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws IOException, ParseException {
-		return repo.getStaff(cuid);
+	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws IOException, ParseException,
+			InvalidAttributeValueException {
+		Staff staff = repo.getStaff(cuid);
+		if(staff == null){
+			throw new InvalidAttributeValueException("invalid staff-id");
+		}
+		return staff;
 	}
 
 	@RequestMapping(value = "/staff/{cuid}/pic", method = RequestMethod.GET)
