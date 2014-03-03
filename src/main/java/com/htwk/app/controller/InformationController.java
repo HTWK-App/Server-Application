@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
 
 import org.slf4j.Logger;
@@ -97,8 +98,13 @@ public class InformationController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/sport/{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	Sport getSport(@PathVariable(value = "id") String id) throws IOException, ParseException {
-		return repo.getSport(id);
+	Sport getSport(@PathVariable(value = "id") String id) throws IOException, ParseException,
+			InvalidAttributeValueException {
+		Sport sport = repo.getSport(id);
+		if(sport == null){
+			throw new InvalidAttributeValueException("invalid sport-id");
+		}
+		return sport;
 	}
 
 	@RequestMapping(value = "/sport/{id}/pic", method = RequestMethod.GET)
