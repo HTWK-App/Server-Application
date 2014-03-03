@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.mail.Flags.Flag;
 import javax.mail.MessagingException;
 
 import org.slf4j.Logger;
@@ -145,6 +146,22 @@ public class MailBoxRepository {
 
 		return new ResponseEntity(receiver.getEmail(mailId, credentials, salt), HttpStatus.OK);
 
+	}
+
+	public boolean changeMailStatus(int mailId, String enryptedCredentials, String salt) {
+		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
+		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
+		credentials.setProtocol(getProtocol);
+		credentials.setHost(getHost);
+		credentials.setPort(getPort);
+		
+		try{
+			receiver.changeMailStatus(mailId, Flag.SEEN, credentials);
+			return true;
+		}catch(MessagingException ex){
+			logger.error("error while setting flag for mail: {}", ex);
+		}
+		return false;
 	}
 
 }

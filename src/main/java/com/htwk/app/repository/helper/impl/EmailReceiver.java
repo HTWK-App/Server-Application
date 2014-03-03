@@ -100,8 +100,7 @@ public class EmailReceiver {
 		logger.debug("unread:" + folderInbox.getUnreadMessageCount() + ", new:" + folderInbox.getNewMessageCount());
 
 		// fetches new messages from server
-		int mailCount = (folderInbox.getMessageCount() < offset) ? 1 : folderInbox
-				.getMessageCount() - offset;
+		int mailCount = (folderInbox.getMessageCount() < offset) ? 1 : folderInbox.getMessageCount() - offset;
 		Message[] messages = folderInbox.getMessages((mailCount), folderInbox.getMessageCount());
 
 		List<Mail> mails = getMails(messages);
@@ -183,7 +182,7 @@ public class EmailReceiver {
 		// [a-zA-Z0-9\\._\\-]{3,}\\@[a-zA-Z0-9\\._\\-]{3,}\\.[a-zA-Z]{2,6}
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(credentials.getUsername()));
+		message.setFrom(new InternetAddress(credentials.getUsername()+" <webmaster@htwk-leipzig.de>"));
 		message.setRecipients(Message.RecipientType.TO, addresses);
 
 		if (!mail.getCcList().isEmpty()) {
@@ -353,7 +352,14 @@ public class EmailReceiver {
 		// fetches new messages from server
 		int msgnum[] = new int[] { mail };
 		Message[] messages = folderInbox.getMessages(msgnum);
-		return getAttachment(messages[0], attachmentName);
+		ResponseEntity<byte[]> response;
+		try {
+			response = getAttachment(messages[0], attachmentName);
+		} finally {
+			folderInbox.close(false);
+			store.close();
+		}
+		return response;
 	}
 
 	private ResponseEntity<byte[]> getAttachment(Message message, String attachmentName) throws MessagingException,
@@ -379,5 +385,32 @@ public class EmailReceiver {
 			}
 		}
 		return new ResponseEntity<byte[]>(null, null, HttpStatus.NO_CONTENT);
+	}
+
+	public void changeMailStatus(int mailId, Flag flag, MailCredentials credentials) throws MessagingException {
+		Properties properties = getServerProperties(credentials.getProtocol(), credentials.getHost(),
+				"" + credentials.getPort());
+		Session session = Session.getDefaultInstance(properties);
+
+		// connects to the message store
+		Store store = session.getStore(credentials.getProtocol());
+		store.connect(credentials.getUsername(), credentials.getPassword());
+
+		// opens the inbox folder
+		Folder folderInbox = store.getFolder("INBOX");
+		folderInbox.open(Folder.READ_WRITE);
+
+		logger.debug("unread:" + folderInbox.getUnreadMessageCount() + ", new:" + folderInbox.getNewMessageCount());
+
+		// fetches new messages from server
+		int msgnum[] = new int[] { mailId };
+		Message[] messages = folderInbox.getMessages(msgnum);
+
+		if (messages.length == 1 && messages[0] != null) {
+			messages[0].setFlag(flag, true);
+		}
+
+		folderInbox.close(false);
+		store.close();
 	}
 }

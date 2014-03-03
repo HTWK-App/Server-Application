@@ -61,6 +61,15 @@ public class MailBoxController {
 		}
 		return repo.getAttachment(mailId, attachmentName, enryptedCredentials, salt);
 	}
+	
+	@RequestMapping(value = "/status/{mailId}", method = RequestMethod.POST)
+	public @ResponseBody
+	boolean postMailStatus(@PathVariable(value = "mailId") int mailId,
+			@RequestParam(value = "credentials") String enryptedCredentials,
+			@RequestParam(value = "salt") String salt) throws MessagingException,
+			IOException {
+		return repo.changeMailStatus(mailId, enryptedCredentials, salt);
+	}
 
 	@RequestMapping(value = "/get/new", method = RequestMethod.GET)
 	public @ResponseBody
