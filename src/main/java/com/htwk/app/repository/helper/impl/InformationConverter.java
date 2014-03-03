@@ -100,7 +100,7 @@ public class InformationConverter extends HTMLConverter {
 
 		URL url = new URL(detailLink);
 		logger.debug("fetch HTML-Doc for url:" + detailLink);
-		Document doc = Jsoup.parse(url, 5000);
+		Document doc = Jsoup.parse(url, 10000);
 
 		for (Element main : doc.select("div#content")) {
 			logger.debug("found main content in document");

@@ -85,8 +85,12 @@ public class InformationController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/building/{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	Building getBuilding(@PathVariable(value = "id") String id) throws IOException, ParseException {
-		return repo.getBuilding(id);
+	Building getBuilding(@PathVariable(value = "id") String id) throws IOException, ParseException, InvalidAttributeValueException {
+		Building building = repo.getBuilding(id); 
+		if(building == null){
+			throw new InvalidAttributeValueException("invalid building-id");
+		}
+		return building;
 	}
 
 	@RequestMapping(value = "/sport", method = RequestMethod.GET)
