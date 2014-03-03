@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,23 +46,31 @@ public class TimetableController {
 		return "";
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "/{semester}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	List<Faculty> getSemGroups(@PathVariable(value = "semester") String semester) throws IOException,
-			URISyntaxException {
-		return repo.getSemGroups(semester);
+	ResponseEntity getSemGroups(@PathVariable(value = "semester") String semester) throws IOException,
+			URISyntaxException, InvalidAttributesException {
+		List<Faculty> faculties = repo.getSemGroups(semester);
+		if (faculties.isEmpty()) {
+			if(semester.equalsIgnoreCase("cal")){
+				return new ResponseEntity(getCalendar(), HttpStatus.OK);
+			}
+			throw new InvalidAttributesException();
+		}
+		return new ResponseEntity(faculties, HttpStatus.OK);
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "/{semester}/{fak}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Faculty getSemGroupByFaculty(@PathVariable(value = "semester") String semester,
-			@PathVariable(value = "fak") String fak) throws IOException, URISyntaxException {
-		return repo.getSemGroups(semester, fak);
+			@PathVariable(value = "fak") String fak) throws IOException, URISyntaxException, InvalidAttributesException {
+		Faculty factulty = repo.getSemGroups(semester, fak);
+		if (factulty == null) {
+			throw new InvalidAttributesException();
+		}
+		return factulty;
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "/{semester}/{fak}/timetable", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	List<Day<Subject>> getTimetable(@PathVariable(value = "semester") String semester,
@@ -75,7 +85,6 @@ public class TimetableController {
 		return repo.getTimetable(semester, semgroup, suidArray);
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "/{semester}/{fak}/courses", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Map<String, String> getCourse(@PathVariable(value = "semester") String semester,
@@ -84,7 +93,6 @@ public class TimetableController {
 		return repo.getCourse(semester, semgroup);
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "/{semester}/{fak}/courses/{id}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Subject getCourse(@PathVariable(value = "semester") String semester, @PathVariable(value = "fak") String fak,
@@ -93,7 +101,6 @@ public class TimetableController {
 		return repo.getCourse(semester, semgroup, id);
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "/{semester}/{fak}/week/{kw}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	List<Day<Subject>> getTimetableByKW(@PathVariable(value = "semester") String semester,
@@ -110,7 +117,6 @@ public class TimetableController {
 		return repo.getTimetable(semester, semgroup, kw, suidArray);
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "/{semester}/{fak}/week/{kw}/{day}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Day<Subject> getTimetable(@PathVariable(value = "semester") String semester,
@@ -120,7 +126,6 @@ public class TimetableController {
 		return repo.getTimetable(semester, semgroup, kw, day);
 	}
 
-	@Cacheable("timeCache")
 	@RequestMapping(value = "/cal", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	Map<String, String> getCalendar() throws InvalidAttributesException, IOException {
