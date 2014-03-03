@@ -1,9 +1,11 @@
 package com.htwk.app.repository;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
+import javax.naming.directory.InvalidAttributeValueException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,8 @@ public class MensaRepository {
 	String uri = null;
 	MensaConverter conv = null;
 
+	SimpleDateFormat formatdate = new SimpleDateFormat("yyyyMMdd");
+
 	@PostConstruct
 	public void init() {
 		restTemplate = new RestTemplate();
@@ -48,19 +52,26 @@ public class MensaRepository {
 	@Value("${mensa.url}")
 	private String mensaUrl;
 
-	public Day<Meal> get(String location, String date) {
+	public Day<Meal> get(String location, String date) throws ParseException, InvalidAttributeValueException {
+		if(formatdate.parse(date) == null){
+			throw new InvalidAttributeValueException("invalid dateformat (use yyyyMMdd)");
+		}
 		uri = mensaUrl + "?location=" + location + "&date=" + date;
 		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
 
 		if (response.hasBody()) {
-			return conv.getObject(response.getBody());
+			Day<Meal> day = conv.getObject(response.getBody());
+			if(day.getDayContent().isEmpty()){
+				throw new InvalidAttributeValueException("no entries found for given date");
+			}
+			return day;
 		}
 
 		return null;
 	}
 
-	public Day<Meal> get(String location) {
-		SimpleDateFormat formatdate = new SimpleDateFormat("yyyyMMdd");
+	public Day<Meal> get(String location) throws ParseException, InvalidAttributeValueException {
 		return get(location, formatdate.format(new Date()));
 	}
+	
 }
