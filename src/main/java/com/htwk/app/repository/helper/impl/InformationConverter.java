@@ -156,7 +156,7 @@ public class InformationConverter extends HTMLConverter {
 					+ div.select("a").attr("href"));
 			sport.setPictureLink((div.select("a img") == null) ? "" : div.select("a img ").attr("src"));
 			div.removeClass("a");
-			sport.setDescription(new String(div.text().getBytes("iso-8859-1"), "utf-8"));
+			sport.setDescription(new String(div.text().replace("\u00a0", "").getBytes("iso-8859-1"), "utf-8"));
 			sports.add(sport);
 		}
 
