@@ -52,7 +52,7 @@ public class MensaRepository {
 	@Value("${mensa.url}")
 	private String mensaUrl;
 
-	public Day<Meal> get(String location, String date) throws ParseException, InvalidAttributeValueException {
+	public Day<Meal> get(int location, String date) throws ParseException, InvalidAttributeValueException {
 		if(formatdate.parse(date) == null){
 			throw new InvalidAttributeValueException("invalid dateformat (use yyyyMMdd)");
 		}
@@ -64,13 +64,14 @@ public class MensaRepository {
 			if(day.getDayContent().isEmpty()){
 				throw new InvalidAttributeValueException("no entries found for given date");
 			}
+			day.setId(date);
 			return day;
 		}
 
 		return null;
 	}
 
-	public Day<Meal> get(String location) throws ParseException, InvalidAttributeValueException {
+	public Day<Meal> get(int location) throws ParseException, InvalidAttributeValueException {
 		return get(location, formatdate.format(new Date()));
 	}
 	

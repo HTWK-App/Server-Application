@@ -30,22 +30,22 @@ public class MensaController {
 	@Autowired
 	private MensaRepository repo;
 	
-	private Map<String, Object> locations;
+	private Map<Integer, String> locations;
 	
 	@PostConstruct
 	public void init(){
-		locations = new TreeMap<String, Object>();
-		locations.put("Cafeteria Dittrichring", 153);
-		locations.put("Cafeteria Koburger Straße", 121);
-		locations.put("Cafeteria Philipp-Rosenthal-Straße", 127);
-		locations.put("Cafeteria Wächterstraße", 129);
-		locations.put("Mensa Academica", 118);
-		locations.put("Mensa am Park", 106);
-		locations.put("Mensa am Elsterbecken", 115);
-		locations.put("Mensaria Liebigstraße", 162);
-		locations.put("Mensa Peterssteinweg", 111);
-		locations.put("Mensa Schönauer Straße", 140);
-		locations.put("Mensa Tierklinik", 170);
+		locations = new TreeMap<Integer, String>();
+		locations.put(153, "Cafeteria Dittrichring");
+		locations.put(121, "Cafeteria Koburger Straße");
+		locations.put(127, "Cafeteria Philipp-Rosenthal-Straße");
+		locations.put(129, "Cafeteria Wächterstraße");
+		locations.put(118, "Mensa Academica");
+		locations.put(106, "Mensa am Park");
+		locations.put(115, "Mensa am Elsterbecken");
+		locations.put(162, "Mensaria Liebigstraße");
+		locations.put(111, "Mensa Peterssteinweg");
+		locations.put(140, "Mensa Schönauer Straße");
+		locations.put(170, "Mensa Tierklinik");
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -65,7 +65,7 @@ public class MensaController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/{location}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	Day<Meal> getMenuByLocation(@PathVariable(value = "location") String location) throws ParseException,
+	Day<Meal> getMenuByLocation(@PathVariable(value = "location") int location) throws ParseException,
 			InvalidAttributeValueException {
 		if(!locations.containsKey(location)){
 			throw new InvalidAttributeValueException("no valid location was chosen");
@@ -76,7 +76,7 @@ public class MensaController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/{location}/{date}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	Day<Meal> getMenuByLocationAndDate(@PathVariable(value = "location") String location,
+	Day<Meal> getMenuByLocationAndDate(@PathVariable(value = "location") int location,
 			@PathVariable(value = "date") String date) throws ParseException, InvalidAttributeValueException {
 		if(!locations.containsKey(location)){
 			throw new InvalidAttributeValueException("no valid location was chosen");
