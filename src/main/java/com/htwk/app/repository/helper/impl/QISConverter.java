@@ -7,11 +7,16 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Joiner;
 import com.htwk.app.model.qis.Modul;
 import com.htwk.app.model.qis.Semester;
 
 public class QISConverter {
+
+	private static final Logger logger = LoggerFactory.getLogger(QISConverter.class);
 
 	public List<Semester> getSemesterAsList(String content) {
 
@@ -20,6 +25,7 @@ public class QISConverter {
 		for (Element table : doc.select("table tbody")) {
 			Semester semester = null;
 			Modul modul = null;
+			List<Modul> submodules = new ArrayList<Modul>();
 			for (Element tr : table.select("tr")) {
 				if (tr.hasClass("semester")) {
 					response.add(semester);
@@ -42,7 +48,11 @@ public class QISConverter {
 						if (desc[i].contains("am ")) {
 							modul.setExamDate(desc[i]);
 							if ((i + 1) < desc.length) {
-								modul.setProf(desc[i + 1]);
+								String prof = desc[i + 1];
+								if (prof.contains("Versuch")) {
+									prof = desc[i + 2];
+								}
+								modul.setProf(prof);
 							}
 						}
 					}
@@ -67,23 +77,42 @@ public class QISConverter {
 							submodul.setExamDate(desc[i]);
 							if ((i + 1) < desc.length) {
 								String prof = desc[i + 1];
-								if (!prof.contains("Versuch")) {
-									submodul.setProf(desc[i + 1]);
+								if (prof.contains("Versuch")) {
+									prof = desc[i + 2];
 								}
-							}
-							if ((i + 2) < desc.length) {
-								String prof = desc[i + 1];
-								if (!prof.contains("Versuch")) {
-									submodul.setProf(desc[i + 2]);
-								}
+								submodul.setProf(prof);
 							}
 						}
 					}
 					submodul.setEcts((td[2].text() == null) ? "" : td[2].text());
 					submodul.setMark((td[3].text() == null) ? "" : td[3].text());
-					modul.getSubmodul().add(submodul);
+
+//					if(modul.getId().contains(submodul.getId().subSequence(0, submodul.getId().length()-1))){
+						modul.getSubmodul().add(submodul);
+//					}else{
+//						submodules.add(submodul);
+//						semester.getModules().add(submodul);
+//					}
+					
+
 				}
 			}
+			/*
+			for (int s = 0; s < submodules.size(); s++) {
+//				boolean wasAdded = false;
+				List<Modul> modules = semester.getModules();
+				for (int m = 0; m < modules.size(); m++) {
+					String sid = submodules.get(s).getId();
+					if (modules.get(m).getId().contains(sid.subSequence(0, (sid.length() - 1)))) {
+						modules.get(m).getSubmodul().add(submodules.get(s));
+//						wasAdded = true;
+//						continue;
+					}
+				}
+//				if (!wasAdded) {
+//					semester.getModules().add(submodules.get(s));
+//				}
+			}*/
 			response.add(semester);
 		}
 		// remove all elements which are null
