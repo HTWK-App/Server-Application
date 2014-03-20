@@ -182,7 +182,7 @@ public class EmailReceiver {
 		// [a-zA-Z0-9\\._\\-]{3,}\\@[a-zA-Z0-9\\._\\-]{3,}\\.[a-zA-Z]{2,6}
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(credentials.getUsername()+" <webmaster@htwk-leipzig.de>"));
+		message.setFrom(new InternetAddress(credentials.getUsername() + " <webmaster@htwk-leipzig.de>"));
 		message.setRecipients(Message.RecipientType.TO, addresses);
 
 		if (!mail.getCcList().isEmpty()) {
@@ -273,11 +273,14 @@ public class EmailReceiver {
 				for (int j = 0; j < multipart.getCount(); j++) {
 					BodyPart bodyPart = multipart.getBodyPart(j);
 					String disposition = bodyPart.getDisposition();
-
-					if (disposition != null && (disposition.equalsIgnoreCase("ATTACHMENT"))) {
+					if (disposition != null && (disposition.equals(BodyPart.ATTACHMENT))) {
 						mail.getAttachments().add(getAttachmentDescription(bodyPart));
+					} else if (disposition != null && (disposition.equals(BodyPart.INLINE))) {
+						if (bodyPart.isMimeType("text/*")) {
+							messageContent += (String) bodyPart.getContent();
+						}
 					} else {
-						messageContent = bodyPart.getContent().toString();
+						messageContent += bodyPart.getContent().toString();
 					}
 				}
 			} else {
@@ -287,7 +290,7 @@ public class EmailReceiver {
 			// escape javascript
 			Document doc = Jsoup.parse(messageContent);
 			doc.removeAttr("script");
-			mail.setMessage(doc.text());
+			mail.setMessage(doc.html());
 			mails.add(mail);
 		}
 		return mails;
