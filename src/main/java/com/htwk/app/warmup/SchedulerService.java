@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
+@Qualifier("warmUpService")
 public class SchedulerService implements Processor {
 
 	private static final Logger logger = LoggerFactory
@@ -19,14 +20,14 @@ public class SchedulerService implements Processor {
 	private WarmUp informationWarmUp;
 	
 	@Autowired
-	@Qualifier("timetableWarmUp")
-	private WarmUp timetableWarmUp;
+	@Qualifier("roomPlanWarmUp")
+	private WarmUp roomPlanWarmUp;
 
 
 	@Scheduled(cron = "${processor.warmup.cron}")
 	public void process() throws Exception {
 		informationWarmUp.warmUp();
-		timetableWarmUp.warmUp();
+		roomPlanWarmUp.warmUp();
 	}
 
 }

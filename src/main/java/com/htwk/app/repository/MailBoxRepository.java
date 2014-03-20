@@ -54,18 +54,8 @@ public class MailBoxRepository {
 		receiver = new EmailReceiver();
 	}
 
-	@Deprecated
-	public List<Mail> getMails(String enryptedCredentials, int offset) throws MessagingException, IOException {
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(enryptedCredentials));
-		credentials.setProtocol(getProtocol);
-		credentials.setHost(getHost);
-		credentials.setPort(getPort);
-
-		return receiver.getEmails(credentials, offset);
-	}
-
-	public List<Mail> getMails(String enryptedCredentials, String salt, int offset) throws MessagingException,
-			IOException {
+	public synchronized final List<Mail> getMails(String enryptedCredentials, String salt, int offset)
+			throws MessagingException, IOException {
 		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
 		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
 		credentials.setProtocol(getProtocol);
@@ -75,17 +65,8 @@ public class MailBoxRepository {
 		return receiver.getEmails(credentials, offset);
 	}
 
-	@Deprecated
-	public List<Mail> getNewMails(String enryptedCredentials) throws MessagingException, IOException {
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(enryptedCredentials));
-		credentials.setProtocol(getProtocol);
-		credentials.setHost(getHost);
-		credentials.setPort(getPort);
-
-		return receiver.getNewEmails(credentials);
-	}
-
-	public List<Mail> getNewMails(String enryptedCredentials, String salt) throws MessagingException, IOException {
+	public synchronized final List<Mail> getNewMails(String enryptedCredentials, String salt)
+			throws MessagingException, IOException {
 		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
 		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
 		credentials.setProtocol(getProtocol);
@@ -95,17 +76,8 @@ public class MailBoxRepository {
 		return receiver.getNewEmails(credentials);
 	}
 
-	@Deprecated
-	public void sendMail(Mail mail, String enryptedCredentials) throws MessagingException {
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(enryptedCredentials));
-		credentials.setProtocol(sendProtocol);
-		credentials.setHost(sendHost);
-		credentials.setPort(sendPort);
-
-		receiver.sendMail(mail, credentials);
-	}
-
-	public void sendMail(Mail mail, String enryptedCredentials, String salt) throws MessagingException {
+	public synchronized final void sendMail(Mail mail, String enryptedCredentials, String salt)
+			throws MessagingException {
 		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
 		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
 		credentials.setProtocol(sendProtocol);
@@ -115,19 +87,8 @@ public class MailBoxRepository {
 		receiver.sendMail(mail, credentials);
 	}
 
-	@Deprecated
-	public ResponseEntity<byte[]> getAttachment(int mail, String attachmentName, String enryptedCredentials)
-			throws MessagingException, IOException {
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(enryptedCredentials));
-		credentials.setProtocol(getProtocol);
-		credentials.setHost(getHost);
-		credentials.setPort(getPort);
-
-		return receiver.downloadAttachment(mail, attachmentName, credentials);
-	}
-
-	public ResponseEntity<byte[]> getAttachment(int mail, String attachmentName, String enryptedCredentials, String salt)
-			throws MessagingException, IOException {
+	public synchronized final ResponseEntity<byte[]> getAttachment(int mail, String attachmentName,
+			String enryptedCredentials, String salt) throws MessagingException, IOException {
 		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
 		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
 		credentials.setProtocol(getProtocol);
@@ -137,7 +98,8 @@ public class MailBoxRepository {
 		return receiver.downloadAttachment(mail, attachmentName, credentials);
 	}
 
-	public ResponseEntity<Mail> getMail(int mailId, String enryptedCredentials, String salt) throws MessagingException, IOException {
+	public synchronized final ResponseEntity<Mail> getMail(int mailId, String enryptedCredentials, String salt)
+			throws MessagingException, IOException {
 		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
 		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
 		credentials.setProtocol(getProtocol);
@@ -148,17 +110,17 @@ public class MailBoxRepository {
 
 	}
 
-	public boolean changeMailStatus(int mailId, String enryptedCredentials, String salt) {
+	public synchronized final boolean changeMailStatus(int mailId, String enryptedCredentials, String salt) {
 		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
 		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
 		credentials.setProtocol(getProtocol);
 		credentials.setHost(getHost);
 		credentials.setPort(getPort);
-		
-		try{
+
+		try {
 			receiver.changeMailStatus(mailId, Flag.SEEN, credentials);
 			return true;
-		}catch(MessagingException ex){
+		} catch (MessagingException ex) {
 			logger.error("error while setting flag for mail: {}", ex);
 		}
 		return false;

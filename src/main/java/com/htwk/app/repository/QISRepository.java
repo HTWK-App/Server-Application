@@ -60,15 +60,15 @@ public class QISRepository {
 		return getNewQISData(credentials);
 	}
 
-	public List<Semester> getQISData(String enryptedCredentials, String salt) throws RestClientException,
-			UnsupportedEncodingException {
+	public synchronized final List<Semester> getQISData(String enryptedCredentials, String salt)
+			throws RestClientException, UnsupportedEncodingException {
 
 		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
 		Credentials credentials = authService.decryptCredentials(encCred);
 		return getNewQISData(credentials);
 	}
 
-	private List<Semester> getNewQISData(Credentials credentials) throws RestClientException,
+	private synchronized final List<Semester> getNewQISData(Credentials credentials) throws RestClientException,
 			UnsupportedEncodingException {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("username", "" + credentials.getUsername());
@@ -97,7 +97,7 @@ public class QISRepository {
 		return conv.getSemesterAsList(response.getBody().toString());
 	}
 
-	private String getSessionId(HttpHeaders headers) {
+	private synchronized final String getSessionId(HttpHeaders headers) {
 		List<String> cookies = headers.get("Cookie");
 
 		// assuming only one cookie with jsessionid as the only value
@@ -111,13 +111,13 @@ public class QISRepository {
 		return cookie.substring(start + 1, end);
 	}
 
-	private String getDetailLink(String content) throws UnsupportedEncodingException {
+	private synchronized final String getDetailLink(String content) throws UnsupportedEncodingException {
 		String temp = content.substring(content.indexOf("class=\"Konto\" href=") + "class=\"Konto\" href=".length(),
 				content.indexOf(" title=\"Leistungen anzeigen\""));
 		return URLDecoder.decode(temp.replace("&amp;", "&"), "UTF-8");
 	}
 
-	private Map<String, String> getQueryMap(String url) {
+	private synchronized final Map<String, String> getQueryMap(String url) {
 		String[] params = url.split("[&]");
 		Map<String, String> map = new HashMap<String, String>();
 		for (String param : params) {

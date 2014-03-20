@@ -44,11 +44,11 @@ public class NewsRepository {
 		restTemplate = new RestTemplate();
 	}
 
-	private Map<String, String> getNewsCategories() {
+	private synchronized final Map<String, String> getNewsCategories() {
 		return new TreeMap<String, String>((Map<String, String>) context.getBean("rssMap"));
 	}
 
-	public List<News> getNews() throws UnsupportedEncodingException {
+	public synchronized final List<News> getNews() throws UnsupportedEncodingException {
 		Map<String, String> rssMap = getNewsCategories();
 
 		List<News> news = new ArrayList<News>();
@@ -79,9 +79,9 @@ public class NewsRepository {
 		return news;
 	}
 
-	public JsonObject getNewsFeed(String key, int limit, int offset) {
+	public synchronized final JsonObject getNewsFeed(String key, int limit, int offset) {
 
-		limit = limit+offset;
+		limit = limit + offset;
 		JsonObject response = parser.parse(getFeed(key, limit, offset)).getAsJsonObject();
 		JsonObject responseData = null;
 		int status = response.get("responseStatus").getAsInt();
@@ -106,7 +106,7 @@ public class NewsRepository {
 		return response;
 	}
 
-	private String getFeed(String key, int limit, int offset) {
+	private synchronized final String getFeed(String key, int limit, int offset) {
 		Map<String, String> map = getNewsCategories();
 		String url = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&q=";
 		if (key == null || key.isEmpty() || !map.containsKey(key)) {

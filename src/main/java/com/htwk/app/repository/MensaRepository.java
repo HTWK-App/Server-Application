@@ -52,8 +52,9 @@ public class MensaRepository {
 	@Value("${mensa.url}")
 	private String mensaUrl;
 
-	public Day<Meal> get(int location, String date) throws ParseException, InvalidAttributeValueException {
-		if(formatdate.parse(date) == null){
+	public synchronized final Day<Meal> get(int location, String date) throws ParseException,
+			InvalidAttributeValueException {
+		if (formatdate.parse(date) == null) {
 			throw new InvalidAttributeValueException("invalid dateformat (use yyyyMMdd)");
 		}
 		uri = mensaUrl + "?location=" + location + "&date=" + date;
@@ -61,7 +62,7 @@ public class MensaRepository {
 
 		if (response.hasBody()) {
 			Day<Meal> day = conv.getObject(response.getBody());
-			if(day.getDayContent().isEmpty()){
+			if (day.getDayContent().isEmpty()) {
 				throw new InvalidAttributeValueException("no entries found for given date");
 			}
 			day.setId(date);
@@ -71,8 +72,8 @@ public class MensaRepository {
 		return null;
 	}
 
-	public Day<Meal> get(int location) throws ParseException, InvalidAttributeValueException {
+	public synchronized final Day<Meal> get(int location) throws ParseException, InvalidAttributeValueException {
 		return get(location, formatdate.format(new Date()));
 	}
-	
+
 }

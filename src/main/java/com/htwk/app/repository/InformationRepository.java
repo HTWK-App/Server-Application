@@ -66,7 +66,7 @@ public class InformationRepository {
 		sportCache = (Cache<String, Sport>) cacheManager.getCache("sportCache").getNativeCache();
 	}
 
-	private List<Staff> getStaffList() {
+	private synchronized final List<Staff> getStaffList() {
 		staffCache.cleanUp();
 		if (staffCache.size() > 0) {
 			return new ArrayList<Staff>(new TreeMap<String, Staff>(staffCache.asMap()).values());
@@ -83,7 +83,7 @@ public class InformationRepository {
 		return null;
 	}
 
-	public List<StaffShort> getStaff() throws IOException, ParseException {
+	public synchronized final List<StaffShort> getStaff() throws IOException, ParseException {
 		List<StaffShort> shorts = new ArrayList<StaffShort>();
 		for (Staff staff : getStaffList()) {
 			shorts.add(new StaffShort(staff));
@@ -101,7 +101,7 @@ public class InformationRepository {
 		return shorts;
 	}
 
-	public Staff getStaff(String cuid) throws IOException, ParseException {
+	public synchronized final Staff getStaff(String cuid) throws IOException, ParseException {
 		staffCache.cleanUp();
 		Staff staff = staffCache.getIfPresent(cuid);
 		if (staff != null) {
@@ -116,18 +116,18 @@ public class InformationRepository {
 		return null;
 	}
 
-	private Staff getStaffDetailed(Staff staff) throws IOException, ParseException {
+	private synchronized final Staff getStaffDetailed(Staff staff) throws IOException, ParseException {
 		return conv.getStaffDetailed(staff);
 	}
 
-	public ResponseEntity<byte[]> getStaffPic(String cuid) throws IOException, ParseException {
+	public synchronized final ResponseEntity<byte[]> getStaffPic(String cuid) throws IOException, ParseException {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.set("Content-Type", "image/jpg; charset=binary");
 	    HttpEntity<String> entity = new HttpEntity<String>(headers);
 		return restTemplate.exchange(getStaff(cuid).getPictureLink(), HttpMethod.GET, entity, byte[].class);
 	}
 
-	private List<Building> getBuildingsList() throws IOException, ParseException {
+	private synchronized final List<Building> getBuildingsList() throws IOException, ParseException {
 		buildingCache.cleanUp();
 		if (buildingCache.size() > 0) {
 			return new ArrayList<Building>(new TreeMap<String, Building>(buildingCache.asMap()).values());
@@ -149,11 +149,11 @@ public class InformationRepository {
 		return buildings;
 	}
 
-	public List<Building> getBuildings() throws IOException, ParseException {
+	public synchronized final List<Building> getBuildings() throws IOException, ParseException {
 		return getBuildingsList();
 	}
 
-	public Building getBuilding(String id) throws IOException, ParseException {
+	public synchronized final Building getBuilding(String id) throws IOException, ParseException {
 		for (Building building : getBuildingsList()) {
 			if (building.getId().equalsIgnoreCase(id)) {
 				return building;
@@ -162,7 +162,7 @@ public class InformationRepository {
 		return null;
 	}
 
-	private List<Sport> getSportList() throws IOException, ParseException {
+	private synchronized final List<Sport> getSportList() throws IOException, ParseException {
 		sportCache.cleanUp();
 		if (sportCache.size() > 0) {
 			return new ArrayList<Sport>(new TreeMap<String, Sport>(sportCache.asMap()).values());
@@ -179,11 +179,11 @@ public class InformationRepository {
 		return null;
 	}
 
-	public List<Sport> getSport() throws IOException, ParseException {
+	public synchronized final List<Sport> getSport() throws IOException, ParseException {
 		return getSportList();
 	}
 
-	public Sport getSport(String id) throws IOException, ParseException {
+	public synchronized final Sport getSport(String id) throws IOException, ParseException {
 		sportCache.cleanUp();
 		Sport cachedSport = sportCache.getIfPresent(id);
 		if(cachedSport != null){
@@ -198,12 +198,12 @@ public class InformationRepository {
 		return null;
 	}
 
-	private Sport getSportDetailed(Sport sport) throws IOException, ParseException {
+	private synchronized final Sport getSportDetailed(Sport sport) throws IOException, ParseException {
 		Sport sportDetailed = conv.getSportDetailed(sport);
 		return sportDetailed;
 	}
 
-	public ResponseEntity<byte[]> getSportPic(String id) throws RestClientException, IOException, ParseException {
+	public synchronized final ResponseEntity<byte[]> getSportPic(String id) throws RestClientException, IOException, ParseException {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.set("Content-Type", "image/png; charset=binary");
 	    HttpEntity<String> entity = new HttpEntity<String>(headers);

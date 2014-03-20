@@ -196,46 +196,43 @@ public class EmailReceiver {
 		transport.addTransportListener(new TransportListener() {
 
 			public void messageDelivered(TransportEvent e) {
-				System.out.println("Message delivered for:");
+				logger.debug("Message delivered for:");
 				if (e != null) {
 					Address[] a = e.getValidSentAddresses();
 					if (a != null && a.length > 0) {
 						for (int i = 0; i < a.length; i++) {
-							System.out.println(((InternetAddress) a[i]).getAddress());
+							logger.debug(((InternetAddress) a[i]).getAddress());
 						}
 					}
-					System.out.println("");
 				}
 			}
 
 			public void messageNotDelivered(TransportEvent e) {
-				System.out.println("Message not delivered for:");
+				logger.debug("Message not delivered for:");
 				if (e != null) {
 					Address[] a = e.getValidUnsentAddresses();
 					if (a != null && a.length > 0) {
 						for (int i = 0; i < a.length; i++) {
-							System.out.println(((InternetAddress) a[i]).getAddress());
+							logger.debug(((InternetAddress) a[i]).getAddress());
 						}
 					}
-					System.out.println("");
 				}
 			}
 
 			public void messagePartiallyDelivered(TransportEvent e) {
-				System.out.println("These addresses are invalid:");
+				logger.debug("These addresses are invalid:");
 				if (e != null) {
 					Address[] a = e.getInvalidAddresses();
 					if (a != null && a.length > 0) {
 						for (int i = 0; i < a.length; i++) {
-							System.out.println(((InternetAddress) a[i]).getAddress());
+							logger.debug(((InternetAddress) a[i]).getAddress());
 						}
 					}
-					System.out.println("");
 				}
 			}
 		});
 		transport.sendMessage(message, addresses);
-		System.out.println("E-Mail gesendet");
+		logger.debug("E-Mail gesendet");
 		transport.close();
 	}
 

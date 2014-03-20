@@ -68,7 +68,7 @@ public class TimetableRepository {
 		cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
 	}
 
-	public List<Faculty> getSemGroups(String semester) throws IOException {
+	public synchronized final List<Faculty> getSemGroups(String semester) throws IOException {
 		Object semGroups = cache.getIfPresent(semester);
 		if (semGroups != null) {
 			return conv.getSemGroup(semGroups.toString());
@@ -85,7 +85,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Faculty getSemGroups(String semester, String fak) throws IOException {
+	public synchronized final Faculty getSemGroups(String semester, String fak) throws IOException {
 		for (Faculty fac : getSemGroups(semester)) {
 			if (fac.getId().equalsIgnoreCase(fak)) {
 				return fac;
@@ -94,7 +94,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Map<String, String> getCalendar() throws IOException {
+	public synchronized final Map<String, String> getCalendar() throws IOException {
 		Object cal = cache.getIfPresent("cal");
 		if (cal != null) {
 			return conv.getCal(cal.toString());
@@ -111,7 +111,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup) throws IOException {
+	public synchronized final List<Day<Subject>> getTimetable(String semester, String semgroup) throws IOException {
 		String kw = getCalendar().get("all");
 		if (getCalendar().containsKey(kw)) {
 
@@ -128,7 +128,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid) throws RestClientException,
+	public synchronized final List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid) throws RestClientException,
 			IOException {
 		if (suid == null || suid.length == 0) {
 			return getTimetable(semester, semgroup);
@@ -146,7 +146,7 @@ public class TimetableRepository {
 
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw) throws RestClientException,
+	public synchronized final List<Day<Subject>> getTimetable(String semester, String semgroup, String kw) throws RestClientException,
 			IOException {
 
 		List<Day<Subject>> timetable = getTimetable(semester, semgroup);
@@ -162,7 +162,7 @@ public class TimetableRepository {
 
 	}
 
-	public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw, String[] suid)
+	public synchronized final List<Day<Subject>> getTimetable(String semester, String semgroup, String kw, String[] suid)
 			throws RestClientException, IOException {
 		if (suid == null || suid.length == 0) {
 			return getTimetable(semester, semgroup, kw);
@@ -180,7 +180,7 @@ public class TimetableRepository {
 
 	}
 
-	public Day<Subject> getTimetable(String semester, String semgroup, String kw, int day) throws RestClientException,
+	public synchronized final Day<Subject> getTimetable(String semester, String semgroup, String kw, int day) throws RestClientException,
 			IOException {
 		day = day - 1;
 		List<Day<Subject>> days = getTimetable(semester, semgroup, kw);
@@ -190,7 +190,7 @@ public class TimetableRepository {
 		return null;
 	}
 
-	public Map<String, String> getCourse(String semester, String semgroup) throws IOException {
+	public synchronized final Map<String, String> getCourse(String semester, String semgroup) throws IOException {
 		Map<String, String> response = new TreeMap<String, String>();
 		for (Day<Subject> day : getTimetable(semester, semgroup)) {
 			for (Subject subj : day.getDayContent()) {
@@ -200,7 +200,7 @@ public class TimetableRepository {
 		return response;
 	}
 
-	public Subject getCourse(String semester, String semgroup, String id) throws IOException {
+	public synchronized final Subject getCourse(String semester, String semgroup, String id) throws IOException {
 		for (Day<Subject> day : getTimetable(semester, semgroup)) {
 			for (Subject subj : day.getDayContent()) {
 				if (subj.getSuid().equals(id)) {

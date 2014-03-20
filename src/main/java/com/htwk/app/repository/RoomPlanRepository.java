@@ -83,7 +83,8 @@ public class RoomPlanRepository {
 		cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
 	}
 
-	public ArrayListMultimap<String, Room> getRooms(String semester) throws UnsupportedEncodingException {
+	public synchronized final ArrayListMultimap<String, Room> getRooms(String semester)
+			throws UnsupportedEncodingException {
 		roomPlanRoomList = MessageFormat.format(roomPlanRoomList, semester);
 
 		response = restTemplate.exchange(roomPlanUrl + roomPlanRoomList, HttpMethod.GET,
@@ -94,8 +95,8 @@ public class RoomPlanRepository {
 		return null;
 	}
 
-	public List<Day<Subject>> getRoomPlan(String semester, String roomId, String kw, String day) throws IOException,
-			URISyntaxException, InvalidAttributeValueException {
+	public synchronized final List<Day<Subject>> getRoomPlan(String semester, String roomId, String kw, String day)
+			throws IOException, URISyntaxException, InvalidAttributeValueException {
 		List<Day<Subject>> plan = (List<Day<Subject>>) cache.getIfPresent(kw + day + roomId);
 		if (plan != null) {
 			return plan;
@@ -141,7 +142,7 @@ public class RoomPlanRepository {
 		if (!studCal.containsKey(kw)) {
 			throw new InvalidAttributeValueException("this week is not in the given semester");
 		}
-		if (day<1 && day>7) {
+		if (day < 1 && day > 7) {
 			throw new InvalidAttributeValueException("the given day is out of range (1-7)");
 		}
 
