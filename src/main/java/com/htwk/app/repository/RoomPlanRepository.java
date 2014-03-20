@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
+import javax.management.InvalidAttributeValueException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,6 @@ public class RoomPlanRepository {
 	private TimetableConverter timetableConv = null;
 	private Cache<String, Object> cache = null;
 	private SimpleDateFormat timeParser = null;
-	private Gson gson = null;
 
 	@Value("${timetable.url}")
 	private String roomPlanUrl;
@@ -80,7 +80,6 @@ public class RoomPlanRepository {
 		conv = new RoomPlanConverter();
 		timetableConv = new TimetableConverter();
 		timeParser = new SimpleDateFormat("HH:mm");
-		gson = new Gson();
 		cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
 	}
 
@@ -96,7 +95,7 @@ public class RoomPlanRepository {
 	}
 
 	public List<Day<Subject>> getRoomPlan(String semester, String roomId, String kw, String day) throws IOException,
-			URISyntaxException {
+			URISyntaxException, InvalidAttributeValueException {
 		List<Day<Subject>> plan = (List<Day<Subject>>) cache.getIfPresent(kw + day + roomId);
 		if (plan != null) {
 			return plan;
@@ -104,11 +103,12 @@ public class RoomPlanRepository {
 
 		Map<String, String> cal = timetableRepo.getCalendar();
 		if (!cal.containsKey(kw)) {
-			return null;
+			throw new InvalidAttributeValueException("this week is not in the given semester");
 		}
 		URI uri = new URI(roomPlanUrl + MessageFormat.format(roomReport, semester, roomId, kw, day));
-		logger.info("uri:" + uri.toString());
+
 		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+
 		String profsUri = roomPlanUrl + MessageFormat.format(timetableProfs, semester);
 		ResponseEntity<String> profsContent = restTemplate.exchange(profsUri, HttpMethod.GET, new HttpEntity<Object>(
 				headers), String.class);
@@ -122,9 +122,30 @@ public class RoomPlanRepository {
 	}
 
 	public synchronized final Map<String, Collection<Room>> getFreeRoom(String semester, String kw) throws IOException,
-			URISyntaxException, ParseException {
+			URISyntaxException, ParseException, InvalidAttributeValueException {
 		Calendar cal = Calendar.getInstance(Locale.GERMAN);
 		int calDay = (cal.get(Calendar.DAY_OF_WEEK) - 1) % 7;
+		return getFreeRooms(semester, kw, calDay);
+	}
+
+	public synchronized final Map<String, Collection<Room>> getFreeRoom(String semester, String kw, int day)
+			throws IOException, URISyntaxException, ParseException, InvalidAttributeValueException {
+		Calendar cal = Calendar.getInstance(Locale.GERMAN);
+		int calDay = (cal.get(Calendar.DAY_OF_WEEK) - 1) % 7;
+		return getFreeRooms(semester, kw, calDay);
+	}
+
+	private synchronized final Map<String, Collection<Room>> getFreeRooms(String semester, String kw, int day)
+			throws IOException, URISyntaxException, ParseException, InvalidAttributeValueException {
+		Map<String, String> studCal = timetableRepo.getCalendar();
+		if (!studCal.containsKey(kw)) {
+			throw new InvalidAttributeValueException("this week is not in the given semester");
+		}
+		if (day<1 && day>7) {
+			throw new InvalidAttributeValueException("the given day is out of range (1-7)");
+		}
+
+		Calendar cal = Calendar.getInstance(Locale.GERMAN);
 		String now = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
 		Date userDate = timeParser.parse(now);
 
@@ -134,7 +155,7 @@ public class RoomPlanRepository {
 		for (Entry<String, Collection<Room>> geb : roomMap.asMap().entrySet()) {
 			boolean add = false;
 			for (Room room : geb.getValue()) {
-				Iterator<Day<Subject>> plan = getRoomPlan(semester, room.getId(), kw, "" + calDay).iterator();
+				Iterator<Day<Subject>> plan = getRoomPlan(semester, room.getId(), kw, "" + day).iterator();
 				label: while (plan.hasNext()) {
 					for (Subject subject : plan.next().getDayContent()) {
 						Date begin = timeParser.parse(subject.getBegin());

@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
 
 import org.slf4j.Logger;
@@ -49,24 +50,35 @@ public class RoomPlanController {
 	@RequestMapping(value = "/{semester}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
 	ResponseEntity getRooms(@PathVariable(value = "semester") String semester) throws IOException, URISyntaxException,
-			InvalidAttributesException {
+			InvalidAttributeValueException {
 		ListMultimap<String, Room> rooms = repo.getRooms(semester);
+		if (rooms == null) {
+			throw new InvalidAttributeValueException("invalid semester");
+		}
 		return new ResponseEntity(rooms.asMap(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{semester}/{kw}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	ResponseEntity getRoomPlan(@PathVariable(value = "semester") String semester,
-			@PathVariable(value = "kw") String kw,
-			@RequestParam(value = "roomId", required = false, defaultValue = "%23SPLUS786F4E") String roomId)
-			throws IOException, URISyntaxException, InvalidAttributesException, ParseException {
-		// if (cal.containsKey(kw)) {
-		// ListMultimap<String, Room> rooms = repo.getFreeRooms(semester, kw);
-		// return new ResponseEntity(rooms.asMap(), HttpStatus.OK);
-		// }
-		
-		//return new ResponseEntity(repo.getRoomPlan(semester, roomId, kw), HttpStatus.OK);
+	ResponseEntity getRoomPlan(@PathVariable(value = "semester") String semester, @PathVariable(value = "kw") String kw)
+			throws InvalidAttributeValueException, IOException, URISyntaxException, ParseException {
 		Object obj = repo.getFreeRoom(semester, kw);
+		if (obj == null) {
+			throw new InvalidAttributeValueException("invalid semester");
+		}
+		return new ResponseEntity(obj, HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "/{semester}/{kw}/{day}", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
+	public @ResponseBody
+	ResponseEntity getRoomPlan(@PathVariable(value = "semester") String semester,
+			@PathVariable(value = "kw") String kw, @PathVariable(value = "day") int day)
+			throws InvalidAttributeValueException, IOException, URISyntaxException, ParseException {
+		Object obj = repo.getFreeRoom(semester, kw, day);
+		if (obj == null) {
+			throw new InvalidAttributeValueException("invalid semester");
+		}
 		return new ResponseEntity(obj, HttpStatus.OK);
 
 	}
