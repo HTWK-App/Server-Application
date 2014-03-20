@@ -22,19 +22,6 @@ public class AuthenticationController {
 	@Autowired
 	private AuthenticationService service;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public @ResponseBody
-	Credentials decryptCredentials(@RequestParam(value = "credentials") String encryptedCredentials,
-			@RequestParam(value = "salt", required=false, defaultValue="") String salt) {
-		if(salt.isEmpty()){
-			return service.decryptCredentials(encryptedCredentials);
-		}
-		EncryptedCredentials encCred = new EncryptedCredentials();
-		encCred.setEncryptedCredentials(encryptedCredentials);
-		encCred.setSalt(salt);
-		return service.decryptCredentials(encCred);
-	}
-
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public @ResponseBody
 	EncryptedCredentials encryptCredentials(@RequestParam(value = "username") String username,

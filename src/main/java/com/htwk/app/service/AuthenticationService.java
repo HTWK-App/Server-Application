@@ -27,11 +27,6 @@ public class AuthenticationService {
 		encryptor = Encryptors.text(secret, salt);
 	}
 
-	@Deprecated
-	public String encryptCredentialsWithDefaultSalt(Credentials credentials) {
-		return encryptor.encrypt(credentials.toString());
-	}
-
 	public EncryptedCredentials encryptCredentials(Credentials credentials) {
 		String salt = KeyGenerators.string().generateKey();
 		TextEncryptor enc = Encryptors.text(secret, salt);
