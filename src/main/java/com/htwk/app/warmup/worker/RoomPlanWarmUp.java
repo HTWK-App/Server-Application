@@ -1,7 +1,12 @@
 package com.htwk.app.warmup.worker;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Map;
+
+import javax.management.InvalidAttributeValueException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +37,20 @@ public class RoomPlanWarmUp implements WarmUp {
 		Map<String, String> cal = timetableRepo.getCalendar();
 		String semester = cal.get("semester");
 		repo.getRooms(semester);
-		for (String kw : cal.keySet()) {
+		int kw = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+//		for (String kw : cal.keySet()) {
 			for (int day = 1; day <= 7; day++) {
-				repo.getFreeRoom(semester, kw, day);
+				warmUpFreeRooms(semester, ""+kw, day);
+				logger.info(""+semester+ ":"+kw+ ":"+ day);
 			}
-		}
+//		}
 		logger.debug("warmed up RoomPlanRepository");
 
+	}
+
+	@Async
+	public void warmUpFreeRooms(String semester, String kw, int day) throws InvalidAttributeValueException,
+			IOException, URISyntaxException, ParseException {
+		repo.getFreeRoom(semester, kw, day);
 	}
 }

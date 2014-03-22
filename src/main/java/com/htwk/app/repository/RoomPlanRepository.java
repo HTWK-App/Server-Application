@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.management.InvalidAttributeValueException;
@@ -33,12 +35,13 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.gson.Gson;
 import com.htwk.app.model.impl.Day;
+import com.htwk.app.model.info.Building;
 import com.htwk.app.model.room.Room;
 import com.htwk.app.model.timetable.Subject;
 import com.htwk.app.repository.helper.impl.RoomPlanConverter;
 import com.htwk.app.repository.helper.impl.TimetableConverter;
+import com.htwk.app.service.GoogleDistanceMatrixService;
 
 @Repository
 public class RoomPlanRepository {
@@ -70,6 +73,13 @@ public class RoomPlanRepository {
 
 	@Autowired
 	private TimetableRepository timetableRepo;
+	
+	@Autowired
+	private InformationRepository informationRepo;
+	
+	@Autowired
+	private GoogleDistanceMatrixService distanceService;
+
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -83,7 +93,7 @@ public class RoomPlanRepository {
 		cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
 	}
 
-	public synchronized final ArrayListMultimap<String, Room> getRooms(String semester)
+	public final ArrayListMultimap<String, Room> getRooms(String semester)
 			throws UnsupportedEncodingException {
 		roomPlanRoomList = MessageFormat.format(roomPlanRoomList, semester);
 
@@ -95,7 +105,7 @@ public class RoomPlanRepository {
 		return null;
 	}
 
-	public synchronized final List<Day<Subject>> getRoomPlan(String semester, String roomId, String kw, String day)
+	public final List<Day<Subject>> getRoomPlan(String semester, String roomId, String kw, String day)
 			throws IOException, URISyntaxException, InvalidAttributeValueException {
 		List<Day<Subject>> plan = (List<Day<Subject>>) cache.getIfPresent(kw + day + roomId);
 		if (plan != null) {
@@ -122,21 +132,19 @@ public class RoomPlanRepository {
 		return null;
 	}
 
-	public synchronized final Map<String, Collection<Room>> getFreeRoom(String semester, String kw) throws IOException,
+	public final Map<String, Collection<Room>> getFreeRoom(String semester, String kw) throws IOException,
 			URISyntaxException, ParseException, InvalidAttributeValueException {
 		Calendar cal = Calendar.getInstance(Locale.GERMAN);
 		int calDay = (cal.get(Calendar.DAY_OF_WEEK) - 1) % 7;
 		return getFreeRooms(semester, kw, calDay);
 	}
 
-	public synchronized final Map<String, Collection<Room>> getFreeRoom(String semester, String kw, int day)
+	public final Map<String, Collection<Room>> getFreeRoom(String semester, String kw, int day)
 			throws IOException, URISyntaxException, ParseException, InvalidAttributeValueException {
-		Calendar cal = Calendar.getInstance(Locale.GERMAN);
-		int calDay = (cal.get(Calendar.DAY_OF_WEEK) - 1) % 7;
-		return getFreeRooms(semester, kw, calDay);
+		return getFreeRooms(semester, kw, day);
 	}
 
-	private synchronized final Map<String, Collection<Room>> getFreeRooms(String semester, String kw, int day)
+	private final Map<String, Collection<Room>> getFreeRooms(String semester, String kw, int day)
 			throws IOException, URISyntaxException, ParseException, InvalidAttributeValueException {
 		Map<String, String> studCal = timetableRepo.getCalendar();
 		if (!studCal.containsKey(kw)) {
@@ -175,5 +183,28 @@ public class RoomPlanRepository {
 			}
 		}
 		return whiteListedRooms.asMap();
+	}
+
+	public Map<Long, Collection<Room>> getFreeRoomByLocation(String semester, String kw, int day, String location)
+			throws Exception {
+		List<Building> destinations = new ArrayList<Building>();
+		Map<String, Collection<Room>> roomMap = getFreeRoom(semester, kw, day);
+		for (Entry<String, Collection<Room>> entry : roomMap.entrySet()) {
+			String key = entry.getKey();
+			String bid = "";
+			if (key.contains("=")) {
+				bid= key.split("=")[0].trim();
+				logger.info(""+bid);
+				destinations.add(informationRepo.getBuilding(bid));
+				
+			}
+		}
+		Map<Long, Collection<Room>> map = new TreeMap<Long,Collection<Room>>();
+		int i = 0;
+		for(Entry<Long, Building> entry: distanceService.getDistances(location, destinations).entrySet()){
+			map.put(entry.getKey(), new ArrayList<Collection<Room>>(roomMap.values()).get(i));
+			i++;
+		}
+		return map;
 	}
 }
