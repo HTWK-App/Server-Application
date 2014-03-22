@@ -12,6 +12,7 @@ public class Sport implements Serializable {
 	private static final long serialVersionUID = -7228726157987604599L;
 	private String id;
 	private String title;
+	private String courseNumber;
 	private String description;
 	private String detailedLink;
 	private String pictureLink;
@@ -220,6 +221,20 @@ public class Sport implements Serializable {
 	 */
 	public synchronized final void setDetailedLink(String detailedLink) {
 		this.detailedLink = detailedLink;
+	}
+
+	/**
+	 * @return the courseNumber
+	 */
+	public synchronized final String getCourseNumber() {
+		return courseNumber;
+	}
+
+	/**
+	 * @param courseNumber the courseNumber to set
+	 */
+	public synchronized final void setCourseNumber(String courseNumber) {
+		this.courseNumber = courseNumber;
 	}
 
 }

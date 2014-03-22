@@ -11,12 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.util.StringUtils;
 
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
@@ -169,6 +167,7 @@ public class InformationConverter extends HTMLConverter {
 
 		Document doc = Jsoup.parse(url, 5000);
 		Element div = doc.select("dl.event-infos").first();
+		sport.setCourseNumber(doc.select("div.eventHead").first().text());
 		Element[] dd = div.select("dd").toArray(new Element[10]);
 		sport.setTime((dd[0] == null) ? "" : dd[0].text());
 		sport.setCycle((dd[1] == null) ? "" : dd[1].text());
