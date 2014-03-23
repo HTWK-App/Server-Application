@@ -25,17 +25,17 @@ public class TimetableConverter extends HTMLConverter {
 	public List<Faculty> getSemGroup(String content) throws UnsupportedEncodingException {
 
 		List<Faculty> faculties = new ArrayList<Faculty>();
-		
+
 		Document doc = Jsoup.parse(content);
-		for(Element faculty : doc.select("fakultaet")){
+		for (Element faculty : doc.select("fakultaet")) {
 			Faculty fac = new Faculty();
 			fac.setId(new String(faculty.attr("id").getBytes("iso-8859-1"), "utf-8"));
 			fac.setName(new String(faculty.attr("name").getBytes("iso-8859-1"), "utf-8"));
-			for(Element course : faculty.select("studiengang")){
+			for (Element course : faculty.select("studiengang")) {
 				Course cou = new Course();
 				cou.setId(new String(course.attr("id").getBytes("iso-8859-1"), "utf-8"));
 				cou.setName(new String(course.attr("name").getBytes("iso-8859-1"), "utf-8"));
-				for(Element semgroup : course.select("semgrp")){
+				for (Element semgroup : course.select("semgrp")) {
 					cou.getSemGroups().add(semgroup.attr("name"));
 				}
 				fac.getCourses().add(cou);
@@ -43,7 +43,7 @@ public class TimetableConverter extends HTMLConverter {
 			faculties.add(fac);
 		}
 		return faculties;
-		
+
 	}
 
 	private Map<String, String> getProfs(String content) {
@@ -67,6 +67,9 @@ public class TimetableConverter extends HTMLConverter {
 
 			if (value.equalsIgnoreCase("Alle Wochen")) {
 				cal.put("all", key);
+			}
+			if (value.contains("Aktuelle Woche")) {
+				cal.put("current", key.replace("_", ""));
 			}
 		}
 		cal.put("semester", doc.select("period").first().attr("id"));
