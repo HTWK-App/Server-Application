@@ -148,7 +148,8 @@ public class InformationConverter extends HTMLConverter {
 		for (Element div : doc.select("div.event-info-box")) {
 			Sport sport = new Sport();
 			sport.setId(div.attr("id"));
-			sport.setTitle((div.select("h4") == null) ? "" : div.select("h4").text());
+			sport.setTitle((div.select("h4") == null) ? "" : new String(div.select("h4").text().getBytes("iso-8859-1"),
+					"utf-8"));
 			div.select("h4").remove();
 			sport.setDetailedLink((div.select("a") == null) ? "" : "http://sport.htwk-leipzig.de"
 					+ div.select("a").attr("href"));
@@ -174,7 +175,7 @@ public class InformationConverter extends HTMLConverter {
 		sport.setGender((dd[2] == null) ? "" : dd[2].text());
 		sport.setLeader((dd[3] == null) ? "" : dd[3].text());
 		sport.setLocation((dd[4] == null) ? "" : dd[4].text().replace(" Karte", ""));
-		
+
 		sport.setLatLng(null);
 		sport.setCompetitor((dd[5] == null) ? "" : dd[5].text());
 
