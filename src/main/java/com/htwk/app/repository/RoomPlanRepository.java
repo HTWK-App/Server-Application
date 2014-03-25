@@ -73,13 +73,12 @@ public class RoomPlanRepository {
 
 	@Autowired
 	private TimetableRepository timetableRepo;
-	
+
 	@Autowired
 	private InformationRepository informationRepo;
-	
+
 	@Autowired
 	private GoogleDistanceMatrixService distanceService;
-
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -93,8 +92,7 @@ public class RoomPlanRepository {
 		cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
 	}
 
-	public final ArrayListMultimap<String, Room> getRooms(String semester)
-			throws UnsupportedEncodingException {
+	public final ArrayListMultimap<String, Room> getRooms(String semester) throws UnsupportedEncodingException {
 		roomPlanRoomList = MessageFormat.format(roomPlanRoomList, semester);
 
 		response = restTemplate.exchange(roomPlanUrl + roomPlanRoomList, HttpMethod.GET,
@@ -139,13 +137,13 @@ public class RoomPlanRepository {
 		return getFreeRooms(semester, kw, calDay);
 	}
 
-	public final Map<String, Collection<Room>> getFreeRoom(String semester, String kw, int day)
-			throws IOException, URISyntaxException, ParseException, InvalidAttributeValueException {
+	public final Map<String, Collection<Room>> getFreeRoom(String semester, String kw, int day) throws IOException,
+			URISyntaxException, ParseException, InvalidAttributeValueException {
 		return getFreeRooms(semester, kw, day);
 	}
 
-	private final Map<String, Collection<Room>> getFreeRooms(String semester, String kw, int day)
-			throws IOException, URISyntaxException, ParseException, InvalidAttributeValueException {
+	private final Map<String, Collection<Room>> getFreeRooms(String semester, String kw, int day) throws IOException,
+			URISyntaxException, ParseException, InvalidAttributeValueException {
 		Map<String, String> studCal = timetableRepo.getCalendar();
 		if (!studCal.containsKey(kw)) {
 			throw new InvalidAttributeValueException("this week is not in the given semester");
@@ -178,7 +176,11 @@ public class RoomPlanRepository {
 					}
 				}
 				if (add) {
-					whiteListedRooms.put(geb.getKey(), room);
+					String bid = geb.getKey();
+					if (bid.contains("=")) {
+						bid = bid.split("=")[0].trim();
+					}
+					whiteListedRooms.put(bid, room);
 				}
 			}
 		}
@@ -193,15 +195,15 @@ public class RoomPlanRepository {
 			String key = entry.getKey();
 			String bid = "";
 			if (key.contains("=")) {
-				bid= key.split("=")[0].trim();
-				logger.info(""+bid);
+				bid = key.split("=")[0].trim();
+				logger.info("" + bid);
 				destinations.add(informationRepo.getBuilding(bid));
-				
+
 			}
 		}
-		Map<Long, Collection<Room>> map = new TreeMap<Long,Collection<Room>>();
+		Map<Long, Collection<Room>> map = new TreeMap<Long, Collection<Room>>();
 		int i = 0;
-		for(Entry<Long, Building> entry: distanceService.getDistances(location, destinations).entrySet()){
+		for (Entry<Long, Building> entry : distanceService.getDistances(location, destinations).entrySet()) {
 			map.put(entry.getKey(), new ArrayList<Collection<Room>>(roomMap.values()).get(i));
 			i++;
 		}
