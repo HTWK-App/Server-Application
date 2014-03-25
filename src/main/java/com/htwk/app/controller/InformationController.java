@@ -6,7 +6,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.management.InvalidAttributeValueException;
@@ -55,6 +57,19 @@ public class InformationController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String redirectHome() {
 		return "redirect:/info";
+	}
+	
+	@RequestMapping(value = "/academical/{semester}", method = RequestMethod.GET)
+	public @ResponseBody
+	Map<String, Collection<String>> getAcademicalCalendar(@PathVariable String semester) throws IOException,
+			ParseException, InvalidAttributeValueException {
+		if(semester.equals("ss")){
+			return repo.getAcademicalCalendar("sommersemester");
+		} else if(semester.equals("ws")){
+			return repo.getAcademicalCalendar("wintersemester");
+		}else {
+			throw new InvalidAttributeValueException("wrong parameter was used! possible parameters{ss|ws}");
+		}		
 	}
 
 	@RequestMapping(value = "/staff", method = RequestMethod.GET)

@@ -8,14 +8,18 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
@@ -184,5 +188,63 @@ public class InformationConverter extends HTMLConverter {
 			sport.getHints().add((hint == null) ? "" : hint.text());
 		}
 		return sport;
+	}
+
+	public Map<String, Collection<String>> getAcademicalCalendar(String content) {
+		ArrayListMultimap<String, String> cal = ArrayListMultimap.create();
+		Document doc = Jsoup.parse(content);
+
+		Iterator<Element> contentDiv = doc.select("div#content div.csc-default").iterator();
+		// remove unneeded divs
+		contentDiv.next();
+
+		Element currentElement = contentDiv.next();
+		String key = currentElement.select("h2").text();
+		Elements tr = currentElement.select("table.contenttable tr");
+		for (int i = 0; i < tr.size(); i++) {
+			String td1 = tr.get(i).select("td").get(0).text();
+			String value = "";
+			if (td1.isEmpty()) {
+				td1 = tr.get(i - 1).select("td").get(0).text();
+			}
+			value += td1 +" "+ tr.get(i).select("td").get(1).text();
+			cal.put(key, value);
+		}
+		currentElement = contentDiv.next();
+		key = currentElement.select("h3").text();
+		tr = currentElement.select("table.contenttable tr");
+		for (int i = 0; i < tr.size(); i++) {
+			if (tr.get(i).select("td").size() == 2) {
+				String td1 = tr.get(i).select("td").get(1).text();
+				String value = "";
+				if (td1.isEmpty()) {
+					td1 = tr.get(i - 1).select("td").get(1).text();
+				}
+				value += td1 + ": " + tr.get(i).select("td").get(0).text();
+				cal.put(key, value);
+			}
+		}
+		while (contentDiv.hasNext()) {
+
+			currentElement = contentDiv.next();
+			if (!currentElement.select("h3").text().isEmpty()) {
+				key = currentElement.select("h3").text();
+				currentElement = contentDiv.next();
+			}
+			tr = currentElement.select("table.contenttable tr");
+			for (int i = 0; i < tr.size(); i++) {
+				if (tr.get(i).select("td").size() == 2) {
+					String td1 = tr.get(i).select("td").get(1).text();
+					String value = "";
+					if (td1.isEmpty()) {
+						td1 = tr.get(i - 1).select("td").get(1).text();
+					}
+					value += td1 + ": " + tr.get(i).select("td").get(0).text();
+					cal.put(key, value);
+				}
+			}
+		}
+
+		return cal.asMap();
 	}
 }

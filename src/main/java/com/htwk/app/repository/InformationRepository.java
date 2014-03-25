@@ -2,11 +2,14 @@ package com.htwk.app.repository;
 
 import java.io.IOException;
 import java.net.URI;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
@@ -40,7 +43,6 @@ public class InformationRepository {
 	CacheManager cacheManager;
 
 	RestTemplate restTemplate = null;
-	ResponseEntity<String> response = null;
 	HttpHeaders headers = null;
 	URI uri = null;
 	InformationConverter conv = null;
@@ -53,6 +55,9 @@ public class InformationRepository {
 
 	@Value("${info.sport.url}")
 	private String sportUrl;
+
+	@Value("${info.academical.url}")
+	private String academicalUrl;
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -71,7 +76,8 @@ public class InformationRepository {
 		if (staffCache.size() > 0) {
 			return new ArrayList<Staff>(new TreeMap<String, Staff>(staffCache.asMap()).values());
 		}
-		response = restTemplate.exchange(staffUrl, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+		ResponseEntity<String> response = restTemplate.exchange(staffUrl, HttpMethod.GET, new HttpEntity<Object>(
+				headers), String.class);
 
 		if (response != null) {
 			List<Staff> staffMembers = conv.getStaffList(response.getBody());
@@ -122,8 +128,8 @@ public class InformationRepository {
 
 	public synchronized final ResponseEntity<byte[]> getStaffPic(String cuid) throws IOException, ParseException {
 		HttpHeaders headers = new HttpHeaders();
-	    headers.set("Content-Type", "image/jpg; charset=binary");
-	    HttpEntity<String> entity = new HttpEntity<String>(headers);
+		headers.set("Content-Type", "image/jpg; charset=binary");
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		return restTemplate.exchange(getStaff(cuid).getPictureLink(), HttpMethod.GET, entity, byte[].class);
 	}
 
@@ -168,7 +174,8 @@ public class InformationRepository {
 			return new ArrayList<Sport>(new TreeMap<String, Sport>(sportCache.asMap()).values());
 		}
 
-		response = restTemplate.exchange(sportUrl, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+		ResponseEntity<String> response = restTemplate.exchange(sportUrl, HttpMethod.GET, new HttpEntity<Object>(
+				headers), String.class);
 		if (response != null) {
 			List<Sport> sports = conv.getSportList(response.getBody());
 			for (Sport sport : sports) {
@@ -186,10 +193,10 @@ public class InformationRepository {
 	public synchronized final Sport getSport(String id) throws IOException, ParseException {
 		sportCache.cleanUp();
 		Sport cachedSport = sportCache.getIfPresent(id);
-		if(cachedSport != null){
+		if (cachedSport != null) {
 			return getSportDetailed(cachedSport);
 		}
-		
+
 		for (Sport sport : getSportList()) {
 			if (sport.getId().equalsIgnoreCase(id)) {
 				return getSportDetailed(sport);
@@ -203,11 +210,23 @@ public class InformationRepository {
 		return sportDetailed;
 	}
 
-	public synchronized final ResponseEntity<byte[]> getSportPic(String id) throws RestClientException, IOException, ParseException {
+	public synchronized final ResponseEntity<byte[]> getSportPic(String id) throws RestClientException, IOException,
+			ParseException {
 		HttpHeaders headers = new HttpHeaders();
-	    headers.set("Content-Type", "image/png; charset=binary");
-	    HttpEntity<String> entity = new HttpEntity<String>(headers);
-		return restTemplate.exchange(""+getSport(id).getPictureLink(), HttpMethod.GET, entity, byte[].class);
+		headers.set("Content-Type", "image/png; charset=binary");
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		return restTemplate.exchange("" + getSport(id).getPictureLink(), HttpMethod.GET, entity, byte[].class);
+	}
+
+	public synchronized final Map<String, Collection<String>> getAcademicalCalendar(String semester) {
+		String url = MessageFormat.format(academicalUrl, semester);
+		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<Object>(headers),
+				String.class);
+		if (response != null) {
+			Map<String, Collection<String>> cal = conv.getAcademicalCalendar(response.getBody());
+			return cal;
+		}
+		return null;
 	}
 
 }
