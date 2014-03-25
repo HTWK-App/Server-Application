@@ -1,0 +1,7 @@
+
+.classpath
+.project
+.setting*
+target*
+
+src/main/resources/credentials.properties
