@@ -182,7 +182,8 @@ public class EmailReceiver {
 		// [a-zA-Z0-9\\._\\-]{3,}\\@[a-zA-Z0-9\\._\\-]{3,}\\.[a-zA-Z]{2,6}
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(credentials.getUsername() + " <webmaster@htwk-leipzig.de>"));
+		String from = mail.getFrom().replace(" ", ".").toLowerCase();
+		message.setFrom(new InternetAddress(mail.getFrom() + " <" + from + "@stud.htwk-leipzig.de>"));
 		message.setRecipients(Message.RecipientType.TO, addresses);
 
 		if (!mail.getCcList().isEmpty()) {

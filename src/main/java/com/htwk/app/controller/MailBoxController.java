@@ -84,10 +84,12 @@ public class MailBoxController {
 	String sendMails(@RequestParam(value = "credentials") String enryptedCredentials,
 			@RequestParam(value = "salt") String salt,
 			@RequestParam(value = "to") String[] to,
+			@RequestParam(value = "from") String from,
 			@RequestParam(value = "cc", required = false, defaultValue = "") String[] cc,
 			@RequestParam(value = "subject") String subject, @RequestParam(value = "message") String message)
 			throws MessagingException, IOException {
 		Mail mail = new Mail();
+		mail.setFrom(from);
 		mail.setToList(Arrays.asList(to));
 		mail.setCcList(Arrays.asList(cc));
 		mail.setSubject(subject);
