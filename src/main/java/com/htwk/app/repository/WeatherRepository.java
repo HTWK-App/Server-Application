@@ -142,8 +142,8 @@ public class WeatherRepository {
 				WeatherDay day = gson.fromJson(element, WeatherDay.class);
 				for (WeatherData weather : day.getWeather()) {
 					weather.setDescriptionDe(getWeatherStatus(weather.getId()));
-					weather.setIcon(weatherImageUrl + weather.getIcon());
 					weather.setIconData(getWeatherPic(weather.getIcon()));
+					weather.setIcon(weatherImageUrl + weather.getIcon());
 				}
 				weatherData.put(day.getDt(), day);
 			}
