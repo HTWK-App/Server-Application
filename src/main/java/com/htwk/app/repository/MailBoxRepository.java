@@ -54,7 +54,7 @@ public class MailBoxRepository {
 		receiver = new EmailReceiver();
 	}
 
-	public synchronized final List<Mail> getMails(String enryptedCredentials, String salt, int offset)
+	public synchronized final List<Mail> getMails(String enryptedCredentials, String salt, int limit, int offset)
 			throws MessagingException, IOException {
 		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
 		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
@@ -62,7 +62,7 @@ public class MailBoxRepository {
 		credentials.setHost(getHost);
 		credentials.setPort(getPort);
 
-		return receiver.getEmails(credentials, offset);
+		return receiver.getEmails(credentials, limit, offset);
 	}
 
 	public synchronized final List<Mail> getNewMails(String enryptedCredentials, String salt)

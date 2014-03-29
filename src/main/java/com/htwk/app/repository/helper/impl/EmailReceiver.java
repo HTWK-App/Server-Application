@@ -13,9 +13,11 @@ import javax.mail.Flags.Flag;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Message.RecipientType;
+import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
@@ -78,13 +80,15 @@ public class EmailReceiver {
 	 * @param host
 	 * @param port
 	 * @param offset
+	 * @param offset2
 	 * @param userName
 	 * @param password
 	 * @return
 	 * @throws MessagingException
 	 * @throws IOException
 	 */
-	public List<Mail> getEmails(MailCredentials credentials, int offset) throws MessagingException, IOException {
+	public List<Mail> getEmails(MailCredentials credentials, int limit, int offset) throws MessagingException,
+			IOException {
 		Properties properties = getServerProperties(credentials.getProtocol(), credentials.getHost(),
 				"" + credentials.getPort());
 		Session session = Session.getDefaultInstance(properties);
@@ -95,13 +99,22 @@ public class EmailReceiver {
 
 		// opens the inbox folder
 		Folder folderInbox = store.getFolder("INBOX");
-		folderInbox.open(Folder.READ_ONLY);
+		folderInbox.open(Folder.READ_WRITE);
 
 		logger.debug("unread:" + folderInbox.getUnreadMessageCount() + ", new:" + folderInbox.getNewMessageCount());
 
 		// fetches new messages from server
-		int mailCount = (folderInbox.getMessageCount() <= offset) ? 1 : folderInbox.getMessageCount() - offset;
-		Message[] messages = folderInbox.getMessages((mailCount), folderInbox.getMessageCount());
+		int start = (folderInbox.getMessageCount() <= limit) ? 1 : folderInbox.getMessageCount() - limit + 1;
+		int end = folderInbox.getMessageCount();
+
+		start = (start <= offset) ? 1 : start - offset;
+		if (end - offset >= 1) {
+			end = end - offset;
+		} else {
+			return new ArrayList<Mail>();
+		}
+
+		Message[] messages = folderInbox.getMessages(start, end);
 
 		List<Mail> mails = getMails(messages);
 
@@ -164,7 +177,7 @@ public class EmailReceiver {
 		return mail;
 	}
 
-	public void sendMail(Mail mail, MailCredentials credentials) throws MessagingException {
+	public void sendMail(Mail mail, final MailCredentials credentials) throws MessagingException {
 		Properties properties = getServerProperties(credentials.getProtocol(), credentials.getHost(),
 				"" + credentials.getPort());
 		properties.put(String.format("mail.%s.auth", credentials.getProtocol()), "true");
@@ -172,18 +185,18 @@ public class EmailReceiver {
 		// Properties properties = new Properties();
 		// Authentifizierung aktivieren
 		// properties.put("mail.smtp.auth", "true");
-		Session session = Session.getDefaultInstance(properties);
-
-		Transport transport = session.getTransport(credentials.getProtocol());
-		transport.connect(credentials.getHost(), credentials.getPort(), credentials.getUsername(),
-				credentials.getPassword());
+		Session session = Session.getInstance(properties, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+			      return new PasswordAuthentication(credentials.getUsername(), credentials.getPassword());
+			    }
+		});
 
 		Address[] addresses = InternetAddress.parse(Joiner.on(",").join(mail.getToList()));
 		// [a-zA-Z0-9\\._\\-]{3,}\\@[a-zA-Z0-9\\._\\-]{3,}\\.[a-zA-Z]{2,6}
 
 		Message message = new MimeMessage(session);
 		String from = mail.getFrom().replace(" ", ".").toLowerCase();
-		message.setFrom(new InternetAddress(mail.getFrom() + " <" + from + "@stud.htwk-leipzig.de>"));
+		message.setFrom(new InternetAddress(mail.getFrom() + " <" + from + ">"));
 		message.setRecipients(Message.RecipientType.TO, addresses);
 
 		if (!mail.getCcList().isEmpty()) {
@@ -194,47 +207,8 @@ public class EmailReceiver {
 		message.setSubject(mail.getSubject());
 		message.setText(mail.getMessage());
 
-		transport.addTransportListener(new TransportListener() {
-
-			public void messageDelivered(TransportEvent e) {
-				logger.debug("Message delivered for:");
-				if (e != null) {
-					Address[] a = e.getValidSentAddresses();
-					if (a != null && a.length > 0) {
-						for (int i = 0; i < a.length; i++) {
-							logger.debug(((InternetAddress) a[i]).getAddress());
-						}
-					}
-				}
-			}
-
-			public void messageNotDelivered(TransportEvent e) {
-				logger.debug("Message not delivered for:");
-				if (e != null) {
-					Address[] a = e.getValidUnsentAddresses();
-					if (a != null && a.length > 0) {
-						for (int i = 0; i < a.length; i++) {
-							logger.debug(((InternetAddress) a[i]).getAddress());
-						}
-					}
-				}
-			}
-
-			public void messagePartiallyDelivered(TransportEvent e) {
-				logger.debug("These addresses are invalid:");
-				if (e != null) {
-					Address[] a = e.getInvalidAddresses();
-					if (a != null && a.length > 0) {
-						for (int i = 0; i < a.length; i++) {
-							logger.debug(((InternetAddress) a[i]).getAddress());
-						}
-					}
-				}
-			}
-		});
-		transport.sendMessage(message, addresses);
-		logger.debug("E-Mail gesendet");
-		transport.close();
+		Transport.send(message);
+		logger.debug("E-Mail von Absender:{} gesendet", mail.getFrom());
 	}
 
 	private MailAttachment getAttachmentDescription(BodyPart bodyPart) throws MessagingException {

@@ -44,9 +44,10 @@ public class MailBoxController {
 	public @ResponseBody
 	List<Mail> getMails(@RequestParam(value = "credentials") String enryptedCredentials,
 			@RequestParam(value = "salt") String salt,
-			@RequestParam(value = "offset", required = false, defaultValue = "10") int offset)
+			@RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit)
 			throws MessagingException, IOException {
-		return repo.getMails(enryptedCredentials, salt, offset);
+		return repo.getMails(enryptedCredentials, salt, limit, offset);
 	}
 
 	@RequestMapping(value = "/get/{mailId}", method = RequestMethod.GET)
