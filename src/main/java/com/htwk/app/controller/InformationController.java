@@ -122,13 +122,16 @@ public class InformationController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/sport/{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	Sport getSport(@PathVariable(value = "id") String id) throws IOException, ParseException,
+	ResponseEntity getSport(@PathVariable(value = "id") String id) throws IOException, ParseException,
 			InvalidAttributeValueException {
+		if(id.equals("pic")){
+			//return new ResponseEntity(repo.getSportPics(), HttpStatus.OK);
+		}
 		Sport sport = repo.getSport(id);
 		if(sport == null){
 			throw new InvalidAttributeValueException("invalid sport-id");
 		}
-		return sport;
+		return new ResponseEntity(sport, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/sport/{id}/pic", method = RequestMethod.GET)
