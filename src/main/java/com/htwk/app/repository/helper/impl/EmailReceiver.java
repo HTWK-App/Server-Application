@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Address;
+import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Flags;
 import javax.mail.Flags.Flag;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Message.RecipientType;
-import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
@@ -21,15 +21,14 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
-import javax.mail.event.TransportEvent;
-import javax.mail.event.TransportListener;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.search.FlagTerm;
 
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Document.OutputSettings;
+import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -260,9 +259,12 @@ public class EmailReceiver {
 			}
 
 			// escape javascript
-			Document doc = Jsoup.parse(messageContent);
-			doc.removeAttr("script");
-			mail.setMessage(doc.html());
+//			Document doc = Jsoup.parse(messageContent);
+//			doc.removeAttr("script");
+			
+			 String prettyPrintedBodyFragment = Jsoup.clean(messageContent, "", Whitelist.none().addTags("br", "p"), new OutputSettings().prettyPrint(true));
+			    // get plain text with preserved line breaks by disabled prettyPrint
+			mail.setMessage(Jsoup.clean(prettyPrintedBodyFragment, "", Whitelist.none(), new OutputSettings().prettyPrint(false)));
 			mails.add(mail);
 		}
 		return mails;
