@@ -2,6 +2,7 @@ package com.htwk.app.repository;
 
 import java.io.IOException;
 import java.net.URI;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.htwk.app.model.weather.WeatherData;
 import com.htwk.app.model.weather.WeatherDay;
+import com.htwk.app.model.weather.WeatherLocation;
 
 @Repository
 public class WeatherRepository {
@@ -43,7 +45,6 @@ public class WeatherRepository {
 
 	RestTemplate restTemplate = null;
 	HttpHeaders headers = null;
-	URI uri = null;
 
 	private static Map<Integer, String> weatherStatus = new TreeMap<Integer, String>();
 	static {
@@ -128,16 +129,19 @@ public class WeatherRepository {
 		headers.add("Content-Type", "text/xml;charset=utf-8");
 	}
 
-	public synchronized final Map<Long, Object> getWeather(String location) throws JsonParseException,
+	public synchronized final Map<Long, Object> getWeather(String location, String days) throws JsonParseException,
 			JsonMappingException, IOException, RestClientException, ParseException {
-		ResponseEntity<String> response = restTemplate.exchange(weatherForecastUrl + location, HttpMethod.GET,
+		String uri = MessageFormat.format(weatherForecastUrl, days);
+		ResponseEntity<String> response = restTemplate.exchange(uri + location, HttpMethod.GET,
 				new HttpEntity<Object>(headers), String.class);
 		Map<Long, Object> weatherData = new HashMap<Long, Object>();
 		if (response != null) {
 			Gson gson = new Gson();
 			JsonParser parser = new JsonParser();
 			JsonObject obj = parser.parse(response.getBody()).getAsJsonObject();
-
+			
+			WeatherLocation locationObj =  gson.fromJson(obj.get("city").getAsJsonObject(), WeatherLocation.class);
+			weatherData.put((long) 0, locationObj);
 			for (JsonElement element : obj.get("list").getAsJsonArray()) {
 				WeatherDay day = gson.fromJson(element, WeatherDay.class);
 				for (WeatherData weather : day.getWeather()) {
