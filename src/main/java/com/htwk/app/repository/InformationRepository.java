@@ -228,5 +228,4 @@ public class InformationRepository {
 		}
 		return null;
 	}
-
 }

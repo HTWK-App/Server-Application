@@ -24,6 +24,8 @@ public class Staff implements Serializable{
 	private String vcardLink;
 
 	private String pictureLink;
+	private String pictureData;
+	
 	private String fullName;
 	private String telefax;
 	private String description;
@@ -272,5 +274,19 @@ public class Staff implements Serializable{
 	 */
 	public synchronized final void setPictureLink(String pictureLink) {
 		this.pictureLink = pictureLink;
+	}
+
+	/**
+	 * @return the pictureData
+	 */
+	public synchronized final String getPictureData() {
+		return pictureData;
+	}
+
+	/**
+	 * @param pictureData the pictureData to set
+	 */
+	public synchronized final void setPictureData(String pictureData) {
+		this.pictureData = pictureData;
 	}
 }

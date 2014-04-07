@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
 
+import org.apache.xerces.impl.dv.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestClientException;
 
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
@@ -81,12 +83,12 @@ public class InformationController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/staff/{cuid}", method = RequestMethod.GET)
 	public @ResponseBody
-	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws IOException, ParseException,
-			InvalidAttributeValueException {
+	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws Exception {
 		Staff staff = repo.getStaff(cuid);
 		if(staff == null){
 			throw new InvalidAttributeValueException("invalid staff-id");
 		}
+		staff.setPictureData(getStaffPicData(cuid));
 		return staff;
 	}
 
@@ -168,5 +170,9 @@ public class InformationController {
 		headers.set("Content-Type", "image/png");
 		logger.debug("{}", System.currentTimeMillis()-before);
 		return new ResponseEntity<byte[]>(imageInByte, headers, HttpStatus.OK);
+	}
+	
+	private synchronized final String getStaffPicData(String cuid) throws Exception {
+		return "data:image/png;base64,"+Base64.encode(getPic(cuid).getBody());
 	}
 }
