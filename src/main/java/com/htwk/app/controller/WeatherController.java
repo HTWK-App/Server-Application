@@ -36,7 +36,7 @@ public class WeatherController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	ResponseEntity getSemGroups(@RequestParam(value = "location") String location, @RequestParam(value = "days", required=false, defaultValue="3") String days) throws IOException,
+	ResponseEntity getSemGroups(@RequestParam(value = "location", required=false, defaultValue="") String location, @RequestParam(value = "days", required=false, defaultValue="3") String days) throws IOException,
 			URISyntaxException, InvalidAttributesException, RestClientException, ParseException {
 		return new ResponseEntity(repo.getWeather(location, days), HttpStatus.OK);
 	}

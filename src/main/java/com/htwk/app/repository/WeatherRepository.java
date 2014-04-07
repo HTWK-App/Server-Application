@@ -131,7 +131,17 @@ public class WeatherRepository {
 
 	public synchronized final Map<Long, Object> getWeather(String location, String days) throws JsonParseException,
 			JsonMappingException, IOException, RestClientException, ParseException {
-		String uri = MessageFormat.format(weatherForecastUrl, days);
+		
+		String lat = "0";
+		String lng = "0";
+		
+		if(location.contains(",")){
+			String latlng[] = location.split(",");
+			lat = latlng[0];
+			lng = latlng[1];
+		}
+		
+		String uri = MessageFormat.format(weatherForecastUrl, days, "", lat, lng);
 		ResponseEntity<String> response = restTemplate.exchange(uri + location, HttpMethod.GET,
 				new HttpEntity<Object>(headers), String.class);
 		Map<Long, Object> weatherData = new HashMap<Long, Object>();
