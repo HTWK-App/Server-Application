@@ -16,6 +16,7 @@ public class Sport implements Serializable {
 	private String description;
 	private String detailedLink;
 	private String pictureLink;
+	private String pictureData;
 
 	private String time;
 	private String cycle;
@@ -235,6 +236,20 @@ public class Sport implements Serializable {
 	 */
 	public synchronized final void setCourseNumber(String courseNumber) {
 		this.courseNumber = courseNumber;
+	}
+
+	/**
+	 * @return the pictureData
+	 */
+	public synchronized final String getPictureData() {
+		return pictureData;
+	}
+
+	/**
+	 * @param pictureData the pictureData to set
+	 */
+	public synchronized final void setPictureData(String pictureData) {
+		this.pictureData = pictureData;
 	}
 
 }

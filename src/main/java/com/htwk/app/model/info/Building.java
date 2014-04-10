@@ -18,6 +18,7 @@ public class Building implements Serializable{
 	private String latLng;
 	private String address;
 	private String pictureLink;
+	private String pictureData;
 	
 	private Timestamp lastChange;
 
@@ -134,6 +135,20 @@ public class Building implements Serializable{
 	 */
 	public synchronized final void setDescription(List<String> description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the pictureData
+	 */
+	public synchronized final String getPictureData() {
+		return pictureData;
+	}
+
+	/**
+	 * @param pictureData the pictureData to set
+	 */
+	public synchronized final void setPictureData(String pictureData) {
+		this.pictureData = pictureData;
 	}
 
 }

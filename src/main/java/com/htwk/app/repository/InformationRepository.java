@@ -1,6 +1,10 @@
 package com.htwk.app.repository;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -13,7 +17,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 
+import org.apache.xerces.impl.dv.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +28,10 @@ import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestClientException;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.common.cache.Cache;
@@ -33,6 +40,9 @@ import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
 import com.htwk.app.model.info.StaffShort;
 import com.htwk.app.repository.helper.impl.InformationConverter;
+import com.htwk.app.utils.images.ImageResizeAction;
+import com.htwk.app.utils.images.ImageResizeRequest;
+import com.htwk.app.utils.images.ImageResizeService;
 
 @Repository
 public class InformationRepository {
@@ -41,6 +51,9 @@ public class InformationRepository {
 
 	@Autowired
 	CacheManager cacheManager;
+	
+	@Autowired
+	private ImageResizeService handler;
 
 	RestTemplate restTemplate = null;
 	HttpHeaders headers = null;
@@ -107,7 +120,7 @@ public class InformationRepository {
 		return shorts;
 	}
 
-	public synchronized final Staff getStaff(String cuid) throws IOException, ParseException {
+	public synchronized final Staff getStaff(String cuid) throws Exception {
 		staffCache.cleanUp();
 		Staff staff = staffCache.getIfPresent(cuid);
 		if (staff != null) {
@@ -122,15 +135,19 @@ public class InformationRepository {
 		return null;
 	}
 
-	private synchronized final Staff getStaffDetailed(Staff staff) throws IOException, ParseException {
-		return conv.getStaffDetailed(staff);
+	private synchronized final Staff getStaffDetailed(Staff staff) throws Exception {
+		Staff staffDetailed =  conv.getStaffDetailed(staff);
+		staffDetailed.setPictureData(getPicData(staffDetailed.getPictureLink()));
+		return staffDetailed;
+		
 	}
 
-	public synchronized final ResponseEntity<byte[]> getStaffPic(String cuid) throws IOException, ParseException {
+	public synchronized final ResponseEntity<byte[]> getStaffPic(String cuid) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Type", "image/jpg; charset=binary");
+		headers.set("Content-Type", "image/jpg");
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
-		return restTemplate.exchange(getStaff(cuid).getPictureLink(), HttpMethod.GET, entity, byte[].class);
+		ResponseEntity<byte[]> response = restTemplate.exchange(getStaff(cuid).getPictureLink(), HttpMethod.GET, entity, byte[].class);
+		return new ResponseEntity<byte[]>(compressPic(response.getBody()), headers, HttpStatus.OK);
 	}
 
 	private synchronized final List<Building> getBuildingsList() throws IOException, ParseException {
@@ -159,9 +176,10 @@ public class InformationRepository {
 		return getBuildingsList();
 	}
 
-	public synchronized final Building getBuilding(String id) throws IOException, ParseException {
+	public synchronized final Building getBuilding(String id) throws Exception {
 		for (Building building : getBuildingsList()) {
 			if (building.getId().equalsIgnoreCase(id)) {
+				building.setPictureData(getPicData(building.getPictureLink()));
 				return building;
 			}
 		}
@@ -190,13 +208,12 @@ public class InformationRepository {
 		return getSportList();
 	}
 
-	public synchronized final Sport getSport(String id) throws IOException, ParseException {
+	public synchronized final Sport getSport(String id) throws Exception {
 		sportCache.cleanUp();
 		Sport cachedSport = sportCache.getIfPresent(id);
 		if (cachedSport != null) {
 			return getSportDetailed(cachedSport);
 		}
-
 		for (Sport sport : getSportList()) {
 			if (sport.getId().equalsIgnoreCase(id)) {
 				return getSportDetailed(sport);
@@ -205,17 +222,17 @@ public class InformationRepository {
 		return null;
 	}
 
-	private synchronized final Sport getSportDetailed(Sport sport) throws IOException, ParseException {
+	private synchronized final Sport getSportDetailed(Sport sport) throws Exception {
 		Sport sportDetailed = conv.getSportDetailed(sport);
+//		sportDetailed.setPictureData(getSportPic(sport.getId()).getBody().toString());
 		return sportDetailed;
 	}
 
-	public synchronized final ResponseEntity<byte[]> getSportPic(String id) throws RestClientException, IOException,
-			ParseException {
+	public synchronized final ResponseEntity<byte[]> getSportPic(String id) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Type", "image/png; charset=binary");
+		headers.set("Content-Type", "image/png");
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
-		return restTemplate.exchange("" + getSport(id).getPictureLink(), HttpMethod.GET, entity, byte[].class);
+		return  restTemplate.exchange("" + getSport(id).getPictureLink(), HttpMethod.GET, entity, byte[].class);
 	}
 
 	public synchronized final Map<String, Collection<String>> getAcademicalCalendar(String semester) {
@@ -227,5 +244,35 @@ public class InformationRepository {
 			return cal;
 		}
 		return null;
+	}
+	
+	public synchronized final String getPicData(String uri) throws Exception {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", "image/jpg");
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		ResponseEntity<byte[]> response = restTemplate.exchange(uri, HttpMethod.GET, entity, byte[].class);
+		return "data:image/png;base64,"+Base64.encode(compressPic(response.getBody()));
+	}
+	
+	private synchronized final byte[] compressPic(byte[] data) throws Exception{
+		ImageResizeRequest request = new ImageResizeRequest();
+		InputStream in = new ByteArrayInputStream(data);
+		BufferedImage sourceImage = ImageIO.read(in);
+		BufferedImage targetImage;
+
+		request.setSourceImage(sourceImage);
+		request.setTargetHeight(sourceImage.getHeight());
+		request.setTargetWidth(sourceImage.getWidth());
+		request.setMaintainAspect(true); // This is the default
+		request.setCropToAspect(true); // This is the default
+		request.setResizeAction(ImageResizeAction.IF_LARGER); // This is the
+																// default
+		targetImage = handler.resize(request);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(targetImage, "jpg", baos);
+		baos.flush();
+		byte[] imageInByte = baos.toByteArray();
+		baos.close();
+		return imageInByte;
 	}
 }

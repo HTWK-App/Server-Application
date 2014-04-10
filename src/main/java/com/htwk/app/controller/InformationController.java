@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
 
-import org.apache.xerces.impl.dv.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestClientException;
 
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
@@ -60,18 +58,18 @@ public class InformationController {
 	public String redirectHome() {
 		return "redirect:/info";
 	}
-	
+
 	@RequestMapping(value = "/academical/{semester}", method = RequestMethod.GET)
 	public @ResponseBody
 	Map<String, Collection<String>> getAcademicalCalendar(@PathVariable String semester) throws IOException,
 			ParseException, InvalidAttributeValueException {
-		if(semester.equals("ss")){
+		if (semester.equals("ss")) {
 			return repo.getAcademicalCalendar("sommersemester");
-		} else if(semester.equals("ws")){
+		} else if (semester.equals("ws")) {
 			return repo.getAcademicalCalendar("wintersemester");
-		}else {
+		} else {
 			throw new InvalidAttributeValueException("wrong parameter was used! possible parameters{ss|ws}");
-		}		
+		}
 	}
 
 	@RequestMapping(value = "/staff", method = RequestMethod.GET)
@@ -85,16 +83,15 @@ public class InformationController {
 	public @ResponseBody
 	Staff getStaff(@PathVariable(value = "cuid") String cuid) throws Exception {
 		Staff staff = repo.getStaff(cuid);
-		if(staff == null){
+		if (staff == null) {
 			throw new InvalidAttributeValueException("invalid staff-id");
 		}
-		staff.setPictureData(getStaffPicData(cuid));
 		return staff;
 	}
 
 	@RequestMapping(value = "/staff/{cuid}/pic", method = RequestMethod.GET)
 	public @ResponseBody
-	ResponseEntity<byte[]> getStaffPic(@PathVariable(value = "cuid") String cuid) throws IOException, ParseException {
+	ResponseEntity<byte[]> getStaffPic(@PathVariable(value = "cuid") String cuid) throws Exception {
 		return repo.getStaffPic(cuid);
 	}
 
@@ -107,9 +104,9 @@ public class InformationController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/building/{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	Building getBuilding(@PathVariable(value = "id") String id) throws IOException, ParseException, InvalidAttributeValueException {
-		Building building = repo.getBuilding(id); 
-		if(building == null){
+	Building getBuilding(@PathVariable(value = "id") String id) throws Exception {
+		Building building = repo.getBuilding(id);
+		if (building == null) {
 			throw new InvalidAttributeValueException("invalid building-id");
 		}
 		return building;
@@ -124,13 +121,12 @@ public class InformationController {
 	@Cacheable("timeCache")
 	@RequestMapping(value = "/sport/{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	ResponseEntity getSport(@PathVariable(value = "id") String id) throws IOException, ParseException,
-			InvalidAttributeValueException {
-		if(id.equals("pic")){
-			//return new ResponseEntity(repo.getSportPics(), HttpStatus.OK);
+	ResponseEntity getSport(@PathVariable(value = "id") String id) throws Exception {
+		if (id.equals("pic")) {
+			// return new ResponseEntity(repo.getSportPics(), HttpStatus.OK);
 		}
 		Sport sport = repo.getSport(id);
-		if(sport == null){
+		if (sport == null) {
 			throw new InvalidAttributeValueException("invalid sport-id");
 		}
 		return new ResponseEntity(sport, HttpStatus.OK);
@@ -138,7 +134,7 @@ public class InformationController {
 
 	@RequestMapping(value = "/sport/{id}/pic", method = RequestMethod.GET)
 	public @ResponseBody
-	ResponseEntity<byte[]> getSportPic(@PathVariable(value = "id") String id) throws IOException, ParseException {
+	ResponseEntity<byte[]> getSportPic(@PathVariable(value = "id") String id) throws Exception {
 		return repo.getSportPic(id);
 	}
 
@@ -168,11 +164,8 @@ public class InformationController {
 		baos.close();
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-Type", "image/png");
-		logger.debug("{}", System.currentTimeMillis()-before);
+		logger.debug("{}", System.currentTimeMillis() - before);
 		return new ResponseEntity<byte[]>(imageInByte, headers, HttpStatus.OK);
 	}
-	
-	private synchronized final String getStaffPicData(String cuid) throws Exception {
-		return "data:image/png;base64,"+Base64.encode(getPic(cuid).getBody());
-	}
+
 }
