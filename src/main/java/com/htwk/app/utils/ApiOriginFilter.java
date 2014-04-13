@@ -1,6 +1,8 @@
 package com.htwk.app.utils;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -10,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 public class ApiOriginFilter implements javax.servlet.Filter {
+	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
 			ServletException {
