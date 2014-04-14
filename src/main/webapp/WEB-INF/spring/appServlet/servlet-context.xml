@@ -18,6 +18,14 @@
 		order="2" ignore-unresolvable="true" />
 
 	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/admin/**" />
+			<mvc:exclude-mapping path="/resources/**" />
+			<bean class="com.htwk.app.utils.bean.RequestStatisticInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">

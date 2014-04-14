@@ -1,6 +1,7 @@
 package com.htwk.app;
 
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
@@ -16,6 +17,7 @@ import com.google.common.cache.Cache;
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
+import com.htwk.app.repository.StatisticRepository;
 import com.htwk.app.service.UpdateService;
 
 @Controller
@@ -27,6 +29,9 @@ public class AdministrationController {
 
 	@Autowired
 	CacheManager cacheManager;
+	
+	@Autowired
+	private StatisticRepository stats;
 	
 	Cache<String, Staff> staffCache = null;
 	Cache<String, Building> buildingCache = null;
@@ -41,6 +46,23 @@ public class AdministrationController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
+		model.addAttribute("staff", stats.getStaffRequests());
+		model.addAttribute("building", stats.getBuildingRequests());
+		model.addAttribute("sport", stats.getSportRequests());
+		model.addAttribute("news", stats.getNewsRequests());
+		model.addAttribute("mensa", stats.getMensaRequests().asMap());
+		long mensaTotal=0;
+		for(Entry<Integer, Long> entry : stats.getMensaRequests().asMap().entrySet()){
+			mensaTotal += entry.getValue();
+		}
+		model.addAttribute("mensaTotal", mensaTotal);
+		model.addAttribute("mailbox", stats.getMailboxRequests());
+		model.addAttribute("weather", stats.getWeatherRequests());
+		model.addAttribute("timetable", stats.getTimetableRequests());
+		model.addAttribute("errors", stats.getErrorRequests());
+		model.addAttribute("types", stats.getRequestType().asMap());
+		model.addAttribute("execution", stats.getExecutionTimes());
+		model.addAttribute("total", stats.getTotalRequests());
 		return "home";
 	}
 

@@ -60,7 +60,8 @@ public class AuthenticationControllerTest {
 		
 		r = ctrl.encryptCredentials(username, password);
 		System.out.println(new Gson().toJson(r));
-		c = ctrl.decryptCredentials(r.getEncryptedCredentials(), r.getSalt());
+		EncryptedCredentials encCredentials= new EncryptedCredentials(r.getEncryptedCredentials(), r.getSalt());
+		c = service.decryptCredentials(encCredentials);
 		
 		Assert.assertEquals(username, c.getUsername());
 		Assert.assertEquals(password, c.getPassword());

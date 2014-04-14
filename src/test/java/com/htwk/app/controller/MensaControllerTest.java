@@ -39,9 +39,9 @@ public class MensaControllerTest {
 		Assert.assertTrue("redirect:/mensa"==ctrl.redirectHome());
 		
 		try {
-			ctrl.getMenuByLocation("Mensa Academica");
+			ctrl.getMenuByLocation(116);
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			ctrl.getMenuByLocationAndDate("Mensa Academica", df.format(new Date()));
+			ctrl.getMenuByLocationAndDate(116, df.format(new Date()));
 		} catch (Exception e) {
 			Assert.fail();
 		}
