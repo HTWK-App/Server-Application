@@ -27,6 +27,7 @@ public class RequestStatisticInterceptor extends HandlerInterceptorAdapter {
 			long startTime = System.currentTimeMillis();
 			request.setAttribute("startTime", startTime);
 			stats.incrementTotalRequests();
+			
 			String requestUri = request.getRequestURI();
 			logger.info("Intercepting: " + requestUri);
 			if (requestUri.contains("staff")) {
@@ -45,10 +46,7 @@ public class RequestStatisticInterceptor extends HandlerInterceptorAdapter {
 				stats.incrementTimetableRequest();
 			} else if (requestUri.contains("mensa")) {
 				String[] requestParts= requestUri.split("/");
-				int location=0;
-				if(requestParts.length==4){
-					location=Integer.parseInt(requestParts[3]);
-				}
+				int location=Integer.parseInt(requestParts[3]);
 				stats.incrementMensaRequest(location);
 			}
 
@@ -67,7 +65,9 @@ public class RequestStatisticInterceptor extends HandlerInterceptorAdapter {
 		try {
 			long startTime = (Long) request.getAttribute("startTime");
 			long endTime = System.currentTimeMillis();
-			stats.addExecutionTime(endTime - startTime);
+			long executionTime = endTime - startTime;
+			response.addHeader("executionTime:", ""+executionTime);
+			stats.addExecutionTime(executionTime);
 
 		} catch (SystemException e) {
 			logger.error("failure while request-statistics");

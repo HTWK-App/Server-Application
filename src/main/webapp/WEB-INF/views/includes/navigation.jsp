@@ -14,8 +14,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-            <li class="active"><a href="/app/admin/indexl"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li><a href="/app/admin/users"><i class="fa fa-bar-chart-o"></i>Users</a></li>
+            <li class="active"><a href="/app/admin/index"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="/app/admin/staff"><i class="fa fa-bar-chart-o"></i>Staff</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">

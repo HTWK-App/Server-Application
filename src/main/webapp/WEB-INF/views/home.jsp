@@ -180,6 +180,36 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+	<div class="col-lg-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<i class="fa fa-money"></i>ExectutionTime
+					</h3>
+				</div>
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table
+							class="table table-bordered table-hover table-striped tablesorter">
+							<thead>
+								<tr>
+									<th>executionTime in ms<i class="fa fa-sort"></i></th>
+								</tr>
+							</thead>
+							<tbody>
+							<c:forEach items="${execution}" var="entry">
+								<tr>
+									<td>${entry}</td>
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script type="text/javascript">
 		var data = [];
 		<c:forEach var="element" items="${types}">

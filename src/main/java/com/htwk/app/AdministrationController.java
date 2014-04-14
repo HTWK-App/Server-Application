@@ -43,6 +43,11 @@ public class AdministrationController {
 		buildingCache = (Cache<String, Building>) cacheManager.getCache("buildingCache").getNativeCache();
 		sportCache = (Cache<String, Sport>) cacheManager.getCache("sportCache").getNativeCache();
 	}
+	
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public String redirectIndex(Locale locale, Model model) {
+		return "redirect:/admin/";
+	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -66,11 +71,11 @@ public class AdministrationController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public String users(Locale locale, Model model) {
-		model.addAttribute("users", updateService.getRegisteredUsers());
-		return "users";
-	}
+//	@RequestMapping(value = "/users", method = RequestMethod.GET)
+//	public String users(Locale locale, Model model) {
+//		model.addAttribute("users", updateService.getRegisteredUsers());
+//		return "users";
+//	}
 
 	@RequestMapping(value = "/staff", method = RequestMethod.GET)
 	public String staff(Locale locale, Model model) {
