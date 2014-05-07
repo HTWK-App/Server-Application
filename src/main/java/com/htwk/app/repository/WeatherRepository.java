@@ -142,7 +142,7 @@ public class WeatherRepository {
 		}
 		
 		String uri = MessageFormat.format(weatherForecastUrl, days, "", lat, lng);
-		ResponseEntity<String> response = restTemplate.exchange(uri + location, HttpMethod.GET,
+		ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET,
 				new HttpEntity<Object>(headers), String.class);
 		Map<Long, Object> weatherData = new HashMap<Long, Object>();
 		if (response != null) {
