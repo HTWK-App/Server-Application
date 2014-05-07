@@ -1,7 +1,9 @@
 Server-Application
 ==================
 
-This repo holds the code for server side of the HTWK Leipzig App.
+This repository contains the code for server side of the HTWK Leipzig mobile Application.
+
+It uses JaveEE combined with the Spring framework.
 
 
-For further infos please use the [Wiki](https://github.com/HTWK-App/Server-Application/wiki/Home)
+For further information, please use the [Wiki](https://github.com/HTWK-App/Server-Application/wiki/Home)
