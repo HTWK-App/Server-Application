@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 
 import org.apache.xerces.impl.dv.util.Base64;
@@ -31,7 +32,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.common.cache.Cache;
@@ -51,7 +51,7 @@ public class InformationRepository {
 
 	@Autowired
 	CacheManager cacheManager;
-	
+
 	@Autowired
 	private ImageResizeService handler;
 
@@ -136,17 +136,18 @@ public class InformationRepository {
 	}
 
 	private synchronized final Staff getStaffDetailed(Staff staff) throws Exception {
-		Staff staffDetailed =  conv.getStaffDetailed(staff);
+		Staff staffDetailed = conv.getStaffDetailed(staff);
 		staffDetailed.setPictureData(getPicData(staffDetailed.getPictureLink()));
 		return staffDetailed;
-		
+
 	}
 
 	public synchronized final ResponseEntity<byte[]> getStaffPic(String cuid) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-Type", "image/jpg");
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
-		ResponseEntity<byte[]> response = restTemplate.exchange(getStaff(cuid).getPictureLink(), HttpMethod.GET, entity, byte[].class);
+		ResponseEntity<byte[]> response = restTemplate.exchange(getStaff(cuid).getPictureLink(), HttpMethod.GET,
+				entity, byte[].class);
 		return new ResponseEntity<byte[]>(compressPic(response.getBody()), headers, HttpStatus.OK);
 	}
 
@@ -224,7 +225,7 @@ public class InformationRepository {
 
 	private synchronized final Sport getSportDetailed(Sport sport) throws Exception {
 		Sport sportDetailed = conv.getSportDetailed(sport);
-//		sportDetailed.setPictureData(getSportPic(sport.getId()).getBody().toString());
+		// sportDetailed.setPictureData(getSportPic(sport.getId()).getBody().toString());
 		return sportDetailed;
 	}
 
@@ -232,7 +233,7 @@ public class InformationRepository {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-Type", "image/png");
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
-		return  restTemplate.exchange("" + getSport(id).getPictureLink(), HttpMethod.GET, entity, byte[].class);
+		return restTemplate.exchange("" + getSport(id).getPictureLink(), HttpMethod.GET, entity, byte[].class);
 	}
 
 	public synchronized final Map<String, Collection<String>> getAcademicalCalendar(String semester) {
@@ -245,16 +246,35 @@ public class InformationRepository {
 		}
 		return null;
 	}
-	
+
 	public synchronized final String getPicData(String uri) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Type", "image/jpg");
+		String prefix = "";
+		boolean compress = true;
+		if (uri.contains("gif")) {
+			prefix = "data:image/gif;base64,";
+			headers.set("Content-Type", "image/gif");
+			compress = false;
+		} else if (uri.contains("jpeg")) {
+			prefix = "data:image/jpeg;base64,";
+			headers.set("Content-Type", "image/jpeg");
+		} else if (uri.contains("jpg")) {
+			prefix = "data:image/jpg;base64,";
+			headers.set("Content-Type", "image/jpeg");
+		} else if (uri.contains("tiff")) {
+			prefix = "data:image/tiff;base64,";
+			headers.set("Content-Type", "image/tiff");
+		} else {
+			prefix = "data:image/png;base64,";
+			headers.set("Content-Type", "image/png");
+		}
+
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		ResponseEntity<byte[]> response = restTemplate.exchange(uri, HttpMethod.GET, entity, byte[].class);
-		return "data:image/png;base64,"+Base64.encode(compressPic(response.getBody()));
+		return prefix + Base64.encode(compress ? compressPic(response.getBody()) : response.getBody());
 	}
-	
-	private synchronized final byte[] compressPic(byte[] data) throws Exception{
+
+	private synchronized final byte[] compressPic(byte[] data) throws Exception {
 		ImageResizeRequest request = new ImageResizeRequest();
 		InputStream in = new ByteArrayInputStream(data);
 		BufferedImage sourceImage = ImageIO.read(in);
@@ -266,13 +286,18 @@ public class InformationRepository {
 		request.setMaintainAspect(true); // This is the default
 		request.setCropToAspect(true); // This is the default
 		request.setResizeAction(ImageResizeAction.IF_LARGER); // This is the
-																// default
-		targetImage = handler.resize(request);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(targetImage, "jpg", baos);
-		baos.flush();
-		byte[] imageInByte = baos.toByteArray();
-		baos.close();
-		return imageInByte;
+		try {
+
+			targetImage = handler.resize(request);
+			ImageIO.write(targetImage, "jpg", baos);
+			baos.flush();
+			byte[] imageInByte = baos.toByteArray();
+			return imageInByte;
+		} catch (IIOException ex) {
+			return data;
+		} finally {
+			baos.close();
+		}
 	}
 }

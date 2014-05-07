@@ -10,10 +10,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,19 +151,29 @@ public class InformationController {
 		BufferedImage sourceImage = ImageIO.read(in);
 		BufferedImage targetImage;
 
-		request.setSourceImage(sourceImage);
-		request.setTargetHeight(64);
-		request.setTargetWidth(64);
-		request.setMaintainAspect(true); // This is the default
-		request.setCropToAspect(true); // This is the default
-		request.setResizeAction(ImageResizeAction.IF_LARGER); // This is the
-																// default
-		targetImage = handler.resize(request);
+		byte[] imageInByte = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(targetImage, "jpg", baos);
-		baos.flush();
-		byte[] imageInByte = baos.toByteArray();
-		baos.close();
+
+		try {
+			request.setSourceImage(sourceImage);
+			request.setTargetHeight(64);
+			request.setTargetWidth(64);
+			request.setMaintainAspect(true); // This is the default
+			request.setCropToAspect(true); // This is the default
+			request.setResizeAction(ImageResizeAction.IF_LARGER); // This is the
+																	// default
+
+			targetImage = handler.resize(request);
+			ImageIO.write(targetImage, "jpg", baos);
+			baos.flush();
+			imageInByte = baos.toByteArray();
+		} catch (IIOException ex) {
+			imageInByte = repo.getStaffPic(cuid).getBody();
+		} catch (IllegalArgumentException ex) {
+			imageInByte = repo.getStaffPic(cuid).getBody();
+		} finally {
+			baos.close();
+		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-Type", "image/png");
 		logger.debug("{}", System.currentTimeMillis() - before);
