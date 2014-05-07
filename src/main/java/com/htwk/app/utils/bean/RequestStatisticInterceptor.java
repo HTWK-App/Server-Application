@@ -29,7 +29,6 @@ public class RequestStatisticInterceptor extends HandlerInterceptorAdapter {
 			stats.incrementTotalRequests();
 			
 			String requestUri = request.getRequestURI();
-			logger.info("Intercepting: " + requestUri);
 			if (requestUri.contains("staff")) {
 				stats.incrementStaffRequest();
 			} else if (requestUri.contains("building")) {
@@ -45,8 +44,8 @@ public class RequestStatisticInterceptor extends HandlerInterceptorAdapter {
 			} else if (requestUri.contains("timetable")) {
 				stats.incrementTimetableRequest();
 			} else if (requestUri.contains("mensa")) {
-				String[] requestParts= requestUri.split("/");
-				int location=Integer.parseInt(requestParts[3]);
+				String[] requestParts= requestUri.replace("/app/mensa/", "").split("/");
+				int location=(requestParts[0].isEmpty())?0:Integer.parseInt(requestParts[0]);
 				stats.incrementMensaRequest(location);
 			}
 
