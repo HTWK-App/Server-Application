@@ -10,7 +10,6 @@ import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Joiner;
 import com.htwk.app.model.qis.Modul;
 import com.htwk.app.model.qis.Semester;
 
@@ -25,7 +24,6 @@ public class QISConverter {
 		for (Element table : doc.select("table tbody")) {
 			Semester semester = null;
 			Modul modul = null;
-			List<Modul> submodules = new ArrayList<Modul>();
 			for (Element tr : table.select("tr")) {
 				if (tr.hasClass("semester")) {
 					response.add(semester);
@@ -33,7 +31,7 @@ public class QISConverter {
 					semester.setDescription(tr.text());
 					semester.setId(semester.getDescription().substring(0, 1));
 				}
-				if (tr.hasClass("Mp")) {
+				if (tr.hasClass("Mp") || tr.hasClass("Tl")) {
 					Element[] td = tr.select("td").toArray(new Element[4]);
 					modul = new Modul();
 					modul.setId((td[0].text() == null) ? "" : td[0].text());
@@ -87,32 +85,14 @@ public class QISConverter {
 					submodul.setEcts((td[2].text() == null) ? "" : td[2].text());
 					submodul.setMark((td[3].text() == null) ? "" : td[3].text());
 
-//					if(modul.getId().contains(submodul.getId().subSequence(0, submodul.getId().length()-1))){
+					if (modul == null) {
+						semester.getModules().add(submodul);
+					} else {
 						modul.getSubmodul().add(submodul);
-//					}else{
-//						submodules.add(submodul);
-//						semester.getModules().add(submodul);
-//					}
-					
+					}
 
 				}
 			}
-			/*
-			for (int s = 0; s < submodules.size(); s++) {
-//				boolean wasAdded = false;
-				List<Modul> modules = semester.getModules();
-				for (int m = 0; m < modules.size(); m++) {
-					String sid = submodules.get(s).getId();
-					if (modules.get(m).getId().contains(sid.subSequence(0, (sid.length() - 1)))) {
-						modules.get(m).getSubmodul().add(submodules.get(s));
-//						wasAdded = true;
-//						continue;
-					}
-				}
-//				if (!wasAdded) {
-//					semester.getModules().add(submodules.get(s));
-//				}
-			}*/
 			response.add(semester);
 		}
 		// remove all elements which are null
