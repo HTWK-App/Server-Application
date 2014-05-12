@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -99,7 +100,23 @@ public class TimetableConverter extends HTMLConverter {
 
 					Subject subject = new Subject();
 
-					subject.setKw((td[0] == null) ? new String[] {} : td[0].text().replaceAll("\\s+", "").split(","));
+					List<String> week = new ArrayList<String>(Arrays.asList((td[0] == null) ? new String[] {} : td[0]
+							.text().replaceAll("\\s+", "").split(",")));
+					List<String> remove = new ArrayList<String>();
+					for (int i = 0; i < week.size(); i++) {
+						if (week.get(i).contains("-")) {
+							int start = new Integer(week.get(i).split("-")[0]);
+							int end = new Integer(week.get(i).split("-")[1]);
+							while (start <= end) {
+								week.add("" + start++);
+							}
+							remove.add(week.get(i));
+						}
+					}
+					week.removeAll(remove);
+					String[] weekArray = new String[week.size()];
+					week.toArray(weekArray);
+					subject.setKw(weekArray);
 					subject.setBegin((td[1] == null) ? "" : td[1].text());
 					subject.setEnd((td[2] == null) ? "" : td[2].text());
 					subject.setLocation((td[3] == null) ? "" : td[3].text());
