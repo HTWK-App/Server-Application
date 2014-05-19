@@ -1,0 +1,1570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dozentenliste.xsl"?>
+<studium timestamp="14.05.2014 - 17.15 Uhr">
+	<kurztext name="ACKERM" id="ACKERM">
+		<dozent name="Prof. Dr.-Ing. Jörg Ackermann" id="Prof. Dr.-Ing. Jörg Ackermann">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="AHLF" id="AHLF">
+		<dozent name="Dipl.-Ing. Lutz Ahlfeld" id="Dipl.-Ing. Lutz Ahlfeld">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ALAKEL" id="ALAKEL">
+		<dozent name="Prof. Dr.-Ing. Said Al-Akel" id="Prof. Dr.-Ing. Said Al-Akel">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ALGHA" id="ALGHA">
+		<dozent name="Prof. Dr.-Ing. Yaarob Al Ghanem" id="Prof. Dr.-Ing. Yaarob Al Ghanem">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="AMLING" id="AMLING">
+		<dozent name="Prof. Dr. rer. pol. Thomas Amling" id="Prof. Dr. rer. pol. Thomas Amling">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BAESEL" id="BAESEL">
+		<dozent name="Prof. Dr.-Ing. Dr. rer. nat. Uwe Bäsel" id="Prof. Dr.-Ing. Dr. rer. nat. Uwe Bäsel">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BARTHS" id="BARTHS">
+		<dozent name="M.Sc. Swantje Barth" id="M.Sc. Swantje Barth">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BAST" id="BAST">
+		<dozent name="Prof. Dr. rer. nat. Klaus Bastian" id="Prof. Dr. rer. nat. Klaus Bastian">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BEHSE" id="BEHSE">
+		<dozent name="Prof. Dr. Grit Behse-Bartels" id="Prof. Dr. Grit Behse-Bartels">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BELLM" id="BELLM">
+		<dozent name="Prof. Dr. phil. Uwe Bellmann" id="Prof. Dr. phil. Uwe Bellmann">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BERLI" id="BERLI">
+		<dozent name="Dr. rer. nat. Andrea Berlich" id="Dr. rer. nat. Andrea Berlich">
+			<fakultaet name="GÄSTE_FIMN" id="GÄSTE_FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BERTEL" id="BERTEL">
+		<dozent name="Dipl.-Ing. Andree Bertel" id="Dipl.-Ing. Andree Bertel">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BIES" id="BIES">
+		<dozent name="Prof. Dr. phil. Ernst-Peter Biesalski" id="Prof. Dr. phil. Ernst-Peter Biesalski">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BINDER" id="BINDER">
+		<dozent name="Dipl.-Phys. Ralf Binder" id="Dipl.-Phys. Ralf Binder">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BIRK" id="BIRK">
+		<dozent name="Dipl.-Ing. (FH) Christian Birkner" id="Dipl.-Ing. (FH) Christian Birkner">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BITTN" id="BITTN">
+		<dozent name="Prof. Dr.-Ing. Helmar Bittner" id="Prof. Dr.-Ing. Helmar Bittner">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BLEYM" id="BLEYM">
+		<dozent name="Prof. Dr.-Ing. Jörg Bleymehl" id="Prof. Dr.-Ing. Jörg Bleymehl">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BRANK" id="BRANK">
+		<dozent name="Dipl.-Lehrerin Gisela Brankatschk" id="Dipl.-Lehrerin Gisela Brankatschk">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BRAUM" id="BRAUM">
+		<dozent name="Prof. Dr.-Ing. Ulf-Dietrich Braumann" id="Prof. Dr.-Ing. Ulf-Dietrich Braumann">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BRETSC" id="BRETSC">
+		<dozent name="Dr.-Ing. Nick Bretschneider" id="Dr.-Ing. Nick Bretschneider">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BRUCH" id="BRUCH">
+		<dozent name="Dipl.-Lehrerin Regina Bruch" id="Dipl.-Lehrerin Regina Bruch">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="BUCHER" id="BUCHER">
+		<dozent name="Prof. Dr.-Ing. Anke Bucher" id="Prof. Dr.-Ing. Anke Bucher">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="CLOODT" id="CLOODT">
+		<dozent name="M.A. Sigrid Cloodt" id="M.A. Sigrid Cloodt">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="CROEN" id="CROEN">
+		<dozent name="Dr. rer. pol. Oliver Crönertz" id="Dr. rer. pol. Oliver Crönertz">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DANNER" id="DANNER">
+		<dozent name="Prof. Dr. phil. Stefan Danner" id="Prof. Dr. phil. Stefan Danner">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DATHE" id="DATHE">
+		<dozent name="Dipl.-Math. Hanka Dathe" id="Dipl.-Math. Hanka Dathe">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DAVIES" id="DAVIES">
+		<dozent name="Gwen Davies" id="Gwen Davies">
+			<fakultaet name="GÄSTE_HSZ" id="GÄSTE_HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DERBEL" id="DERBEL">
+		<dozent name="Prof. Dr.-Ing. Faouzi Derbel" id="Prof. Dr.-Ing. Faouzi Derbel">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DIBOW" id="DIBOW">
+		<dozent name="Prof. Dr. rer. nat. Klaus Dibowski" id="Prof. Dr. rer. nat. Klaus Dibowski">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DIBOWA" id="DIBOWA">
+		<dozent name="Dipl. Math. Angelika Dibowski" id="Dipl. Math. Angelika Dibowski">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DIECKM" id="DIECKM">
+		<dozent name="Prof. Dr. rer. pol. Randolf Dieckmann" id="Prof. Dr. rer. pol. Randolf Dieckmann">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DITGES" id="DITGES">
+		<dozent name="Prof. Dr. rer. pol. Johannes Ditges" id="Prof. Dr. rer. pol. Johannes Ditges">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DOBNER" id="DOBNER">
+		<dozent name="Prof. Dr. rer. nat. habil. Hans-Jürgen Dobner" id="Prof. Dr. rer. nat. habil. Hans-Jürgen Dobner">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DORN" id="DORN">
+		<dozent name="Dipl.-Chem. Karl-Heinz Dorn" id="Dipl.-Chem. Karl-Heinz Dorn">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="DOSS" id="DOSS">
+		<dozent name="Dipl.-Ing. Jan Dossin" id="Dipl.-Ing. Jan Dossin">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="EHLERS" id="EHLERS">
+		<dozent name="Prof. Dr. Corinna Ehlers" id="Prof. Dr. Corinna Ehlers">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ENGELM" id="ENGELM">
+		<dozent name="Prof. Dr. rer. nat. habil. Bernd Engelmann" id="Prof. Dr. rer. nat. habil. Bernd Engelmann">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ENGHDT" id="ENGHDT">
+		<dozent name="Clara von Engelhardt" id="Clara von Engelhardt">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ENGISCH" id="ENGISCH">
+		<dozent name="Prof. Dr. rer. nat. Lutz Engisch" id="Prof. Dr. rer. nat. Lutz Engisch">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="EVERS" id="EVERS">
+		<dozent name="M.sc. Dipl.-Ing.(FH) Holger Evers" id="M.sc. Dipl.-Ing.(FH) Holger Evers">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FAST" id="FAST">
+		<dozent name="Dipl.-Ing. Oliver Fasterding" id="Dipl.-Ing. Oliver Fasterding">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FELLM" id="FELLM">
+		<dozent name="Prof. Dr.-Ing. Dieter Fellmann" id="Prof. Dr.-Ing. Dieter Fellmann">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FERNANDEZ" id="FERNANDEZ">
+		<dozent name="RA Isabel Fernández de Castillejo" id="RA Isabel Fernández de Castillejo">
+			<fakultaet name="GÄSTE_FAS_S" id="GÄSTE_FAS_S"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FESTER" id="FESTER">
+		<dozent name="Dipl.-Ing. Dagmar Fester" id="Dipl.-Ing. Dagmar Fester">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FIEDL" id="FIEDL">
+		<dozent name="Dr.-Ing. Lutz-Detlef Fiedler" id="Dr.-Ing. Lutz-Detlef Fiedler">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FIEDLB" id="FIEDLB">
+		<dozent name="Dr. rer. nat. habil. Bernd Fiedler" id="Dr. rer. nat. habil. Bernd Fiedler">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FINKE" id="FINKE">
+		<dozent name="Dipl.-Ing. Jörg Finke" id="Dipl.-Ing. Jörg Finke">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FISCH" id="FISCH">
+		<dozent name="Prof. Dr.-Ing. Thomas Fischer" id="Prof. Dr.-Ing. Thomas Fischer">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FLECHT" id="FLECHT">
+		<dozent name="Dipl.-Ing. Andreas Flechtner" id="Dipl.-Ing. Andreas Flechtner">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FLEI" id="FLEI">
+		<dozent name="Prof. Dr. Sandra Fleischer" id="Prof. Dr. Sandra Fleischer">
+			<fakultaet name="GÄSTE_FIMN" id="GÄSTE_FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FLEMM" id="FLEMM">
+		<dozent name="Prof. Dr.-Ing.  Arend Flemming" id="Prof. Dr.-Ing.  Arend Flemming">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FLUEGGE" id="FLUEGGE">
+		<dozent name="Dipl.-Ing. Martin Flügge" id="Dipl.-Ing. Martin Flügge">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FOERST" id="FOERST">
+		<dozent name="Prof. Dr. Heike Förster" id="Prof. Dr. Heike Förster">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FRANK" id="FRANK">
+		<dozent name="Prof. Dr. rer. nat. habil. Michael Frank" id="Prof. Dr. rer. nat. habil. Michael Frank">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FRANKS" id="FRANKS">
+		<dozent name="Prof. Dr. Stefan Frank" id="Prof. Dr. Stefan Frank">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="FRIES" id="FRIES">
+		<dozent name="Dipl.-Ing. (FH) Andreas Frieser" id="Dipl.-Ing. (FH) Andreas Frieser">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GABER" id="GABER">
+		<dozent name="Prof. Dr.-Ing. Klaus Gaber" id="Prof. Dr.-Ing. Klaus Gaber">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GEITN" id="GEITN">
+		<dozent name="Dipl.-Ing. Andreas Geitner" id="Dipl.-Ing. Andreas Geitner">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GENENN" id="GENENN">
+		<dozent name="Dipl.-Pol./Soz. Bernd Genennig" id="Dipl.-Pol./Soz. Bernd Genennig">
+			<fakultaet name="GÄSTE_FB" id="GÄSTE_FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GESER" id="GESER">
+		<dozent name="Prof. Dr. rer. nat. habil. Alfons Geser" id="Prof. Dr. rer. nat. habil. Alfons Geser">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GIERA" id="GIERA">
+		<dozent name="Anne Gieritz" id="Anne Gieritz">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GOEHL" id="GOEHL">
+		<dozent name="Dipl.-Ing. (FH) André Göhlich" id="Dipl.-Ing. (FH) André Göhlich">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GOMON" id="GOMON">
+		<dozent name="Dipl.-Ing. (FH) Sebastian Gomon" id="Dipl.-Ing. (FH) Sebastian Gomon">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GROHM" id="GROHM">
+		<dozent name="Prof. Dr.-Ing. Rolf Grohmann" id="Prof. Dr.-Ing. Rolf Grohmann">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GROK" id="GROK">
+		<dozent name="Dipl.-Ing. Frank Groksch" id="Dipl.-Ing. Frank Groksch">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GROSS" id="GROSS">
+		<dozent name="Prof. Dr. Alexander Grossmann" id="Prof. Dr. Alexander Grossmann">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GRUETT" id="GRUETT">
+		<dozent name="Prof. Dr. rer. nat. habil. Martin Grüttmüller" id="Prof. Dr. rer. nat. habil. Martin Grüttmüller">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GRUHNE" id="GRUHNE">
+		<dozent name="Dr. Volker Gruhne" id="Dr. Volker Gruhne">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="GUTTKE" id="GUTTKE">
+		<dozent name="Dipl.-Ing. Sebastian Guttke" id="Dipl.-Ing. Sebastian Guttke">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HACKER" id="HACKER">
+		<dozent name="Prof. Dr. phil. Gerhard Hacker" id="Prof. Dr. phil. Gerhard Hacker">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HAEHLE" id="HAEHLE">
+		<dozent name="Prof. Dr.-Ing. Winfried Hähle" id="Prof. Dr.-Ing. Winfried Hähle">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HAENSS" id="HAENSS">
+		<dozent name="Prof. Dr. rer. nat. Klaus Hänßgen" id="Prof. Dr. rer. nat. Klaus Hänßgen">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HARTMH" id="HARTMH">
+		<dozent name="Prof. Dr. Heiko Hartmann" id="Prof. Dr. Heiko Hartmann">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HARTMT" id="HARTMT">
+		<dozent name="Prof. Dr.-Ing. Thomas Hartmann" id="Prof. Dr.-Ing. Thomas Hartmann">
+			<fakultaet name="GÄSTE_FME" id="GÄSTE_FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HATT" id="HATT">
+		<dozent name="B.Eng. Nico Hattendorf" id="B.Eng. Nico Hattendorf">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HBSTR" id="HBSTR">
+		<dozent name="Prof. Dr.-Ing. Kerstin Hebestreit" id="Prof. Dr.-Ing. Kerstin Hebestreit">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HEBST" id="HEBST">
+		<dozent name="Prof. Dr.-Ing. Andreas Hebestreit" id="Prof. Dr.-Ing. Andreas Hebestreit">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HEIM" id="HEIM">
+		<dozent name="Prof. Dr.-Ing. Tilo Heimbold" id="Prof. Dr.-Ing. Tilo Heimbold">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HENK" id="HENK">
+		<dozent name="M.A. Annemarie Henker" id="M.A. Annemarie Henker">
+			<fakultaet name="GÄSTE_FAS_S" id="GÄSTE_FAS_S"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HENT" id="HENT">
+		<dozent name="Prof. Dr.-Ing. habil. Dagmar Hentschel" id="Prof. Dr.-Ing. habil. Dagmar Hentschel">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HERFERT" id="HERFERT">
+		<dozent name="Prof. Dr. Matthias Herfert" id="Prof. Dr. Matthias Herfert">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HERING" id="HERING">
+		<dozent name="Prof. Dr. rer. nat. Klaus Hering" id="Prof. Dr. rer. nat. Klaus Hering">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HERMA" id="HERMA">
+		<dozent name="Prof. Mag. Arch. Hubert Hermann" id="Prof. Mag. Arch. Hubert Hermann">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HERNAN" id="HERNAN">
+		<dozent name="M.A. Cristian Hernandez" id="M.A. Cristian Hernandez">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HERZAU" id="HERZAU">
+		<dozent name="Prof. Dr.-Ing. Eugen Herzau" id="Prof. Dr.-Ing. Eugen Herzau">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HERZG" id="HERZG">
+		<dozent name="Prof. Dr.-Ing. Ulrike Herzau-Gerhardt" id="Prof. Dr.-Ing. Ulrike Herzau-Gerhardt">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HERZM" id="HERZM">
+		<dozent name="Dipl.-Ing. (FH) Melanie Herzau" id="Dipl.-Ing. (FH) Melanie Herzau">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HEUER" id="HEUER">
+		<dozent name="Antje Heuer" id="Antje Heuer">
+			<fakultaet name="GÄSTE_FAS_AR" id="GÄSTE_FAS_AR"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HILD" id="HILD">
+		<dozent name="Prof. Dr. rer. nat. habil. Rosemarie Hild" id="Prof. Dr. rer. nat. habil. Rosemarie Hild">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HIRSCH" id="HIRSCH">
+		<dozent name="M.Eng. Marc Hirschfeld" id="M.Eng. Marc Hirschfeld">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HNZE" id="HNZE">
+		<dozent name="Prof. Dr.-Ing. Inés Heinze" id="Prof. Dr.-Ing. Inés Heinze">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HODES" id="HODES">
+		<dozent name="Dipl.-Ing. (FH) Alexandra Hodes" id="Dipl.-Ing. (FH) Alexandra Hodes">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HOFFM" id="HOFFM">
+		<dozent name="Dr. Frank Hoffmann" id="Dr. Frank Hoffmann">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HOFMG" id="HOFMG">
+		<dozent name="Dr. rer. nat. habil. Gerald Hofmann" id="Dr. rer. nat. habil. Gerald Hofmann">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HOLDT" id="HOLDT">
+		<dozent name="Dipl.-Ing. Jochen Holdt" id="Dipl.-Ing. Jochen Holdt">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HOLSCH" id="HOLSCH">
+		<dozent name="Prof. Dr.-Ing. Klaus Holschemacher" id="Prof. Dr.-Ing. Klaus Holschemacher">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HOOFF" id="HOOFF">
+		<dozent name="Prof. Dr. Gabriele Hooffacker" id="Prof. Dr. Gabriele Hooffacker">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HUELSM" id="HUELSM">
+		<dozent name="Prof. Dipl.-Ing. Frank Hülsmeier" id="Prof. Dipl.-Ing. Frank Hülsmeier">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="HUETT" id="HUETT">
+		<dozent name="Prof. Dr. oec. pol. Sabine Hüttinger" id="Prof. Dr. oec. pol. Sabine Hüttinger">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="IDE" id="IDE">
+		<dozent name="Prof. Christian Ide" id="Prof. Christian Ide">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="IGEL" id="IGEL">
+		<dozent name="Dipl.Soz.arb./Soz.päd. (FH) Ulrike Igel" id="Dipl.Soz.arb./Soz.päd. (FH) Ulrike Igel">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ILLING" id="ILLING">
+		<dozent name="Prof. Dr.-Ing. Frank Illing" id="Prof. Dr.-Ing. Frank Illing">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="JAEGER" id="JAEGER">
+		<dozent name="Prof. Dr.-Ing. Frank Jaeger" id="Prof. Dr.-Ing. Frank Jaeger">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="JAEKEL" id="JAEKEL">
+		<dozent name="Prof. Dr.-Ing. Jens Jäkel" id="Prof. Dr.-Ing. Jens Jäkel">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="JAHNT" id="JAHNT">
+		<dozent name="Prof. Dr.-Ing. Thomas Jahn" id="Prof. Dr.-Ing. Thomas Jahn">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="JAKOB" id="JAKOB">
+		<dozent name="Dipl.-Ing. Peter Jakob" id="Dipl.-Ing. Peter Jakob">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="JANSS" id="JANSS">
+		<dozent name="Prof. Dr. Gunter Janssen" id="Prof. Dr. Gunter Janssen">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="JEDAM" id="JEDAM">
+		<dozent name="Dipl.-Ing. (FH) Oliver Jedamzik" id="Dipl.-Ing. (FH) Oliver Jedamzik">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="JOLIET" id="JOLIET">
+		<dozent name="M.Mus. Patricia Joliet" id="M.Mus. Patricia Joliet">
+			<fakultaet name="GÄSTE_HSZ" id="GÄSTE_HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="JUNG" id="JUNG">
+		<dozent name="Prof. Dr.-Ing. Uwe Jung" id="Prof. Dr.-Ing. Uwe Jung">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="JURADO" id="JURADO">
+		<dozent name="Mauricio Jurado Abreu" id="Mauricio Jurado Abreu">
+			<fakultaet name="GÄSTE_HSZ" id="GÄSTE_HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KAD" id="KAD">
+		<dozent name="Ben Kaden" id="Ben Kaden">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KAHLERT" id="KAHLERT">
+		<dozent name="Prof. Dr. Dirk Kahlert" id="Prof. Dr. Dirk Kahlert">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KAHLI" id="KAHLI">
+		<dozent name="Prof. Dr. Thomas Kalisch" id="Prof. Dr. Thomas Kalisch">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KAPPH" id="KAPPH">
+		<dozent name="Dr. rer nat. Gerd Kapphahn" id="Dr. rer nat. Gerd Kapphahn">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KARWA" id="KARWA">
+		<dozent name="Prof. Dr.-Ing. Bernd Karwatzky" id="Prof. Dr.-Ing. Bernd Karwatzky">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KELOI" id="KELOI">
+		<dozent name="Prof. Dr. phil. Kerstin Keller-Loibl" id="Prof. Dr. phil. Kerstin Keller-Loibl">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KLINK" id="KLINK">
+		<dozent name="Dr.-Ing. Thomas Klink" id="Dr.-Ing. Thomas Klink">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KLOEHN" id="KLOEHN">
+		<dozent name="Prof. Dr.-Ing. Carsten Klöhn" id="Prof. Dr.-Ing. Carsten Klöhn">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KLUGY" id="KLUGY">
+		<dozent name="Dipl.-Ing. Yvette Klug" id="Dipl.-Ing. Yvette Klug">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KLUTT" id="KLUTT">
+		<dozent name="Dr. Thekla Kluttig" id="Dr. Thekla Kluttig">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KNOLL" id="KNOLL">
+		<dozent name="Prof. Dr. jur. Heinz-Christian Knoll" id="Prof. Dr. jur. Heinz-Christian Knoll">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KOEHR" id="KOEHR">
+		<dozent name="Prof. Dr.-Ing. Pierre Köhring" id="Prof. Dr.-Ing. Pierre Köhring">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KOENIG" id="KOENIG">
+		<dozent name="Dipl.-Math. Dörte König" id="Dipl.-Math. Dörte König">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KORB" id="KORB">
+		<dozent name="Prof. Dr. sc. hum. Werner Korb" id="Prof. Dr. sc. hum. Werner Korb">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KRAEMER" id="KRAEMER">
+		<dozent name="Prof. Dr. rer. nat. Heinrich Krämer" id="Prof. Dr. rer. nat. Heinrich Krämer">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KRAFT" id="KRAFT">
+		<dozent name="Prof. Dr.-Ing. Ingo Kraft" id="Prof. Dr.-Ing. Ingo Kraft">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KRAUT" id="KRAUT">
+		<dozent name="M.A. Matthias Kraut" id="M.A. Matthias Kraut">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KREDT" id="KREDT">
+		<dozent name="Dipl.-Ing. Matthias Kredt" id="Dipl.-Ing. Matthias Kredt">
+			<fakultaet name="GÄSTE_FB" id="GÄSTE_FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KREMO" id="KREMO">
+		<dozent name="Dr.-Ing. André Kremonke" id="Dr.-Ing. André Kremonke">
+			<fakultaet name="GÄSTE_FME" id="GÄSTE_FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KRETSCH" id="KRETSCH">
+		<dozent name="Dipl.-Ing.(FH) Timo Kretschmer" id="Dipl.-Ing.(FH) Timo Kretschmer">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KROPF" id="KROPF">
+		<dozent name="Dipl.-Ing. (FH) Dietmar Kropf" id="Dipl.-Ing. (FH) Dietmar Kropf">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KUBES" id="KUBES">
+		<dozent name="Prof. Dr.-Ing. Michael Kubessa" id="Prof. Dr.-Ing. Michael Kubessa">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KUDRA" id="KUDRA">
+		<dozent name="Prof. Dr.-Ing. Thomas Kudraß" id="Prof. Dr.-Ing. Thomas Kudraß">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KUEMP" id="KUEMP">
+		<dozent name="Philipp Kümpel" id="Philipp Kümpel">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KUEST" id="KUEST">
+		<dozent name="M.A. Babette Küster" id="M.A. Babette Küster">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KUJUM" id="KUJUM">
+		<dozent name="Dipl.-Lehrerin Dagmar Kujumdshiev" id="Dipl.-Lehrerin Dagmar Kujumdshiev">
+			<fakultaet name="GÄSTE_HSZ" id="GÄSTE_HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="KULI" id="KULI">
+		<dozent name="Prof. Dr.-Ing. Uwe Kulisch" id="Prof. Dr.-Ing. Uwe Kulisch">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LABSCH" id="LABSCH">
+		<dozent name="Prof. Dr. jur. Karl Heinz Labsch" id="Prof. Dr. jur. Karl Heinz Labsch">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LANDG" id="LANDG">
+		<dozent name="Prof. Dr.-Ing. Karin Landgraf" id="Prof. Dr.-Ing. Karin Landgraf">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LANDMA" id="LANDMA">
+		<dozent name="Grit Landmann" id="Grit Landmann">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LANGEC" id="LANGEC">
+		<dozent name="Dipl.-Ing. Christine Lange" id="Dipl.-Ing. Christine Lange">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LASA" id="LASA">
+		<dozent name="Prof. Dr. rer. nat. habil. Andreas Lasarow" id="Prof. Dr. rer. nat. habil. Andreas Lasarow">
+			<fakultaet name="GÄSTE_FIMN" id="GÄSTE_FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LAUKN" id="LAUKN">
+		<dozent name="Prof. Dr.-Ing. Matthias Laukner" id="Prof. Dr.-Ing. Matthias Laukner">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LEHMR" id="LEHMR">
+		<dozent name="RA Ralf Lehmann" id="RA Ralf Lehmann">
+			<fakultaet name="GÄSTE_FIMN" id="GÄSTE_FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LEIMER" id="LEIMER">
+		<dozent name="Prof. Dr.-Ing. Frank-Dietrich Leimer" id="Prof. Dr.-Ing. Frank-Dietrich Leimer">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LENZEN" id="LENZEN">
+		<dozent name="Prof. Dr.-Ing. Armin Lenzen" id="Prof. Dr.-Ing. Armin Lenzen">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LEONH" id="LEONH">
+		<dozent name="Dr. Peter Leonhardt" id="Dr. Peter Leonhardt">
+			<fakultaet name="GÄSTE_FAS_AR" id="GÄSTE_FAS_AR"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LEWIT" id="LEWIT">
+		<dozent name="Prof. Dr.-Ing. Wilfried Lewitzki" id="Prof. Dr.-Ing. Wilfried Lewitzki">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LIESCH" id="LIESCH">
+		<dozent name="Prof. Dr. jur. Marc Liesching" id="Prof. Dr. jur. Marc Liesching">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LOEFF" id="LOEFF">
+		<dozent name="Prof. Dipl.-Ing.  Anthusa Löffler" id="Prof. Dipl.-Ing.  Anthusa Löffler">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LOOK" id="LOOK">
+		<dozent name="Prof. Dr. jur. Frank van Look" id="Prof. Dr. jur. Frank van Look">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LUDW" id="LUDW">
+		<dozent name="Dipl.-Phys. Karin Ludwigs" id="Dipl.-Phys. Karin Ludwigs">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="LUEDERS" id="LUEDERS">
+		<dozent name="Prof. Dr. rer. nat. habil. Konrad Lüders" id="Prof. Dr. rer. nat. habil. Konrad Lüders">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MAKAR" id="MAKAR">
+		<dozent name="Dipl.-Lehrerin Tamara Makarowa" id="Dipl.-Lehrerin Tamara Makarowa">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MALZ" id="MALZ">
+		<dozent name="Angela Malz" id="Angela Malz">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MANDL" id="MANDL">
+		<dozent name="Dipl.-Ing. Kathrin Mandler" id="Dipl.-Ing. Kathrin Mandler">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MANE" id="MANE">
+		<dozent name="Prof. Dr. jur. Cornelia Manger-Nestler" id="Prof. Dr. jur. Cornelia Manger-Nestler">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MANNS" id="MANNS">
+		<dozent name="Dr. Sophia Manns-Süßbrich" id="Dr. Sophia Manns-Süßbrich">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MARTIN" id="MARTIN">
+		<dozent name="Prof. Dr. rer. nat. Tobias Martin" id="Prof. Dr. rer. nat. Tobias Martin">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MATIJ" id="MATIJ">
+		<dozent name="Dipl.-Sprachmittler Igor Matijaschtschuk" id="Dipl.-Sprachmittler Igor Matijaschtschuk">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MAYER" id="MAYER">
+		<dozent name="Prof. M.Arch. (USA) Wilfried Mayer" id="Prof. M.Arch. (USA) Wilfried Mayer">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MENT" id="MENT">
+		<dozent name="Prof. Dr.-Ing. Annette Menting" id="Prof. Dr.-Ing. Annette Menting">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MIKUS" id="MIKUS">
+		<dozent name="Prof. Dr. rer. pol. Barbara Mikus" id="Prof. Dr. rer. pol. Barbara Mikus">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MILKE" id="MILKE">
+		<dozent name="Prof. Dr.-Ing. Hubertus Milke" id="Prof. Dr.-Ing. Hubertus Milke">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MITZE" id="MITZE">
+		<dozent name="Josephine Mitze" id="Josephine Mitze">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MOEBU" id="MOEBU">
+		<dozent name="Prof. Dr. Harald Möbus" id="Prof. Dr. Harald Möbus">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MOELL" id="MOELL">
+		<dozent name="Prof. Dr.-Ing. Ulrich Möller" id="Prof. Dr.-Ing. Ulrich Möller">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MORS" id="MORS">
+		<dozent name="Dipl.-Math. Christoph Morschel" id="Dipl.-Math. Christoph Morschel">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MUELB" id="MUELB">
+		<dozent name="Dipl.-Lehrerin Barbara Müller" id="Dipl.-Lehrerin Barbara Müller">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MUELH" id="MUELH">
+		<dozent name="Prof. Dr. Holger Müller" id="Prof. Dr. Holger Müller">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MUELRH" id="MUELRH">
+		<dozent name="Prof. Dr.-Ing. Reinhard Müller" id="Prof. Dr.-Ing. Reinhard Müller">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="MUELRO" id="MUELRO">
+		<dozent name="Prof. Dr.-Ing. Robert Müller" id="Prof. Dr.-Ing. Robert Müller">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="NAGEL" id="NAGEL">
+		<dozent name="Dipl.-Ing. (FH) Henning Nagel" id="Dipl.-Ing. (FH) Henning Nagel">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="NERGER" id="NERGER">
+		<dozent name="Prof. Dr.-Ing. Falk Nerger" id="Prof. Dr.-Ing. Falk Nerger">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="NEUBU" id="NEUBU">
+		<dozent name="Dipl.-Ing. (FH) Martin Neuburger" id="Dipl.-Ing. (FH) Martin Neuburger">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="NEUMUTH" id="NEUMUTH">
+		<dozent name="Prof. Dr. Thomas Neumuth" id="Prof. Dr. Thomas Neumuth">
+			<fakultaet name="GÄSTE_FEIT" id="GÄSTE_FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="NIET" id="NIET">
+		<dozent name="Prof. Dr.-Ing. Lutz Nietner" id="Prof. Dr.-Ing. Lutz Nietner">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="NIK" id="NIK">
+		<dozent name="Prof. Dr. rer. pol. Ulrich Nikolaus" id="Prof. Dr. rer. pol. Ulrich Nikolaus">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="NIKOL" id="NIKOL">
+		<dozent name="Prof. Dr. phil. Andrea Nikolaizig" id="Prof. Dr. phil. Andrea Nikolaizig">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="NN1_FAS" id="NN1_FAS">
+		<dozent name="NN1_FAS" id="NN1_FAS">
+			<fakultaet name="GÄSTE_FAS_S" id="GÄSTE_FAS_S"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="NN2_FAS" id="NN2_FAS">
+		<dozent name="NN2_FAS" id="NN2_FAS">
+			<fakultaet name="GÄSTE_FAS_S" id="GÄSTE_FAS_S"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ORBECK" id="ORBECK">
+		<dozent name="Dipl.-Bibl. (Univ.) Ursula Orbeck" id="Dipl.-Bibl. (Univ.) Ursula Orbeck">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PELTRI" id="PELTRI">
+		<dozent name="Dr. rer. nat. Gregor Peltri" id="Dr. rer. nat. Gregor Peltri">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PERCH" id="PERCH">
+		<dozent name="Lisa Perchermeier" id="Lisa Perchermeier">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PERT" id="PERT">
+		<dozent name="Dipl.-Ing. Antje Pertzsch" id="Dipl.-Ing. Antje Pertzsch">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PETERM" id="PETERM">
+		<dozent name="Prof. Dr. rer. nat. Uwe Petermann" id="Prof. Dr. rer. nat. Uwe Petermann">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PETRI" id="PETRI">
+		<dozent name="MA Isabel Petri" id="MA Isabel Petri">
+			<fakultaet name="GÄSTE_FW" id="GÄSTE_FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PIEL" id="PIEL">
+		<dozent name="Prof. Dr. rer. pol. Andreas Piel" id="Prof. Dr. rer. pol. Andreas Piel">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PLATO" id="PLATO">
+		<dozent name="Dipl.-Des. Julia Plato (Teilzeit)" id="Dipl.-Des. Julia Plato (Teilzeit)">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="POESCH" id="POESCH">
+		<dozent name="Dipl.-Phys. Karen Pöschel" id="Dipl.-Phys. Karen Pöschel">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="POLST" id="POLST">
+		<dozent name="Dipl.Soz.arb./Soz.päd. (FH) Silke Polster" id="Dipl.Soz.arb./Soz.päd. (FH) Silke Polster">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="POPPE" id="POPPE">
+		<dozent name="BA Sally Poppe" id="BA Sally Poppe">
+			<fakultaet name="GÄSTE_HSZ" id="GÄSTE_HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PRESER" id="PRESER">
+		<dozent name="Prof. Dr.-Ing. Frank Preser" id="Prof. Dr.-Ing. Frank Preser">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PRET" id="PRET">
+		<dozent name="Prof. Dr.-Ing. Andreas Pretschner" id="Prof. Dr.-Ing. Andreas Pretschner">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PSCHLT" id="PSCHLT">
+		<dozent name="Prof. Dr. rer. pol. Helmut Pischulti" id="Prof. Dr. rer. pol. Helmut Pischulti">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="PUITS" id="PUITS">
+		<dozent name="Dipl.-Ing. Cornelia du Puits" id="Dipl.-Ing. Cornelia du Puits">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RAFF" id="RAFF">
+		<dozent name="Dr. Christian Rafflenbeul-Schaub" id="Dr. Christian Rafflenbeul-Schaub">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RAHNF" id="RAHNF">
+		<dozent name="Dr. Claudia Rahnfeld" id="Dr. Claudia Rahnfeld">
+			<fakultaet name="GÄSTE_FAS_S" id="GÄSTE_FAS_S"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RAMBOW" id="RAMBOW">
+		<dozent name="Prof. Dipl./Arch (GB Sheff.) Henning Rambow" id="Prof. Dipl./Arch (GB Sheff.) Henning Rambow">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RCHL" id="RCHL">
+		<dozent name="Prof. Dr. rer. pol. Horst Christopher Reichel" id="Prof. Dr. rer. pol. Horst Christopher Reichel">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RCHLT" id="RCHLT">
+		<dozent name="Prof. Dr.-Ing. Bernd Reichelt" id="Prof. Dr.-Ing. Bernd Reichelt">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="REICHE" id="REICHE">
+		<dozent name="Prof. Dr.-Ing. Michael Reiche" id="Prof. Dr.-Ing. Michael Reiche">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="REIM" id="REIM">
+		<dozent name="Prof. Dr.-Ing. Dietmar Reimann" id="Prof. Dr.-Ing. Dietmar Reimann">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="REINHA" id="REINHA">
+		<dozent name="Dipl.-Ing. (FH) Andreas Reinhold" id="Dipl.-Ing. (FH) Andreas Reinhold">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="REINHW" id="REINHW">
+		<dozent name="Prof. Dr.-Ing. habil. Wolfgang Reinhold" id="Prof. Dr.-Ing. habil. Wolfgang Reinhold">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="REUSCH" id="REUSCH">
+		<dozent name="Prof. Dr.-Ing. Elke Reuschel" id="Prof. Dr.-Ing. Elke Reuschel">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RICH" id="RICH">
+		<dozent name="Prof. Dr.-Ing. Hendrik Richter" id="Prof. Dr.-Ing. Hendrik Richter">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RICHT" id="RICHT">
+		<dozent name="Prof. Dr. phil. Kornelia Richter" id="Prof. Dr. phil. Kornelia Richter">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RIECH" id="RIECH">
+		<dozent name="Prof. Dr. Thomas Riechert" id="Prof. Dr. Thomas Riechert">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RIEG" id="RIEG">
+		<dozent name="Prof. Dr.-Ing. Bernhard Rieger" id="Prof. Dr.-Ing. Bernhard Rieger">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RIEMER" id="RIEMER">
+		<dozent name="Prof. Dr.-Ing. Detlef Riemer" id="Prof. Dr.-Ing. Detlef Riemer">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ROCH" id="ROCH">
+		<dozent name="Prof. Dr. rer. nat. Frank Roch" id="Prof. Dr. rer. nat. Frank Roch">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ROGALLA" id="ROGALLA">
+		<dozent name="Dipl. Oecotroph. (FH) Janice Rogalla" id="Dipl. Oecotroph. (FH) Janice Rogalla">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ROHAC" id="ROHAC">
+		<dozent name="M.A.  Stephanie Rohac" id="M.A.  Stephanie Rohac">
+			<fakultaet name="GÄSTE_FW" id="GÄSTE_FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ROHDE" id="ROHDE">
+		<dozent name="Prof. Dr. phil. Bernhard Rohde" id="Prof. Dr. phil. Bernhard Rohde">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RONN" id="RONN">
+		<dozent name="Paul Ronning" id="Paul Ronning">
+			<fakultaet name="GÄSTE_HSZ" id="GÄSTE_HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ROSBG" id="ROSBG">
+		<dozent name="Prof. Dr.-Ing. habil. Käte Rosenberger" id="Prof. Dr.-Ing. habil. Käte Rosenberger">
+			<fakultaet name="GÄSTE_FME" id="GÄSTE_FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ROSSB" id="ROSSB">
+		<dozent name="Prof. Dipl.-Ing. Jörg Rossbach" id="Prof. Dipl.-Ing. Jörg Rossbach">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RUDOLM" id="RUDOLM">
+		<dozent name="Prof. Dr.-Ing. Mathias Rudolph" id="Prof. Dr.-Ing. Mathias Rudolph">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RUECK" id="RUECK">
+		<dozent name="Dr.-Ing. Christian Rückerl" id="Dr.-Ing. Christian Rückerl">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RUEHLE" id="RUEHLE">
+		<dozent name="Prof. Dr.-Ing. Bernd Rühle" id="Prof. Dr.-Ing. Bernd Rühle">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="RYLL" id="RYLL">
+		<dozent name="Dipl.-Ing. Rudolf Ryll" id="Dipl.-Ing. Rudolf Ryll">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHAAL" id="SCHAAL">
+		<dozent name="Dr. Dirk Schaal" id="Dr. Dirk Schaal">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHENK" id="SCHENK">
+		<dozent name="Prof. Dr.-Ing. Joachim Schenk" id="Prof. Dr.-Ing. Joachim Schenk">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHERZ" id="SCHERZ">
+		<dozent name="Prof. Dipl.-Ing. Ronald Scherzer-Heidenberger" id="Prof. Dipl.-Ing. Ronald Scherzer-Heidenberger">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHH" id="SCHH">
+		<dozent name="Prof. Dr. rer. nat. habil. Siegfried Schönherr" id="Prof. Dr. rer. nat. habil. Siegfried Schönherr">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHLA" id="SCHLA">
+		<dozent name="Dipl.-Chem. Evelyn Schlattner" id="Dipl.-Chem. Evelyn Schlattner">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHLEG" id="SCHLEG">
+		<dozent name="Dipl.-Math. Jutta Schlegel" id="Dipl.-Math. Jutta Schlegel">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHLEGA" id="SCHLEGA">
+		<dozent name="Anke Schlegel" id="Anke Schlegel">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHLZD" id="SCHLZD">
+		<dozent name="Dr. rer. nat. Dieter Schulze" id="Dr. rer. nat. Dieter Schulze">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHLZFP" id="SCHLZFP">
+		<dozent name="Prof. Dr.-Ing. Fritz Peter Schulze" id="Prof. Dr.-Ing. Fritz Peter Schulze">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHLZT" id="SCHLZT">
+		<dozent name="Dipl.-Ing. Thomas Schulze" id="Dipl.-Ing. Thomas Schulze">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHMDT" id="SCHMDT">
+		<dozent name="Prof. Dr.-Ing. Detlef Schmidt" id="Prof. Dr.-Ing. Detlef Schmidt">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHME" id="SCHME">
+		<dozent name="Dipl.-Ing. (FH) Ulrich Schmedes" id="Dipl.-Ing. (FH) Ulrich Schmedes">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHMERT" id="SCHMERT">
+		<dozent name="Dr. Thomas Schmertosch" id="Dr. Thomas Schmertosch">
+			<fakultaet name="GÄSTE_FEIT" id="GÄSTE_FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHNDA" id="SCHNDA">
+		<dozent name="Prof. Dr.-Ing. Axel Schneider" id="Prof. Dr.-Ing. Axel Schneider">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHOD" id="SCHOD">
+		<dozent name="Dipl.-Sprachm. Barbara Schoder" id="Dipl.-Sprachm. Barbara Schoder">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHOLZ" id="SCHOLZ">
+		<dozent name="Prof. Dr.-Ing. Eckhard Scholz" id="Prof. Dr.-Ing. Eckhard Scholz">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHUB" id="SCHUB">
+		<dozent name="Dr. rer. nat. Katrin Schubert" id="Dr. rer. nat. Katrin Schubert">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHUBM" id="SCHUBM">
+		<dozent name="M.A.Markus Schubert" id="M.A.Markus Schubert">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHUSTER" id="SCHUSTER">
+		<dozent name="Dipl. Kfm./ Dipl.Volksw. Martin Schuster" id="Dipl. Kfm./ Dipl.Volksw. Martin Schuster">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHWARZ" id="SCHWARZ">
+		<dozent name="Prof.Dr.rer.nat Sybille Schwarz" id="Prof.Dr.rer.nat Sybille Schwarz">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHWEI" id="SCHWEI">
+		<dozent name="Prof. Dr. phil. Rudolf Schweikart" id="Prof. Dr. phil. Rudolf Schweikart">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SCHWET" id="SCHWET">
+		<dozent name="Dipl.-Kffr. Gisela Schwetzler" id="Dipl.-Kffr. Gisela Schwetzler">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SEELA" id="SEELA">
+		<dozent name="Prof. Dr. phil. Torsten Seela" id="Prof. Dr. phil. Torsten Seela">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SEYFF" id="SEYFF">
+		<dozent name="Prof. Dr. oec. habil. Sibylle Seyffert" id="Prof. Dr. oec. habil. Sibylle Seyffert">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SIMONS" id="SIMONS">
+		<dozent name="Prof. Dr. rer. pol. Harald Simons" id="Prof. Dr. rer. pol. Harald Simons">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SLOWIK" id="SLOWIK">
+		<dozent name="Prof. Dr.-Ing. Volker Slowik" id="Prof. Dr.-Ing. Volker Slowik">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SLUSA" id="SLUSA">
+		<dozent name="Dr.-Ing. Regina Slusallek" id="Dr.-Ing. Regina Slusallek">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SONNT" id="SONNT">
+		<dozent name="Dr. rer. med. Astrid Sonntag" id="Dr. rer. med. Astrid Sonntag">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SOSS" id="SOSS">
+		<dozent name="Prof. Dr.-Ing. André Sossoumihen" id="Prof. Dr.-Ing. André Sossoumihen">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STABL" id="STABL">
+		<dozent name="Dipl.-Ing. Hartmut Stabler" id="Dipl.-Ing. Hartmut Stabler">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STAHR" id="STAHR">
+		<dozent name="Prof. Dr.-Ing. Alexander Stahr" id="Prof. Dr.-Ing. Alexander Stahr">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STANK" id="STANK">
+		<dozent name="Prof. Dipl.-Ing. B. Arch. Marina Stankovic" id="Prof. Dipl.-Ing. B. Arch. Marina Stankovic">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STEG" id="STEG">
+		<dozent name="Dr.-Ing. Susann Steglich" id="Dr.-Ing. Susann Steglich">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STICH" id="STICH">
+		<dozent name="Prof. Dr. rer. nat. Rainer Stich" id="Prof. Dr. rer. nat. Rainer Stich">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STIEL" id="STIEL">
+		<dozent name="B. Eng. Astrid Stieler" id="B. Eng. Astrid Stieler">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STOCK" id="STOCK">
+		<dozent name="Prof. Dr. phil. Lothar Stock" id="Prof. Dr. phil. Lothar Stock">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STRI" id="STRI">
+		<dozent name="Prof. Dipl.-Ing. Harald Stricker" id="Prof. Dipl.-Ing. Harald Stricker">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STURMB" id="STURMB">
+		<dozent name="Prof. Dr. rer. pol. Bodo Sturm" id="Prof. Dr. rer. pol. Bodo Sturm">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="STURMM" id="STURMM">
+		<dozent name="Prof. Dr.-Ing. Matthias Sturm" id="Prof. Dr.-Ing. Matthias Sturm">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="SULL" id="SULL">
+		<dozent name="BSEd Pam Sullivan" id="BSEd Pam Sullivan">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="TADD" id="TADD">
+		<dozent name="M.A. Holm Taddiken" id="M.A. Holm Taddiken">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="TECKL" id="TECKL">
+		<dozent name="Prof. Dr. rer. nat. habil. Helga Tecklenburg" id="Prof. Dr. rer. nat. habil. Helga Tecklenburg">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="TEPPER" id="TEPPER">
+		<dozent name="Dipl.-Ing. (FH) André Tepper" id="Dipl.-Ing. (FH) André Tepper">
+			<fakultaet name="GÄSTE_FME" id="GÄSTE_FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="THIELE" id="THIELE">
+		<dozent name="Prof. Dr.-Ing. Ralf Thiele" id="Prof. Dr.-Ing. Ralf Thiele">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="THIERB" id="THIERB">
+		<dozent name="Prof. Dr.-Ing. Wolfgang Thierbach" id="Prof. Dr.-Ing. Wolfgang Thierbach">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="TRAWKA" id="TRAWKA">
+		<dozent name="Dr.-Ing. Samira Trawka" id="Dr.-Ing. Samira Trawka">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="TRIPPS" id="TRIPPS">
+		<dozent name="Prof. Dr. phil. habil. Johannes Tripps" id="Prof. Dr. phil. habil. Johannes Tripps">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="TUTTE" id="TUTTE">
+		<dozent name="Dipl.-Ing. Winfried Tutte" id="Dipl.-Ing. Winfried Tutte">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ULRICH" id="ULRICH">
+		<dozent name="Prof. Dr. rer. pol. Rüdiger Ulrich" id="Prof. Dr. rer. pol. Rüdiger Ulrich">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="UNGER" id="UNGER">
+		<dozent name="M.A. Dietlind Unger" id="M.A. Dietlind Unger">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="VALTIN" id="VALTIN">
+		<dozent name="Prof. Dr.-Ing. Gerd Valtin" id="Prof. Dr.-Ing. Gerd Valtin">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="VETTER" id="VETTER">
+		<dozent name="Prof. Dipl.-Ing. Ulrich Vetter" id="Prof. Dipl.-Ing. Ulrich Vetter">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="VIELM" id="VIELM">
+		<dozent name="Prof. Dr. rer. oec. Uwe Vielmeyer" id="Prof. Dr. rer. oec. Uwe Vielmeyer">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="VILLM" id="VILLM">
+		<dozent name="Dr. rer. nat. Beate Villmann" id="Dr. rer. nat. Beate Villmann">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="VOGTW" id="VOGTW">
+		<dozent name="Prof. Dr.-Ing. Werner Vogt" id="Prof. Dr.-Ing. Werner Vogt">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="VOIGT" id="VOIGT">
+		<dozent name="Prof. Dr. rer. nat. Heinz Voigt" id="Prof. Dr. rer. nat. Heinz Voigt">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="VOR" id="VOR">
+		<dozent name="Prof. Dr. jur. Rainer Vor" id="Prof. Dr. jur. Rainer Vor">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="VOSS" id="VOSS">
+		<dozent name="B. Eng. Rick Voßwinkel" id="B. Eng. Rick Voßwinkel">
+			<fakultaet name="FEIT" id="FEIT"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="VYHNAL" id="VYHNAL">
+		<dozent name="Prof. Dr.-Ing. habil. Dieter Vyhnal" id="Prof. Dr.-Ing. habil. Dieter Vyhnal">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WALD" id="WALD">
+		<dozent name="Prof. Dr. oec. Peter M. Wald" id="Prof. Dr. oec. Peter M. Wald">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WALDM" id="WALDM">
+		<dozent name="Prof. Dr. rer. nat. Johannes Waldmann" id="Prof. Dr. rer. nat. Johannes Waldmann">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WALZ" id="WALZ">
+		<dozent name="Prof. Dr. Dr. Markus Walz" id="Prof. Dr. Dr. Markus Walz">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WAND" id="WAND">
+		<dozent name="Dipl.-Ing. Ronald Wanderer" id="Dipl.-Ing. Ronald Wanderer">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WEBER" id="WEBER">
+		<dozent name="Prof. Dr. med. Jörg-Achim Weber" id="Prof. Dr. med. Jörg-Achim Weber">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WEFER" id="WEFER">
+		<dozent name="Prof. Dr.-Ing. Ulrich Weferling" id="Prof. Dr.-Ing. Ulrich Weferling">
+			<fakultaet name="FB" id="FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WEICK" id="WEICK">
+		<dozent name="Prof. Dr. rer. nat. Karsten Weicker" id="Prof. Dr. rer. nat. Karsten Weicker">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WEICKH" id="WEICKH">
+		<dozent name="Prof. Dr. rer. nat. habil. Christian Weickhardt" id="Prof. Dr. rer. nat. habil. Christian Weickhardt">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WEISS" id="WEISS">
+		<dozent name="Prof. Dr. phil. Gisela Weiß" id="Prof. Dr. phil. Gisela Weiß">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WEISSE" id="WEISSE">
+		<dozent name="Dr.-Ing. Dirk Weiße" id="Dr.-Ing. Dirk Weiße">
+			<fakultaet name="GÄSTE_FB" id="GÄSTE_FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WERM" id="WERM">
+		<dozent name="Anne Wermescher" id="Anne Wermescher">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WEST" id="WEST">
+		<dozent name="Dr. Achim Westebbe" id="Dr. Achim Westebbe">
+			<fakultaet name="GÄSTE_FME" id="GÄSTE_FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WILD" id="WILD">
+		<dozent name="Dr.-Ing. Jens-Thorsten Wild" id="Dr.-Ing. Jens-Thorsten Wild">
+			<fakultaet name="GÄSTE_FB" id="GÄSTE_FB"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WILSON" id="WILSON">
+		<dozent name="Sharon Wilson" id="Sharon Wilson">
+			<fakultaet name="GÄSTE_HSZ" id="GÄSTE_HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WINK" id="WINK">
+		<dozent name="Prof. Dr.-Ing. Steffen Winkler" id="Prof. Dr.-Ing. Steffen Winkler">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WINKR" id="WINKR">
+		<dozent name="Prof. Dr. rer. oec. Rüdiger Wink" id="Prof. Dr. rer. oec. Rüdiger Wink">
+			<fakultaet name="FW" id="FW"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WIT" id="WIT">
+		<dozent name="Dietmar Witte" id="Dietmar Witte">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WITTIG" id="WITTIG">
+		<dozent name="Prof. Dr.-Ing. habil. Dr. rer. nat. Wolfgang S. Wittig" id="Prof. Dr.-Ing. habil. Dr. rer. nat. Wolfgang S. Wittig">
+			<fakultaet name="GÄSTE_FIMN" id="GÄSTE_FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WOLF" id="WOLF">
+		<dozent name="Prof. Dipl.-Ing. Ingo Andreas Wolf" id="Prof. Dipl.-Ing. Ingo Andreas Wolf">
+			<fakultaet name="FS" id="FS"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WOLFK" id="WOLFK">
+		<dozent name="Dr.-Ing. Klaus Wolf" id="Dr.-Ing. Klaus Wolf">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WOZN" id="WOZN">
+		<dozent name="Prof. Dr.-Ing. habil. Klaus Wozniak" id="Prof. Dr.-Ing. habil. Klaus Wozniak">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="WURCHE" id="WURCHE">
+		<dozent name="Dipl.-Lehrerin Angela Wurche" id="Dipl.-Lehrerin Angela Wurche">
+			<fakultaet name="HSZ" id="HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="xACKERA" id="xACKERA">
+		<dozent name="Dr. Arne Ackermann" id="Dr. Arne Ackermann">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="xAGUIAR" id="xAGUIAR">
+		<dozent name="Diplom Philologin Mónica Aguiar" id="Diplom Philologin Mónica Aguiar">
+			<fakultaet name="GÄSTE_HSZ" id="GÄSTE_HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="xARN" id="xARN">
+		<dozent name="Dr. rer. nat. Steffen Arnrich" id="Dr. rer. nat. Steffen Arnrich">
+			<fakultaet name="FIMN" id="FIMN"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="xARNOL" id="xARNOL">
+		<dozent name="Dipl.-Ing. Steffen Arnold" id="Dipl.-Ing. Steffen Arnold">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="xAUE" id="xAUE">
+		<dozent name="M.A. Kristina Aue" id="M.A. Kristina Aue">
+			<fakultaet name="GÄSTE_FM" id="GÄSTE_FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="xLORENZ" id="xLORENZ">
+		<dozent name="RA Doris Lorenz-Guck" id="RA Doris Lorenz-Guck">
+			<fakultaet name="GÄSTE_FAS_S" id="GÄSTE_FAS_S"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ZELLM" id="ZELLM">
+		<dozent name="Prof. Dr. rer. nat. habil. Holger Zellmer" id="Prof. Dr. rer. nat. habil. Holger Zellmer">
+			<fakultaet name="FM" id="FM"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ZENT" id="ZENT">
+		<dozent name="Prof. Dr.-Ing. Johannes Zentner" id="Prof. Dr.-Ing. Johannes Zentner">
+			<fakultaet name="FME" id="FME"></fakultaet>
+		</dozent>
+	</kurztext>
+	<kurztext name="ZIEG" id="ZIEG">
+		<dozent name="Diplomlehrer Christian Ziegler" id="Diplomlehrer Christian Ziegler">
+			<fakultaet name="GÄSTE_HSZ" id="GÄSTE_HSZ"></fakultaet>
+		</dozent>
+	</kurztext>
+</studium>
+

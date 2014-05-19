@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<studium timestamp="14.05.2014 - 17.06 Uhr">
+	<fakultaet name="Architektur und Sozialwissenschaften" id="FS">
+		<studiengang name="Architektur (Bachelor of Arts)" id="ARB">
+			<semgrp name="11AR1-B" id="11AR1-B"></semgrp>
+			<semgrp name="11AR2-B" id="11AR2-B"></semgrp>
+			<semgrp name="11AR3-B" id="11AR3-B"></semgrp>
+			<semgrp name="11AR4-B" id="11AR4-B"></semgrp>
+			<semgrp name="12AR1-B" id="12AR1-B"></semgrp>
+			<semgrp name="12AR2-B" id="12AR2-B"></semgrp>
+			<semgrp name="12AR3-B" id="12AR3-B"></semgrp>
+			<semgrp name="12AR4-B" id="12AR4-B"></semgrp>
+			<semgrp name="13AR1-B" id="13AR1-B"></semgrp>
+			<semgrp name="13AR2-B" id="13AR2-B"></semgrp>
+			<semgrp name="13AR3-B" id="13AR3-B"></semgrp>
+			<semgrp name="13AR4-B" id="13AR4-B"></semgrp>
+		</studiengang>
+		<studiengang name="Architektur (Master of Arts)" id="ARM">
+			<semgrp name="12AR-M (Masterarbeit)" id="12AR-M (Masterarbeit)"></semgrp>
+			<semgrp name="13AR-M" id="13AR-M"></semgrp>
+		</studiengang>
+		<studiengang name="Frühpädagogik-Leitung/Management (berufsbegleitend) (Bachelor of Arts)" id="FLB">
+			<semgrp name="10FL-B (Praxis/Bachelorarb.)" id="10FL-B (Praxis/Bachelorarb.)"></semgrp>
+			<semgrp name="11FL-B" id="11FL-B"></semgrp>
+			<semgrp name="12FL-B (unbesetzt)" id="12FL-B (unbesetzt)"></semgrp>
+		</studiengang>
+		<studiengang name="Soziale Arbeit (Bachelor of Arts)" id="SAB">
+			<semgrp name="11SA1-B" id="11SA1-B"></semgrp>
+			<semgrp name="11SA2-B" id="11SA2-B"></semgrp>
+			<semgrp name="12SA1-B" id="12SA1-B"></semgrp>
+			<semgrp name="12SA2-B" id="12SA2-B"></semgrp>
+			<semgrp name="13SA1-B" id="13SA1-B"></semgrp>
+			<semgrp name="13SA2-B" id="13SA2-B"></semgrp>
+		</studiengang>
+		<studiengang name="Soziale Arbeit (Master of Arts) Teilzeit" id="SAM">
+			<semgrp name="11SA-M/TZ" id="11SA-M/TZ"></semgrp>
+			<semgrp name="12SA-M (Masterarbeit)" id="12SA-M (Masterarbeit)"></semgrp>
+			<semgrp name="12SA-M/TZ" id="12SA-M/TZ"></semgrp>
+			<semgrp name="13SA-M" id="13SA-M"></semgrp>
+			<semgrp name="13SA-M/TZ" id="13SA-M/TZ"></semgrp>
+		</studiengang>
+	</fakultaet>
+	<fakultaet name="Bauwesen" id="FB">
+		<studiengang name="Bauingenieurwesen (Bachelor of Engineering)" id="BIB">
+			<semgrp name="11BI-B (teilw.Praxis)" id="11BI-B (teilw.Praxis)"></semgrp>
+			<semgrp name="11BI5(K)-B" id="11BI5(K)-B"></semgrp>
+			<semgrp name="12BI1-B" id="12BI1-B"></semgrp>
+			<semgrp name="12BI2-B" id="12BI2-B"></semgrp>
+			<semgrp name="12BI3-B" id="12BI3-B"></semgrp>
+			<semgrp name="12BI4-B" id="12BI4-B"></semgrp>
+			<semgrp name="12BI5(K)-B (Praxis)" id="12BI5(K)-B (Praxis)"></semgrp>
+			<semgrp name="12BI5-B" id="12BI5-B"></semgrp>
+			<semgrp name="13BI1-B" id="13BI1-B"></semgrp>
+			<semgrp name="13BI2-B" id="13BI2-B"></semgrp>
+			<semgrp name="13BI3-B" id="13BI3-B"></semgrp>
+			<semgrp name="13BI4-B" id="13BI4-B"></semgrp>
+			<semgrp name="13BI5(K)-B" id="13BI5(K)-B"></semgrp>
+			<semgrp name="13BI5-B" id="13BI5-B"></semgrp>
+		</studiengang>
+		<studiengang name="Bauingenieurwesen (Master of Science)" id="BIM">
+			<semgrp name="12BI-M (Masterarbeit)" id="12BI-M (Masterarbeit)"></semgrp>
+			<semgrp name="13BI/BB-M" id="13BI/BB-M"></semgrp>
+			<semgrp name="13BI/GSW-M" id="13BI/GSW-M"></semgrp>
+			<semgrp name="13BI/HBB-M" id="13BI/HBB-M"></semgrp>
+			<semgrp name="13BI/KI-M" id="13BI/KI-M"></semgrp>
+		</studiengang>
+		<studiengang name="Change Management in der Wasserwirtschaft (Master)" id="CWW">
+			<semgrp name="12CW-M" id="12CW-M"></semgrp>
+		</studiengang>
+		<studiengang name="Structural Engineering (Master of Science)" id="SEM">
+			<semgrp name="12SE-M" id="12SE-M"></semgrp>
+		</studiengang>
+	</fakultaet>
+	<fakultaet name="Elektrotechnik und Informationstechnik" id="FEIT">
+		<studiengang name="Elektrotechnik und Informationstechnik (Bachelor of Engineering)" id="EIB">
+			<semgrp name="11EI-B (Praxis/Bachelorarbeit)" id="11EI-B (Praxis/Bachelorarbeit)"></semgrp>
+			<semgrp name="12EI/AET-B" id="12EI/AET-B"></semgrp>
+			<semgrp name="12EI/AT-B" id="12EI/AT-B"></semgrp>
+			<semgrp name="12EI/EET-B" id="12EI/EET-B"></semgrp>
+			<semgrp name="12EI/IAS-B" id="12EI/IAS-B"></semgrp>
+			<semgrp name="12EI/KT-B" id="12EI/KT-B"></semgrp>
+			<semgrp name="13EI1-B" id="13EI1-B"></semgrp>
+			<semgrp name="13EI2-B" id="13EI2-B"></semgrp>
+			<semgrp name="13EI3-B" id="13EI3-B"></semgrp>
+		</studiengang>
+		<studiengang name="Elektrotechnik und Informationstechnik (Bachelor of Engineering) kooperativ" id="EI(K)B">
+			<semgrp name="10EI(K)-B Bachelorarbeit)" id="10EI(K)-B Bachelorarbeit)"></semgrp>
+			<semgrp name="11EI(K)AET-B" id="11EI(K)AET-B"></semgrp>
+			<semgrp name="11EI(K)AT-B" id="11EI(K)AT-B"></semgrp>
+			<semgrp name="11EI(K)EET-B" id="11EI(K)EET-B"></semgrp>
+			<semgrp name="11EI(K)IAS-B" id="11EI(K)IAS-B"></semgrp>
+			<semgrp name="11EI(K)KT-B" id="11EI(K)KT-B"></semgrp>
+			<semgrp name="12EI(K)AET-B" id="12EI(K)AET-B"></semgrp>
+			<semgrp name="12EI(K)AT-B" id="12EI(K)AT-B"></semgrp>
+			<semgrp name="12EI(K)EET-B" id="12EI(K)EET-B"></semgrp>
+			<semgrp name="12EI(K)IAS-B" id="12EI(K)IAS-B"></semgrp>
+			<semgrp name="12EI(K)KT-B" id="12EI(K)KT-B"></semgrp>
+			<semgrp name="13EI(K)1-B" id="13EI(K)1-B"></semgrp>
+			<semgrp name="13EI(K)2-B" id="13EI(K)2-B"></semgrp>
+			<semgrp name="13EI(K)3-B" id="13EI(K)3-B"></semgrp>
+		</studiengang>
+		<studiengang name="Elektrotechnik und Informationstechnik (Master of Science)" id="EIM">
+			<semgrp name="12EI-M (Masterarbeit)" id="12EI-M (Masterarbeit)"></semgrp>
+			<semgrp name="13EI/AT-M" id="13EI/AT-M"></semgrp>
+			<semgrp name="13EI/EET-M" id="13EI/EET-M"></semgrp>
+			<semgrp name="13EI/KTB-M" id="13EI/KTB-M"></semgrp>
+			<semgrp name="13EI/MET-M" id="13EI/MET-M"></semgrp>
+		</studiengang>
+		<studiengang name="Elektrotechnik und Informationstechnik (Master of Science) berufsbegleitend" id="EI(A)M">
+			<semgrp name="13EI(A)/AT-M" id="13EI(A)/AT-M"></semgrp>
+			<semgrp name="13EI(A)/EET-M" id="13EI(A)/EET-M"></semgrp>
+		</studiengang>
+		<studiengang name="Studienergänzung Mechatronik (Master)  Weiterbildung" id="SMW">
+			<semgrp name="13SM-W" id="13SM-W"></semgrp>
+		</studiengang>
+		<studiengang name="Wirtschaftsingenieurwesen Elektrotechnik (Bachelor of Engineering)" id="WTB">
+			<semgrp name="11WT-B (Praxissemester/Bachelorarbeit)" id="11WT-B (Praxissemester/Bachelorarbeit)"></semgrp>
+			<semgrp name="12WT-B" id="12WT-B"></semgrp>
+			<semgrp name="13WT-B" id="13WT-B"></semgrp>
+		</studiengang>
+		<studiengang name="Wirtschaftsingenieurwesen Elektrotechnik (Master of Science)" id="WTM">
+			<semgrp name="12WT-M (Masterarbeit)" id="12WT-M (Masterarbeit)"></semgrp>
+			<semgrp name="13WT-M" id="13WT-M"></semgrp>
+		</studiengang>
+	</fakultaet>
+	<fakultaet name="Frühstudium für begabte Schüler" id="Frühstudium">
+		<studiengang name="Frühstudium" id="F">
+			<semgrp name="13F1-F (unbesetzt)" id="13F1-F (unbesetzt)"></semgrp>
+		</studiengang>
+	</fakultaet>
+	<fakultaet name="Informatik, Mathematik, Naturwissenschaften" id="FIMN">
+		<studiengang name="Angewandte Mathematik (Bachelor of Science)" id="AMB">
+			<semgrp name="11AM-B" id="11AM-B"></semgrp>
+			<semgrp name="12AM-B" id="12AM-B"></semgrp>
+			<semgrp name="13AM-B" id="13AM-B"></semgrp>
+		</studiengang>
+		<studiengang name="Angewandte Mathematik (Master of Science)" id="AMM">
+			<semgrp name="12AM-M (Masterarbeit)" id="12AM-M (Masterarbeit)"></semgrp>
+			<semgrp name="14AM-M" id="14AM-M"></semgrp>
+		</studiengang>
+		<studiengang name="Informatik (Bachelor of Science)" id="INB">
+			<semgrp name="11IN-B (Bachelorarbeit)" id="11IN-B (Bachelorarbeit)"></semgrp>
+			<semgrp name="12IN/P-B" id="12IN/P-B"></semgrp>
+			<semgrp name="12IN/T-B" id="12IN/T-B"></semgrp>
+			<semgrp name="13IN1-B" id="13IN1-B"></semgrp>
+			<semgrp name="13IN2-B" id="13IN2-B"></semgrp>
+		</studiengang>
+		<studiengang name="Informatik (Master of Science)" id="INM">
+			<semgrp name="12IN-M (Masterarbeit)" id="12IN-M (Masterarbeit)"></semgrp>
+			<semgrp name="13IN-M" id="13IN-M"></semgrp>
+		</studiengang>
+		<studiengang name="Medieninformatik (Bachelor of Science)" id="MIB">
+			<semgrp name="11MI-B (Praxis/Bachelorarbeit)" id="11MI-B (Praxis/Bachelorarbeit)"></semgrp>
+			<semgrp name="12MI-B" id="12MI-B"></semgrp>
+			<semgrp name="13MI1-B" id="13MI1-B"></semgrp>
+			<semgrp name="13MI2-B" id="13MI2-B"></semgrp>
+		</studiengang>
+		<studiengang name="Medieninformatik (Master of Science)" id="MIM">
+			<semgrp name="12MI-M (Masterarbeit)" id="12MI-M (Masterarbeit)"></semgrp>
+			<semgrp name="13MI-M" id="13MI-M"></semgrp>
+		</studiengang>
+	</fakultaet>
+	<fakultaet name="Maschinenbau und Energietechnik" id="FME">
+		<studiengang name="Energie- und Umwelttechnik (Bachelor of Engineering)" id="EUB">
+			<semgrp name="11EU-B (Praxis/Bachelorarbeit)" id="11EU-B (Praxis/Bachelorarbeit)"></semgrp>
+			<semgrp name="12EU/EGT-B" id="12EU/EGT-B"></semgrp>
+			<semgrp name="12EU/UT-B" id="12EU/UT-B"></semgrp>
+			<semgrp name="13EG1-B" id="13EG1-B"></semgrp>
+			<semgrp name="13EG2-B" id="13EG2-B"></semgrp>
+		</studiengang>
+		<studiengang name="Energie- und Umwelttechnik (Master of Engineering)" id="EUM">
+			<semgrp name="12EU-M (Masterarbeit)" id="12EU-M (Masterarbeit)"></semgrp>
+			<semgrp name="13EG-M" id="13EG-M"></semgrp>
+		</studiengang>
+		<studiengang name="Maschinenbau (Bachelor)" id="MBB">
+			<semgrp name="11MB-B (Praxis/Bachelorarbeit)" id="11MB-B (Praxis/Bachelorarbeit)"></semgrp>
+			<semgrp name="12MB1-B" id="12MB1-B"></semgrp>
+			<semgrp name="12MB2-B" id="12MB2-B"></semgrp>
+			<semgrp name="13MB1-B" id="13MB1-B"></semgrp>
+			<semgrp name="13MB2-B" id="13MB2-B"></semgrp>
+		</studiengang>
+		<studiengang name="Maschinenbau (Master of Engineering)" id="MBM">
+			<semgrp name="12MB-M (Masterarbeit)" id="12MB-M (Masterarbeit)"></semgrp>
+			<semgrp name="13MB-M" id="13MB-M"></semgrp>
+		</studiengang>
+		<studiengang name="Wirtschaftsingenieurwesen Maschinenbau und Energietechnik (Bachelor of Science)" id="WEB">
+			<semgrp name="11WE-B (Praxis/Bachelorarbeit)" id="11WE-B (Praxis/Bachelorarbeit)"></semgrp>
+			<semgrp name="12WE1-B" id="12WE1-B"></semgrp>
+			<semgrp name="12WE2-B" id="12WE2-B"></semgrp>
+			<semgrp name="13WP1-B" id="13WP1-B"></semgrp>
+			<semgrp name="13WP2-B" id="13WP2-B"></semgrp>
+		</studiengang>
+		<studiengang name="Wirtschaftsingenieurwesen Maschinenbau und Energietechnik (Master of Science)" id="WEM">
+			<semgrp name="12WE-M (Masterarbeit)" id="12WE-M (Masterarbeit)"></semgrp>
+			<semgrp name="13WL-M" id="13WL-M"></semgrp>
+		</studiengang>
+	</fakultaet>
+	<fakultaet name="Medien" id="FM">
+		<studiengang name="Bibliotheks- und Informationswissenschaft (Bachelor of Arts)" id="BKB">
+			<semgrp name="11BK-B" id="11BK-B"></semgrp>
+			<semgrp name="12BK-B" id="12BK-B"></semgrp>
+			<semgrp name="13BK-B" id="13BK-B"></semgrp>
+		</studiengang>
+		<studiengang name="Bibliotheks- und Informationswissenschaft (Master of Arts)" id="BKM">
+			<semgrp name="13BK-M" id="13BK-M"></semgrp>
+			<semgrp name="13BK-M (Praxis/Masterarb)" id="13BK-M (Praxis/Masterarb)"></semgrp>
+			<semgrp name="14BK-M" id="14BK-M"></semgrp>
+		</studiengang>
+		<studiengang name="Buch- und Medienproduktion (Bachelor of Engineering)" id="BMB">
+			<semgrp name="11BM-B (Praxissemester)" id="11BM-B (Praxissemester)"></semgrp>
+			<semgrp name="12BM-B" id="12BM-B"></semgrp>
+			<semgrp name="13BM1-B" id="13BM1-B"></semgrp>
+			<semgrp name="13BM2-B" id="13BM2-B"></semgrp>
+			<semgrp name="13BM3-B" id="13BM3-B"></semgrp>
+			<semgrp name="13BM4-B" id="13BM4-B"></semgrp>
+			<semgrp name="13BM5-B" id="13BM5-B"></semgrp>
+			<semgrp name="13BM6-B" id="13BM6-B"></semgrp>
+		</studiengang>
+		<studiengang name="Buchhandel/Verlagswirtschaft (Bachelor of Arts)" id="BVB">
+			<semgrp name="11BV-B" id="11BV-B"></semgrp>
+			<semgrp name="12BV-B" id="12BV-B"></semgrp>
+			<semgrp name="13BV-B" id="13BV-B"></semgrp>
+		</studiengang>
+		<studiengang name="Druck- und Verpackungstechnik (Master of Engineering)" id="DVM">
+			<semgrp name="13DV-M (Masterarbeit)" id="13DV-M (Masterarbeit)"></semgrp>
+			<semgrp name="14DV-M" id="14DV-M"></semgrp>
+			<semgrp name="x13DV-M" id="x13DV-M"></semgrp>
+		</studiengang>
+		<studiengang name="Drucktechnik (Bachelor of Engineering)" id="DTB">
+			<semgrp name="11DT-B (Praxissemester)" id="11DT-B (Praxissemester)"></semgrp>
+			<semgrp name="11VT-B (Praxissemester)" id="11VT-B (Praxissemester)"></semgrp>
+			<semgrp name="12DT-B" id="12DT-B"></semgrp>
+			<semgrp name="13DT1-B" id="13DT1-B"></semgrp>
+			<semgrp name="13DT2-B" id="13DT2-B"></semgrp>
+			<semgrp name="13DT3-B" id="13DT3-B"></semgrp>
+			<semgrp name="13DT4-B" id="13DT4-B"></semgrp>
+		</studiengang>
+		<studiengang name="Fernsehproduktion (Bachelor of Arts)" id="FPB">
+			<semgrp name="11FP" id="11FP"></semgrp>
+			<semgrp name="12FP-B" id="12FP-B"></semgrp>
+			<semgrp name="13FP/FJ-B" id="13FP/FJ-B"></semgrp>
+			<semgrp name="13FP/FK-B" id="13FP/FK-B"></semgrp>
+			<semgrp name="13FP/FW-B" id="13FP/FW-B"></semgrp>
+		</studiengang>
+		<studiengang name="Medienmanagement (Master of Engineering)" id="MMM">
+			<semgrp name="14MM-M" id="14MM-M"></semgrp>
+			<semgrp name="x13MM1-M" id="x13MM1-M"></semgrp>
+			<semgrp name="x13MM2-M" id="x13MM2-M"></semgrp>
+		</studiengang>
+		<studiengang name="Medientechnik (Bachelor of Engineering)" id="MTB">
+			<semgrp name="11MT-B" id="11MT-B"></semgrp>
+			<semgrp name="12MT-B" id="12MT-B"></semgrp>
+			<semgrp name="13MT-B" id="13MT-B"></semgrp>
+		</studiengang>
+		<studiengang name="Museologie (Bachelor of Arts)" id="MUB">
+			<semgrp name="11MU-B" id="11MU-B"></semgrp>
+			<semgrp name="12MU-B" id="12MU-B"></semgrp>
+			<semgrp name="13MU-B" id="13MU-B"></semgrp>
+		</studiengang>
+		<studiengang name="Verlags- und Handelsmanagement (Master of Arts)" id="VMM">
+			<semgrp name="12VM-M (Praxis/Masterarb.)" id="12VM-M (Praxis/Masterarb.)"></semgrp>
+			<semgrp name="13VM-M" id="13VM-M"></semgrp>
+		</studiengang>
+		<studiengang name="Verpackungstechnik (Bachelor of Engineering)" id="VTB">
+			<semgrp name="12VT-B" id="12VT-B"></semgrp>
+			<semgrp name="13VT-B" id="13VT-B"></semgrp>
+		</studiengang>
+	</fakultaet>
+	<fakultaet name="Wirtschaftswissenschaften" id="FW">
+		<studiengang name="Betriebswirtschaft (Bachelor of Arts)" id="BWB">
+			<semgrp name="11BW1-B" id="11BW1-B"></semgrp>
+			<semgrp name="11BW2-B" id="11BW2-B"></semgrp>
+			<semgrp name="12BW-B (Praxissemester)" id="12BW-B (Praxissemester)"></semgrp>
+			<semgrp name="13BW1-B" id="13BW1-B"></semgrp>
+			<semgrp name="13BW2-B" id="13BW2-B"></semgrp>
+		</studiengang>
+		<studiengang name="Betriebswirtschaft (Master of Arts)" id="BWM">
+			<semgrp name="12BW-M (Masterarbeit)" id="12BW-M (Masterarbeit)"></semgrp>
+			<semgrp name="13BW-M" id="13BW-M"></semgrp>
+		</studiengang>
+		<studiengang name="General Management (Master of Arts)" id="GMM">
+			<semgrp name="12GM-M (Masterarbeit)" id="12GM-M (Masterarbeit)"></semgrp>
+			<semgrp name="13GM-M" id="13GM-M"></semgrp>
+		</studiengang>
+		<studiengang name="International Management (Bachelor of Arts)" id="IMB">
+			<semgrp name="11IM-B" id="11IM-B"></semgrp>
+			<semgrp name="12IM-B (Praxissemester)" id="12IM-B (Praxissemester)"></semgrp>
+			<semgrp name="13IM-B" id="13IM-B"></semgrp>
+		</studiengang>
+		<studiengang name="Wirtschaftsingenieurwesen Bau (Bachelor of Science)" id="WBB">
+			<semgrp name="12WB1-B" id="12WB1-B"></semgrp>
+			<semgrp name="12WB2-B" id="12WB2-B"></semgrp>
+			<semgrp name="13WB1-B" id="13WB1-B"></semgrp>
+			<semgrp name="13WB2-B" id="13WB2-B"></semgrp>
+		</studiengang>
+		<studiengang name="Wirtschaftsingenieurwesen Bau (Master of Science)" id="WIBD">
+			<semgrp name="13WB-M" id="13WB-M"></semgrp>
+		</studiengang>
+	</fakultaet>
+</studium>
+

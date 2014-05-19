@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<studium timestamp="14.05.2014 - 17.06 Uhr">
+	<semester name="Sommersemester 2014" id="ss">
+		<period name="01.04.-30.09.2014" id="ss">
+			<woche name="Aktuelle Woche" id="_20"></woche>
+			<woche name="Alle Wochen" id="12-40"></woche>
+			<woche name="12. Planungswoche 17.03. - 23.03.2014" id="12"></woche>
+			<woche name="13. Planungswoche 24.03. - 30.03.2014" id="13"></woche>
+			<woche name="14. Planungswoche 31.03. - 06.04.2014" id="14"></woche>
+			<woche name="15. Planungswoche 07.04. - 13.04.2014" id="15"></woche>
+			<woche name="16. Planungswoche 14.04. - 20.04.2014" id="16"></woche>
+			<woche name="17. Planungswoche 21.04. - 27.04.2014" id="17"></woche>
+			<woche name="18. Planungswoche 28.04. - 04.05.2014" id="18"></woche>
+			<woche name="19. Planungswoche 05.05. - 11.05.2014" id="19"></woche>
+			<woche name="20. Planungswoche 12.05. - 18.05.2014" id="20"></woche>
+			<woche name="21. Planungswoche 19.05. - 25.05.2014" id="21"></woche>
+			<woche name="22. Planungswoche 26.05. - 01.06.2014" id="22"></woche>
+			<woche name="23. Planungswoche 02.06. - 08.06.2014" id="23"></woche>
+			<woche name="24. Planungswoche 09.06. - 15.06.2014" id="24"></woche>
+			<woche name="25. Planungswoche 16.06. - 22.06.2014" id="25"></woche>
+			<woche name="26. Planungswoche 23.06. - 29.06.2014" id="26"></woche>
+			<woche name="27. Planungswoche 30.06. - 06.07.2014" id="27"></woche>
+			<woche name="28. Planungswoche 07.07. - 13.07.2014" id="28"></woche>
+			<woche name="29. Planungswoche 14.07. - 20.07.2014" id="29"></woche>
+			<woche name="30. Planungswoche 21.07. - 27.07.2014" id="30"></woche>
+			<woche name="31. Planungswoche 28.07. - 03.08.2014" id="31"></woche>
+			<woche name="32. Planungswoche 04.08. - 10.08.2014" id="32"></woche>
+			<woche name="33. Planungswoche 11.08. - 17.08.2014" id="33"></woche>
+			<woche name="34. Planungswoche 18.08. - 24.08.2014" id="34"></woche>
+			<woche name="35. Planungswoche 25.08. - 31.08.2014" id="35"></woche>
+			<woche name="36. Planungswoche 01.09. - 07.09.2014" id="36"></woche>
+			<woche name="37. Planungswoche 08.09. - 14.09.2014" id="37"></woche>
+			<woche name="38. Planungswoche 15.09. - 21.09.2014" id="38"></woche>
+			<woche name="39. Planungswoche 22.09. - 28.09.2014" id="39"></woche>
+			<woche name="40. Planungswoche 29.09. - 05.10.2014" id="40"></woche>
+		</period>
+	</semester>
+</studium>
+

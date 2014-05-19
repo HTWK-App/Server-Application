@@ -1,53 +1,50 @@
 package com.htwk.app.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/root-context.xml" })
-@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class })
-public class TimetableControllerTest {
-	
-	private static final Logger logger = LoggerFactory.getLogger(TimetableControllerTest.class);
+import com.htwk.app.SpringWebContextTests;
+import com.htwk.app.repository.TimetableRepository;
 
+
+public class TimetableControllerTest extends SpringWebContextTests{
+
+	@InjectMocks
 	private TimetableController ctrl;
 	
+	@InjectMocks
+	private TimetableRepository repo;
+
+	private MockMvc mockMvc;
+
 	@Before
-	public void init()
-	{
-		ctrl = new TimetableController();
+	public void setUp() {
+		// Process mock annotations
+		MockitoAnnotations.initMocks(this);
+
+		// Setup Spring test in standalone mode
+		this.mockMvc = MockMvcBuilders.standaloneSetup(ctrl).build();
 	}
-	
+
 	@Test
-	public void testDefaultReaction()
-	{
-		Assert.assertTrue(ctrl.home()=="");
-		Assert.assertTrue(ctrl.redirectHome()=="redirect:/timetable");
+	public void testDefaultReaction() throws Exception {
+		Assert.assertEquals(ctrl.home() , "");
+		Assert.assertEquals(ctrl.redirectHome(), "redirect:/timetable");
+
+		MvcResult result = mockMvc.perform(get("/timetable"))
+	            .andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andReturn();
 		
-		try {
-			ctrl.getCalendar();
-			ctrl.getCourse(semester, fak, semgroup);
-			ctrl.getCourse(semester, fak, semgroup, id);
-			ctrl.getSemGroupByFaculty(semester, fak);
-			ctrl.getSemGroups(semester);
-			ctrl.getTimetable(semester, fak, semgroup, suid);
-			ctrl.getTimetable(semester, fak, semgroup, kw, day);
-			ctrl.getTimetableByKW(semester, fak, semgroup, kw, suid);
-		} catch (Exception e) {
-			Assert.fail();
-		}
+		System.out.println(new String(result.getResponse().getContentAsByteArray()));
 	}
+
 }
