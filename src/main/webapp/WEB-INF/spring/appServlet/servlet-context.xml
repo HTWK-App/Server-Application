@@ -77,4 +77,6 @@
 
 	<task:annotation-driven scheduler="taskScheduler" />
 	<task:scheduler id="taskScheduler" pool-size="2" />
+	
+	<beans:import resource="servlet-security.xml"/>
 </beans>
