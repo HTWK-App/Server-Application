@@ -45,9 +45,9 @@
 							<tbody>
 								<c:forEach  items="${users}" var="user">
 									<tr>
-										<td>${user}</td>
+										<td>${user.key}</td>
 										<td></td>
-										<td>send Message</td>
+										<td><a href="${url}/admin/test?regId=${user.key}">end Message</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>

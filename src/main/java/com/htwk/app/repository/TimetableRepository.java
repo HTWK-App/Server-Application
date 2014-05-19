@@ -81,7 +81,6 @@ public class TimetableRepository {
 			cache.put(semester, response.getBody().toString());
 			return conv.getSemGroup(response.getBody());
 		}
-
 		return null;
 	}
 
@@ -209,5 +208,44 @@ public class TimetableRepository {
 			}
 		}
 		return null;
+	}
+
+	public RestTemplate getTemplate() {
+		return restTemplate;
+	}
+
+	/**
+	 * @return the timetableUrl
+	 */
+	public synchronized final String getTimetableUrl() {
+		return timetableUrl;
+	}
+
+	/**
+	 * @return the timetableReport
+	 */
+	public synchronized final String getTimetableReport() {
+		return timetableReport;
+	}
+
+	/**
+	 * @return the timetableCal
+	 */
+	public synchronized final String getTimetableCal() {
+		return timetableCal;
+	}
+
+	/**
+	 * @return the timetableSemGroup
+	 */
+	public synchronized final String getTimetableSemGroup() {
+		return timetableSemGroup;
+	}
+
+	/**
+	 * @return the timetableProfs
+	 */
+	public synchronized final String getTimetableProfs() {
+		return timetableProfs;
 	}
 }

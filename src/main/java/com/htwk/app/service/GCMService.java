@@ -10,14 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.htwk.app.utils.PushStatus;
+
 @Service
 public class GCMService {
 
 	@Value("${gcm.uri}")
 	private String gcmUri;
-
-	@Value("${gcm.id}")
-	private String gcmId;
 
 	@Value("${gcm.apikey}")
 	private String gcmApiKey;
@@ -33,12 +35,34 @@ public class GCMService {
 		headers.add("Authorization", "key=" + gcmApiKey);
 	}
 
-	public String test() {
-		String payload = "{ \"data\": {"
-				+ " \"score\": \"5x1\","
-				+ " \"time\": \"15:10\" "
-				+ "},\"registration_ids\": [\"APA91bHlj6r7kZGxhlKh9CzAJNc62sKG8urnVwrCsWJeqWF70St18UkDdrGAMVSBrev45T8oJdV2_voNH5mYCWtJy_Y5NHv1TNtVibSOP_uiiOU3ol5FxpC4rL_EUL1zlP5QYge-Fo5R9yS1mLjOS7Hfiz2ccam_pw\"]}";
-		HttpEntity<String> request = new HttpEntity<String>(payload, headers);
+	public String test(String regId, PushStatus status) {
+		JsonObject payload = new JsonObject();
+		JsonObject payloadData = new JsonObject();
+
+		switch (status) {
+		case NEW_MAILS: {
+			payloadData.addProperty("title", "New Mails");
+			payloadData.addProperty("message", "please check your mailbox");
+			payloadData.addProperty("status", status.status());
+			payloadData.addProperty("site", "mail");
+			break;
+		}
+		case NEW_NEWS: {
+			payloadData.addProperty("title", "New News");
+			payloadData.addProperty("message", "please check the current news");
+			payloadData.addProperty("status", status.status());
+			payloadData.addProperty("site", "news");
+			break;
+		}
+		default:
+			break;
+		}
+		payload.add("data", payloadData);
+		JsonArray regIds = new JsonArray();
+		regIds.add(new JsonPrimitive(regId));
+		payload.add("registration_ids", regIds);
+
+		HttpEntity<String> request = new HttpEntity<String>(payload.toString(), headers);
 		ResponseEntity<String> response = restTemplate.exchange(gcmUri, HttpMethod.POST, request, String.class);
 		if (response.getBody() != null) {
 			return response.getBody();
