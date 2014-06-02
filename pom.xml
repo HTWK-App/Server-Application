@@ -275,7 +275,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-	    <finalName>app.war</finalName>
+	    <finalName>app</finalName>
 		<!-- <resources> -->
 		<!-- <resource> -->
 		<!-- Needs to be here globally for common resources. -->
