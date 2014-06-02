@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -37,6 +38,9 @@ public class GoogleDistanceMatrixService {
 
 	@Autowired
 	private InformationRepository repo;
+
+	@Value("${google.geocode}")
+	private String baseUri;
 
 	@PostConstruct
 	public void init() {
@@ -67,9 +71,7 @@ public class GoogleDistanceMatrixService {
 	}
 
 	private String getGoolgeDistance(String location, String destinations) {
-		String baseUri = "http://maps.googleapis.com/maps/api/distancematrix/json?";
-		String distanceUri = baseUri;
-		distanceUri += "origins=" + location;
+		String distanceUri = baseUri + "origins=" + location;
 		distanceUri += "&destinations=" + destinations + "&mode=walking&language=de_DE&sensor=false";
 		logger.debug("" + distanceUri);
 		ResponseEntity<String> response = restTemplate.exchange(distanceUri, HttpMethod.GET, new HttpEntity<Object>(
