@@ -8,3 +8,4 @@ src/main/webapp/META-INF
 .idea
 *.iml
 src/main/resources/credentials.properties
+.springBeans

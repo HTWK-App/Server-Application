@@ -6,7 +6,7 @@
 	<artifactId>app</artifactId>
 	<name>HTWK-WebService</name>
 	<packaging>war</packaging>
-	<version>1.0.0-BUILD-SNAPSHOT</version>
+	<version>1.0.1-BUILD-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -275,6 +275,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+	    <finalName>app.war</finalName>
 		<!-- <resources> -->
 		<!-- <resource> -->
 		<!-- Needs to be here globally for common resources. -->
