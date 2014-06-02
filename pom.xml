@@ -275,16 +275,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-	    <finalName>app.war</finalName>
-		<!-- <resources> -->
-		<!-- <resource> -->
-		<!-- Needs to be here globally for common resources. -->
-		<!-- <directory>src/main/resources${env}</directory> -->
-		<!-- </resource> -->
-		<!-- </resources> -->
-		<!-- <filters> -->
-		<!-- <filter>src/main/resources/application.${env}.properties</filter> -->
-		<!-- </filters> -->
 		<plugins>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
