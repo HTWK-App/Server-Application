@@ -112,14 +112,14 @@ public class WeatherRepository {
 		weatherStatus.put(962, "Orkan");
 	}
 
-	@Value("${info.academical.url}")
-	private String academicalUrl;
-
 	@Value("${weather.forecast.url}")
 	private String weatherForecastUrl;
 
 	@Value("${weather.img.url}")
 	private String weatherImageUrl;
+
+	@Value("${weather.img.custom}")
+	private String iconRootPath;
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -129,35 +129,40 @@ public class WeatherRepository {
 		headers.add("Content-Type", "text/xml;charset=utf-8");
 	}
 
-	public synchronized final Map<Long, Object> getWeather(String location, String days) throws JsonParseException,
-			JsonMappingException, IOException, RestClientException, ParseException {
-		
+	public synchronized final Map<Long, Object> getWeather(String location, String days, boolean custom)
+			throws JsonParseException, JsonMappingException, IOException, RestClientException, ParseException {
+
 		String lat = "0";
 		String lng = "0";
-		
-		if(location.contains(",")){
+
+		if (location.contains(",")) {
 			String latlng[] = location.split(",");
 			lat = latlng[0];
 			lng = latlng[1];
 		}
-		
+
 		String uri = MessageFormat.format(weatherForecastUrl, days, "", lat, lng);
-		ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET,
-				new HttpEntity<Object>(headers), String.class);
+		ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers),
+				String.class);
 		Map<Long, Object> weatherData = new HashMap<Long, Object>();
 		if (response != null) {
 			Gson gson = new Gson();
 			JsonParser parser = new JsonParser();
 			JsonObject obj = parser.parse(response.getBody()).getAsJsonObject();
-			
-			WeatherLocation locationObj =  gson.fromJson(obj.get("city").getAsJsonObject(), WeatherLocation.class);
+
+			WeatherLocation locationObj = gson.fromJson(obj.get("city").getAsJsonObject(), WeatherLocation.class);
 			weatherData.put((long) 0, locationObj);
 			for (JsonElement element : obj.get("list").getAsJsonArray()) {
 				WeatherDay day = gson.fromJson(element, WeatherDay.class);
 				for (WeatherData weather : day.getWeather()) {
 					weather.setDescriptionDe(getWeatherStatus(weather.getId()));
-					weather.setIconData(getWeatherPic(weather.getIcon()));
-					weather.setIcon(weatherImageUrl + weather.getIcon());
+					if (custom) {
+						weather.setIcon(getCustomWeatherImg(weather.getIcon()));
+						weather.setIconData(getWeatherPic(weather.getIcon()));
+					} else {
+						weather.setIcon(weatherImageUrl + weather.getIcon());
+						weather.setIconData(getWeatherPic(weather.getIcon()));
+					}
 				}
 				weatherData.put(day.getDt(), day);
 			}
@@ -171,11 +176,96 @@ public class WeatherRepository {
 		return weatherStatus.get(id);
 	}
 
-	public synchronized final String getWeatherPic(String icon) throws RestClientException, IOException, ParseException {
+	public synchronized final String getWeatherPic(String iconImgUrl) throws RestClientException, IOException,
+			ParseException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-Type", "image/png; charset=binary");
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
-		return "data:image/png;base64,"+Base64.encode(restTemplate.exchange(weatherImageUrl + icon, HttpMethod.GET, entity, byte[].class).getBody());
+		return "data:image/png;base64,"
+				+ Base64.encode(restTemplate.exchange(iconImgUrl, HttpMethod.GET, entity, byte[].class).getBody());
+	}
+
+	private String getCustomWeatherImg(String icon) {
+		String iconPath = iconRootPath;
+		switch (icon) {
+		case "01d": {
+			iconPath += "32";
+			break;
+		}
+		case "01n": {
+			iconPath += "31";
+			break;
+		}
+		case "02d": {
+			iconPath += "30";
+			break;
+		}
+		case "02n": {
+			iconPath += "29";
+			break;
+		}
+		case "03d": {
+			iconPath += "26";
+			break;
+		}
+		case "03n": {
+			iconPath += "26";
+			break;
+		}
+		case "04d": {
+			iconPath += "28";
+			break;
+		}
+		case "04n": {
+			iconPath += "27";
+			break;
+		}
+		case "09d": {
+			iconPath += "40";
+			break;
+		}
+		case "09n": {
+			iconPath += "40";
+			break;
+		}
+		case "10d": {
+			iconPath += "39";
+			break;
+		}
+		case "10n": {
+			iconPath += "45";
+			break;
+		}
+		case "11d": {
+			iconPath += "38";
+			break;
+		}
+		case "11n": {
+			iconPath += "47";
+			break;
+		}
+		case "13d": {
+			iconPath += "10";
+			break;
+		}
+		case "13n": {
+			iconPath += "10";
+			break;
+		}
+		case "50d": {
+			iconPath += "22";
+			break;
+		}
+		case "50n": {
+			iconPath += "21";
+			break;
+		}
+		default:
+			iconPath += "na";
+			break;
+		}
+		iconPath += ".png";
+		return iconPath;
 	}
 
 }

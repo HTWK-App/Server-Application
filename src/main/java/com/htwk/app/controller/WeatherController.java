@@ -27,8 +27,8 @@ public class WeatherController {
 	private static final Logger logger = LoggerFactory.getLogger(WeatherController.class);
 
 	@Autowired
-	private WeatherRepository repo ;
-	
+	private WeatherRepository repo;
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String redirectHome() {
 		return "redirect:/weather";
@@ -36,9 +36,11 @@ public class WeatherController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = { "application/json; charset=UTF-8" })
 	public @ResponseBody
-	ResponseEntity getSemGroups(@RequestParam(value = "location", required=false, defaultValue="") String location, @RequestParam(value = "days", required=false, defaultValue="3") String days) throws IOException,
-			URISyntaxException, InvalidAttributesException, RestClientException, ParseException {
-		return new ResponseEntity(repo.getWeather(location, days), HttpStatus.OK);
+	ResponseEntity getSemGroups(@RequestParam(value = "location", required = false, defaultValue = "") String location,
+			@RequestParam(value = "days", required = false, defaultValue = "3") String days,
+			@RequestParam(value = "customIcons", required = false, defaultValue = "false") boolean customIcons)
+			throws IOException, URISyntaxException, InvalidAttributesException, RestClientException, ParseException {
+		return new ResponseEntity(repo.getWeather(location, days, customIcons), HttpStatus.OK);
 	}
 
 }
