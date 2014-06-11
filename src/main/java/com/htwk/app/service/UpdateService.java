@@ -43,7 +43,10 @@ public class UpdateService {
 
 	public synchronized final boolean removeUser(String regId, EncryptedCredentials encCredentials)
 			throws CredentialException {
-		if (!EqualsBuilder.reflectionEquals(registeredUsers.get(regId), encCredentials)) {
+		if (!registeredUsers.get(regId).getEncryptedCredentials().equals(encCredentials.getEncryptedCredentials())) {
+			throw new CredentialException("wrong credentials for given user");
+		}
+		if (!registeredUsers.get(regId).getSalt().equals(encCredentials.getSalt())) {
 			throw new CredentialException("wrong credentials for given user");
 		}
 		if (registeredUsers.remove(regId) != null) {

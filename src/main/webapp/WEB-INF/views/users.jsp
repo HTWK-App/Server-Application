@@ -46,7 +46,7 @@
 								<c:forEach  items="${users}" var="user">
 									<tr>
 										<td>${user.key}</td>
-										<td></td>
+										<td>${user.value.encryptedCredentials}</td>
 										<td><a href="${url}/admin/test?regId=${user.key}">end Message</a></td>
 									</tr>
 								</c:forEach>

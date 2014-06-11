@@ -52,14 +52,6 @@ public class QISRepository {
 		conv = new QISConverter();
 	}
 
-	@Deprecated
-	public List<Semester> getQISData(String enryptedCredentials) throws RestClientException,
-			UnsupportedEncodingException {
-
-		Credentials credentials = authService.decryptCredentials(enryptedCredentials);
-		return getNewQISData(credentials);
-	}
-
 	public synchronized final List<Semester> getQISData(String enryptedCredentials, String salt)
 			throws RestClientException, UnsupportedEncodingException {
 

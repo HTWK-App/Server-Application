@@ -55,4 +55,13 @@ public class AuthenticationController {
 		EncryptedCredentials encCredentials = new EncryptedCredentials(encryptedCredentials, salt);
 		return "" + updateService.removeUser(regid, encCredentials);
 	}
+	
+	@RequestMapping(value = "/push/delete", method = RequestMethod.GET)
+	public @ResponseBody
+	String disablePushNotificationViaGet(@RequestParam(value = "credentials") String encryptedCredentials,
+			@RequestParam(value = "salt") String salt, @RequestParam(value = "regid") String regid)
+			throws CredentialException {
+		EncryptedCredentials encCredentials = new EncryptedCredentials(encryptedCredentials, salt);
+		return "" + updateService.removeUser(regid, encCredentials);
+	}
 }
