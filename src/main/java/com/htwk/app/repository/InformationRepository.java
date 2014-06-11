@@ -248,6 +248,10 @@ public class InformationRepository {
 	}
 
 	public synchronized final String getPicData(String uri) throws Exception {
+		if (uri == null || uri.isEmpty())
+		{
+			return null;
+		}
 		HttpHeaders headers = new HttpHeaders();
 		String prefix = "";
 		boolean compress = true;
