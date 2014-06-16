@@ -1,15 +1,14 @@
 package com.htwk.app.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.mail.MessagingException;
 import javax.security.auth.login.CredentialException;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,51 +30,45 @@ public class UpdateService {
 	@Autowired
 	private MailBoxRepository mailRepo;
 
-	private Map<String, EncryptedCredentials> registeredUsers = new HashMap<String, EncryptedCredentials>();
+	private List<String> registeredUsers = new ArrayList<String>();
 
-	public synchronized final boolean addUser(String regId, EncryptedCredentials encCredentials) {
-		if (registeredUsers.put(regId, encCredentials) != null) {
+	public synchronized final boolean addUser(String regId) {
+		if (registeredUsers.add(regId)) {
 			logger.info("" + regId);
 			return true;
 		}
 		return false;
 	}
 
-	public synchronized final boolean removeUser(String regId, EncryptedCredentials encCredentials)
-			throws CredentialException {
-		if (!registeredUsers.get(regId).getEncryptedCredentials().equals(encCredentials.getEncryptedCredentials())) {
+	public synchronized final boolean removeUser(String regId) throws CredentialException {
+		if (!registeredUsers.contains(regId)) {
 			throw new CredentialException("wrong credentials for given user");
 		}
-		if (!registeredUsers.get(regId).getSalt().equals(encCredentials.getSalt())) {
-			throw new CredentialException("wrong credentials for given user");
-		}
-		if (registeredUsers.remove(regId) != null) {
+		if (registeredUsers.remove(regId)) {
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * @return the registeredUsers
-	 */
-	public synchronized final Map<String, EncryptedCredentials> getRegisteredUsers() {
-		return this.registeredUsers;
-	}
-
-	public Map<String, String> test(String regId) throws MessagingException, IOException {
+	public Map<String, String> addUserCredentials(String regId, EncryptedCredentials encCredentials)
+			throws MessagingException, IOException {
 		Map<String, String> response = new HashMap<String, String>();
-		for (Entry<String, EncryptedCredentials> entry : registeredUsers.entrySet()) {
-			if (entry.getKey().equals(regId)) {
 
-				List<Mail> mails = mailRepo.getNewMails(entry.getValue().getEncryptedCredentials(), entry.getValue()
-						.getSalt());
+		List<Mail> mails = mailRepo.getNewMails(encCredentials.getEncryptedCredentials(), encCredentials.getSalt());
 
-				if (!mails.isEmpty()) {
-					response.put(entry.getKey(), gcmService.test(entry.getKey(), PushStatus.NEW_MAILS));
-				}
-			}
+		if (!mails.isEmpty()) {
+			response.put(regId, gcmService.send(regId, PushStatus.NEW_MAILS));
 		}
 		return response;
 	}
-
+	
+	public String sendPushRequest(String regId){
+		return gcmService.send(regId, PushStatus.PUSH_REQUEST);
+	}
+	/**
+	 * @return the registeredUsers
+	 */
+	public synchronized final List<String> getRegisteredUsers() {
+		return this.registeredUsers;
+	}
 }

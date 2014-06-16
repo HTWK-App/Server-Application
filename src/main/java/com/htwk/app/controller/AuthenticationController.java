@@ -1,5 +1,8 @@
 package com.htwk.app.controller;
 
+import java.io.IOException;
+
+import javax.mail.MessagingException;
 import javax.security.auth.login.CredentialException;
 
 import org.slf4j.Logger;
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.htwk.app.model.impl.Credentials;
 import com.htwk.app.model.impl.EncryptedCredentials;
 import com.htwk.app.service.AuthenticationService;
-import com.htwk.app.service.GCMService;
 import com.htwk.app.service.UpdateService;
 
 @Controller
@@ -39,29 +41,32 @@ public class AuthenticationController {
 		return service.encryptCredentials(credentials);
 	}
 
+	@RequestMapping(value = "/push/register", method = RequestMethod.POST)
+	public @ResponseBody
+	String enablePushNotification(@RequestParam(value = "regid") String regid) {
+		return "" + updateService.addUser(regid);
+	}
+
 	@RequestMapping(value = "/push", method = RequestMethod.POST)
 	public @ResponseBody
-	String enablePushNotification(@RequestParam(value = "credentials") String encryptedCredentials,
-			@RequestParam(value = "salt") String salt, @RequestParam(value = "regid") String regid) {
+	String setCredentialsForPushNotification(@RequestParam(value = "credentials") String encryptedCredentials,
+			@RequestParam(value = "salt") String salt, @RequestParam(value = "regid") String regid)
+			throws MessagingException, IOException {
 		EncryptedCredentials encCredentials = new EncryptedCredentials(encryptedCredentials, salt);
-		return "" + updateService.addUser(regid, encCredentials);
+		return "" + updateService.addUserCredentials(regid,encCredentials);
 	}
 
 	@RequestMapping(value = "/push", method = RequestMethod.DELETE)
 	public @ResponseBody
-	String disablePushNotification(@RequestParam(value = "credentials") String encryptedCredentials,
-			@RequestParam(value = "salt") String salt, @RequestParam(value = "regid") String regid)
+	String disablePushNotification(@RequestParam(value = "regid") String regid)
 			throws CredentialException {
-		EncryptedCredentials encCredentials = new EncryptedCredentials(encryptedCredentials, salt);
-		return "" + updateService.removeUser(regid, encCredentials);
+		return "" + updateService.removeUser(regid);
 	}
-	
+
 	@RequestMapping(value = "/push/delete", method = RequestMethod.GET)
 	public @ResponseBody
-	String disablePushNotificationViaGet(@RequestParam(value = "credentials") String encryptedCredentials,
-			@RequestParam(value = "salt") String salt, @RequestParam(value = "regid") String regid)
+	String disablePushNotificationViaGet(@RequestParam(value = "regid") String regid)
 			throws CredentialException {
-		EncryptedCredentials encCredentials = new EncryptedCredentials(encryptedCredentials, salt);
-		return "" + updateService.removeUser(regid, encCredentials);
+		return "" + updateService.removeUser(regid);
 	}
 }

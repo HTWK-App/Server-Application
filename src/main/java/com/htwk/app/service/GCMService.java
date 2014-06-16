@@ -35,7 +35,7 @@ public class GCMService {
 		headers.add("Authorization", "key=" + gcmApiKey);
 	}
 
-	public String test(String regId, PushStatus status) {
+	public String send(String regId, PushStatus status) {
 		JsonObject payload = new JsonObject();
 		JsonObject payloadData = new JsonObject();
 
@@ -52,6 +52,13 @@ public class GCMService {
 			payloadData.addProperty("message", "please check the current news");
 			payloadData.addProperty("status", status.status());
 			payloadData.addProperty("site", "news");
+			break;
+		}
+		case PUSH_REQUEST: {
+			payloadData.addProperty("title", "Notifications");
+			payloadData.addProperty("message", "please start the HTWK-App");
+			payloadData.addProperty("status", status.status());
+			payloadData.addProperty("site", "index");
 			break;
 		}
 		default:

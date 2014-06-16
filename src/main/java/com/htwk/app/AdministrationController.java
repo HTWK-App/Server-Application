@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.cache.Cache;
-import com.htwk.app.model.impl.EncryptedCredentials;
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
@@ -87,7 +86,7 @@ public class AdministrationController {
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public @ResponseBody
 	ResponseEntity test(@RequestParam String regId, Locale locale, Model model) throws MessagingException, IOException {
-		return new ResponseEntity(updateService.test(regId), HttpStatus.OK);
+		return new ResponseEntity(updateService.sendPushRequest(regId), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/staff", method = RequestMethod.GET)
