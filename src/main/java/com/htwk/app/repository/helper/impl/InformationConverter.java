@@ -107,7 +107,7 @@ public class InformationConverter extends HTMLConverter {
 		for (Element main : doc.select("div#content")) {
 			logger.debug("found main content in document");
 			Building building = new Building();
-			String fullName = main.select("h1.csc-firstHeader").text();
+			String fullName = main.select(".csc-default h1").text();
 			building.setId(fullName.substring(fullName.indexOf("(") + 1, fullName.indexOf(")")));
 			building.setFullName(fullName);
 
