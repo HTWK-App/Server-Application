@@ -42,7 +42,7 @@ public class InformationConverter extends HTMLConverter {
 				Staff staff = new Staff();
 				String link = td[0].select("a").first().attr("href");
 				staff.setDetailLink(UrlUtils.getHtwkUrl(link));
-				staff.setCuid(link.substring(link.indexOf("cuid") + 5, link.length() - 1));
+				staff.setCuid(link.substring(link.indexOf("id") + 3, link.length() - 1));
 
 				staff.setName((td[0] == null) ? "" : td[0].text());
 				staff.setDegree((td[1] == null) ? "" : td[1].text());
