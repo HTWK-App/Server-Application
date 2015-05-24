@@ -24,106 +24,154 @@ import com.htwk.app.service.AuthenticationService;
 @Repository
 public class MailBoxRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(MailBoxRepository.class);
+  private static Logger logger = LoggerFactory.getLogger(MailBoxRepository.class);
 
-	private EmailReceiver receiver;
+  private EmailReceiver receiver;
 
-	@Value("${mail.get.protocol}")
-	private String getProtocol;
+  @Value("${mail.get.protocol}")
+  private String getProtocol;
 
-	@Value("${mail.get.host}")
-	private String getHost;
+  @Value("${mail.get.host}")
+  private String getHost;
 
-	@Value("${mail.get.port}")
-	private int getPort;
+  @Value("${mail.get.port}")
+  private int getPort;
 
-	@Value("${mail.send.protocol}")
-	private String sendProtocol;
+  @Value("${mail.send.protocol}")
+  private String sendProtocol;
 
-	@Value("${mail.send.host}")
-	private String sendHost;
+  @Value("${mail.send.host}")
+  private String sendHost;
 
-	@Value("${mail.send.port}")
-	private int sendPort;
+  @Value("${mail.send.port}")
+  private int sendPort;
 
-	@Autowired
-	private AuthenticationService authService;
+  @Autowired
+  private AuthenticationService authService;
 
-	@PostConstruct
-	public void init() {
-		receiver = new EmailReceiver();
-	}
+  @PostConstruct
+  public void init() {
+    receiver = new EmailReceiver();
+  }
 
-	public synchronized final List<Mail> getMails(String enryptedCredentials, String salt, int limit, int offset)
-			throws MessagingException, IOException {
-		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
-		credentials.setProtocol(getProtocol);
-		credentials.setHost(getHost);
-		credentials.setPort(getPort);
+  public synchronized List<Mail> getMails(String enryptedCredentials, String salt, int limit,
+      int offset) throws MessagingException, IOException {
+    EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
+    MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
+    credentials.setProtocol(getProtocol);
+    credentials.setHost(getHost);
+    credentials.setPort(getPort);
 
-		return receiver.getEmails(credentials, limit, offset);
-	}
+    return receiver.getEmails(credentials, limit, offset);
+  }
 
-	public synchronized final List<Mail> getNewMails(String enryptedCredentials, String salt)
-			throws MessagingException, IOException {
-		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
-		credentials.setProtocol(getProtocol);
-		credentials.setHost(getHost);
-		credentials.setPort(getPort);
+  public synchronized List<Mail> getNewMails(String enryptedCredentials, String salt)
+      throws MessagingException, IOException {
+    EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
+    MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
+    credentials.setProtocol(getProtocol);
+    credentials.setHost(getHost);
+    credentials.setPort(getPort);
 
-		return receiver.getNewEmails(credentials);
-	}
+    return receiver.getNewEmails(credentials);
+  }
 
-	public synchronized final void sendMail(Mail mail, String enryptedCredentials, String salt)
-			throws MessagingException {
-		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
-		credentials.setProtocol(sendProtocol);
-		credentials.setHost(sendHost);
-		credentials.setPort(sendPort);
+  public synchronized void sendMail(Mail mail, String enryptedCredentials, String salt)
+      throws MessagingException {
+    EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
+    MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
+    credentials.setProtocol(sendProtocol);
+    credentials.setHost(sendHost);
+    credentials.setPort(sendPort);
 
-		receiver.sendMail(mail, credentials);
-	}
+    receiver.sendMail(mail, credentials);
+  }
 
-	public synchronized final ResponseEntity<byte[]> getAttachment(int mail, String attachmentName,
-			String enryptedCredentials, String salt) throws MessagingException, IOException {
-		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
-		credentials.setProtocol(getProtocol);
-		credentials.setHost(getHost);
-		credentials.setPort(getPort);
+  public synchronized ResponseEntity<byte[]> getAttachment(int mail, String attachmentName,
+      String enryptedCredentials, String salt) throws MessagingException, IOException {
+    EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
+    MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
+    credentials.setProtocol(getProtocol);
+    credentials.setHost(getHost);
+    credentials.setPort(getPort);
 
-		return receiver.downloadAttachment(mail, attachmentName, credentials);
-	}
+    return receiver.downloadAttachment(mail, attachmentName, credentials);
+  }
 
-	public synchronized final ResponseEntity<Mail> getMail(int mailId, String enryptedCredentials, String salt)
-			throws MessagingException, IOException {
-		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
-		credentials.setProtocol(getProtocol);
-		credentials.setHost(getHost);
-		credentials.setPort(getPort);
+  public synchronized ResponseEntity<Mail> getMail(int mailId, String enryptedCredentials,
+      String salt) throws MessagingException, IOException {
+    EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
+    MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
+    credentials.setProtocol(getProtocol);
+    credentials.setHost(getHost);
+    credentials.setPort(getPort);
 
-		return new ResponseEntity(receiver.getEmail(mailId, credentials, salt), HttpStatus.OK);
+    return new ResponseEntity<Mail>(receiver.getEmail(mailId, credentials, salt), HttpStatus.OK);
 
-	}
+  }
 
-	public synchronized final boolean changeMailStatus(int mailId, String enryptedCredentials, String salt) {
-		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
-		MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
-		credentials.setProtocol(getProtocol);
-		credentials.setHost(getHost);
-		credentials.setPort(getPort);
+  public synchronized boolean changeMailStatus(int mailId, String enryptedCredentials, String salt) {
+    EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
+    MailCredentials credentials = new MailCredentials(authService.decryptCredentials(encCred));
+    credentials.setProtocol(getProtocol);
+    credentials.setHost(getHost);
+    credentials.setPort(getPort);
 
-		try {
-			receiver.changeMailStatus(mailId, Flag.SEEN, credentials);
-			return true;
-		} catch (MessagingException ex) {
-			logger.error("error while setting flag for mail: {}", ex);
-		}
-		return false;
-	}
+    try {
+      receiver.changeMailStatus(mailId, Flag.SEEN, credentials);
+      return true;
+    } catch (MessagingException ex) {
+      logger.error("error while setting flag for mail: {}", ex);
+    }
+    return false;
+  }
+
+  public String getGetProtocol() {
+    return getProtocol;
+  }
+
+  public void setGetProtocol(String getProtocol) {
+    this.getProtocol = getProtocol;
+  }
+
+  public String getGetHost() {
+    return getHost;
+  }
+
+  public void setGetHost(String getHost) {
+    this.getHost = getHost;
+  }
+
+  public int getGetPort() {
+    return getPort;
+  }
+
+  public void setGetPort(int getPort) {
+    this.getPort = getPort;
+  }
+
+  public String getSendProtocol() {
+    return sendProtocol;
+  }
+
+  public void setSendProtocol(String sendProtocol) {
+    this.sendProtocol = sendProtocol;
+  }
+
+  public String getSendHost() {
+    return sendHost;
+  }
+
+  public void setSendHost(String sendHost) {
+    this.sendHost = sendHost;
+  }
+
+  public int getSendPort() {
+    return sendPort;
+  }
+
+  public void setSendPort(int sendPort) {
+    this.sendPort = sendPort;
+  }
 
 }

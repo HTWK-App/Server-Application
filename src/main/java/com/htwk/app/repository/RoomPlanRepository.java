@@ -46,167 +46,207 @@ import com.htwk.app.service.GoogleDistanceMatrixService;
 @Repository
 public class RoomPlanRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(RoomPlanRepository.class);
+  private static Logger logger = LoggerFactory.getLogger(RoomPlanRepository.class);
 
-	private RestTemplate restTemplate = null;
-	private ResponseEntity<String> response = null;
-	private HttpHeaders headers = null;
-	private RoomPlanConverter conv = null;
-	private TimetableConverter timetableConv = null;
-	private Cache<String, Object> cache = null;
-	private SimpleDateFormat timeParser = null;
+  private RestTemplate restTemplate = null;
+  private ResponseEntity<String> response = null;
+  private HttpHeaders headers = null;
+  private RoomPlanConverter conv = null;
+  private TimetableConverter timetableConv = null;
+  private Cache<String, Object> cache = null;
+  private SimpleDateFormat timeParser = null;
 
-	@Value("${timetable.url}")
-	private String roomPlanUrl;
+  @Value("${timetable.url}")
+  private String roomPlanUrl;
 
-	@Value("${timetable.roomList}")
-	private String roomPlanRoomList;
+  @Value("${timetable.roomList}")
+  private String roomPlanRoomList;
 
-	@Value("${timetable.roomReport}")
-	private String roomReport;
+  @Value("${timetable.roomReport}")
+  private String roomReport;
 
-	@Value("${timetable.profs}")
-	private String timetableProfs;
+  @Value("${timetable.profs}")
+  private String timetableProfs;
 
-	@Autowired
-	private CacheManager cacheManager;
+  @Autowired
+  private CacheManager cacheManager;
 
-	@Autowired
-	private TimetableRepository timetableRepo;
+  @Autowired
+  private TimetableRepository timetableRepo;
 
-	@Autowired
-	private InformationRepository informationRepo;
+  @Autowired
+  private InformationRepository informationRepo;
 
-	@Autowired
-	private GoogleDistanceMatrixService distanceService;
+  @Autowired
+  private GoogleDistanceMatrixService distanceService;
 
-	@SuppressWarnings("unchecked")
-	@PostConstruct
-	public void init() {
-		restTemplate = new RestTemplate();
-		headers = new HttpHeaders();
-		headers.add("Content-Type", "text/xml;charset=UTF-8");
-		conv = new RoomPlanConverter();
-		timetableConv = new TimetableConverter();
-		timeParser = new SimpleDateFormat("HH:mm");
-		cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
-	}
+  @SuppressWarnings("unchecked")
+  @PostConstruct
+  public void init() {
+    restTemplate = new RestTemplate();
+    headers = new HttpHeaders();
+    headers.add("Content-Type", "text/xml;charset=UTF-8");
+    conv = new RoomPlanConverter();
+    timetableConv = new TimetableConverter();
+    timeParser = new SimpleDateFormat("HH:mm");
+    cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
+    logger.debug("initialized RommPlanRepository");
+  }
 
-	public final ArrayListMultimap<String, Room> getRooms(String semester) throws UnsupportedEncodingException {
-		roomPlanRoomList = MessageFormat.format(roomPlanRoomList, semester);
+  public ArrayListMultimap<String, Room> getRooms(String semester)
+      throws UnsupportedEncodingException {
+    roomPlanRoomList = MessageFormat.format(roomPlanRoomList, semester);
 
-		response = restTemplate.exchange(roomPlanUrl + roomPlanRoomList, HttpMethod.GET,
-				new HttpEntity<Object>(headers), String.class);
-		if (response.hasBody()) {
-			return conv.getRoomList(response.getBody());
-		}
-		return null;
-	}
+    response =
+        restTemplate.exchange(roomPlanUrl + roomPlanRoomList, HttpMethod.GET,
+            new HttpEntity<Object>(headers), String.class);
+    if (response.hasBody()) {
+      return conv.getRoomList(response.getBody());
+    }
+    return null;
+  }
 
-	public final List<Day<Subject>> getRoomPlan(String semester, String roomId, String kw, String day)
-			throws IOException, URISyntaxException, InvalidAttributeValueException {
-		List<Day<Subject>> plan = (List<Day<Subject>>) cache.getIfPresent(kw + day + roomId);
-		if (plan != null) {
-			return plan;
-		}
+  @SuppressWarnings("unchecked")
+  public List<Day<Subject>> getRoomPlan(String semester, String roomId, String kw, String day)
+      throws IOException, URISyntaxException, InvalidAttributeValueException {
+    List<Day<Subject>> plan = (List<Day<Subject>>) cache.getIfPresent(kw + day + roomId);
+    if (plan != null) {
+      return plan;
+    }
 
-		Map<String, String> cal = timetableRepo.getCalendar();
-		if (!cal.containsKey(kw)) {
-			throw new InvalidAttributeValueException("this week is not in the given semester");
-		}
-		URI uri = new URI(roomPlanUrl + MessageFormat.format(roomReport, semester, roomId, kw, day));
+    Map<String, String> cal = timetableRepo.getCalendar();
+    if (!cal.containsKey(kw)) {
+      throw new InvalidAttributeValueException("this week is not in the given semester");
+    }
+    URI uri = new URI(roomPlanUrl + MessageFormat.format(roomReport, semester, roomId, kw, day));
 
-		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+    response =
+        restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
 
-		String profsUri = roomPlanUrl + MessageFormat.format(timetableProfs, semester);
-		ResponseEntity<String> profsContent = restTemplate.exchange(profsUri, HttpMethod.GET, new HttpEntity<Object>(
-				headers), String.class);
-		if (response.hasBody()) {
+    String profsUri = roomPlanUrl + MessageFormat.format(timetableProfs, semester);
+    ResponseEntity<String> profsContent =
+        restTemplate.exchange(profsUri, HttpMethod.GET, new HttpEntity<Object>(headers),
+            String.class);
+    if (response.hasBody()) {
 
-			List<Day<Subject>> timetable = timetableConv.getTimetable(response.getBody(), profsContent.getBody());
-			cache.put(kw + day + roomId, timetable);
-			return timetable;
-		}
-		return null;
-	}
+      List<Day<Subject>> timetable =
+          timetableConv.getTimetable(response.getBody(), profsContent.getBody());
+      cache.put(kw + day + roomId, timetable);
+      return timetable;
+    }
+    return null;
+  }
 
-	public final Map<String, Collection<Room>> getFreeRoom(String semester, String kw) throws IOException,
-			URISyntaxException, ParseException, InvalidAttributeValueException {
-		Calendar cal = Calendar.getInstance(Locale.GERMAN);
-		int calDay = (cal.get(Calendar.DAY_OF_WEEK) - 1) % 7;
-		return getFreeRooms(semester, kw, calDay);
-	}
+  public Map<String, Collection<Room>> getFreeRoom(String semester, String kw) throws IOException,
+      URISyntaxException, ParseException, InvalidAttributeValueException {
+    Calendar cal = Calendar.getInstance(Locale.GERMAN);
+    int calDay = (cal.get(Calendar.DAY_OF_WEEK) - 1) % 7;
+    return getFreeRooms(semester, kw, calDay);
+  }
 
-	public final Map<String, Collection<Room>> getFreeRoom(String semester, String kw, int day) throws IOException,
-			URISyntaxException, ParseException, InvalidAttributeValueException {
-		return getFreeRooms(semester, kw, day);
-	}
+  public Map<String, Collection<Room>> getFreeRoom(String semester, String kw, int day)
+      throws IOException, URISyntaxException, ParseException, InvalidAttributeValueException {
+    return getFreeRooms(semester, kw, day);
+  }
 
-	private final Map<String, Collection<Room>> getFreeRooms(String semester, String kw, int day) throws IOException,
-			URISyntaxException, ParseException, InvalidAttributeValueException {
-		Map<String, String> studCal = timetableRepo.getCalendar();
-		if (!studCal.containsKey(kw)) {
-			throw new InvalidAttributeValueException("this week is not in the given semester");
-		}
-		if (day < 1 && day > 7) {
-			throw new InvalidAttributeValueException("the given day is out of range (1-7)");
-		}
+  private Map<String, Collection<Room>> getFreeRooms(String semester, String kw, int day)
+      throws IOException, URISyntaxException, ParseException, InvalidAttributeValueException {
+    Map<String, String> studCal = timetableRepo.getCalendar();
+    if (!studCal.containsKey(kw)) {
+      throw new InvalidAttributeValueException("this week is not in the given semester");
+    }
+    if (day < 1 && day > 7) {
+      throw new InvalidAttributeValueException("the given day is out of range (1-7)");
+    }
 
-		Calendar cal = Calendar.getInstance(Locale.GERMAN);
-		String now = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
-		Date userDate = timeParser.parse(now);
+    Calendar cal = Calendar.getInstance(Locale.GERMAN);
+    String now = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
+    Date userDate = timeParser.parse(now);
 
-		ArrayListMultimap<String, Room> roomMap = getRooms(semester);
-		ArrayListMultimap<String, Room> whiteListedRooms = ArrayListMultimap.create();
+    ArrayListMultimap<String, Room> roomMap = getRooms(semester);
+    ArrayListMultimap<String, Room> whiteListedRooms = ArrayListMultimap.create();
 
-		for (Entry<String, Collection<Room>> geb : roomMap.asMap().entrySet()) {
-			boolean add = false;
-			for (Room room : geb.getValue()) {
-				Iterator<Day<Subject>> plan = getRoomPlan(semester, room.getId(), kw, "" + day).iterator();
-				label: while (plan.hasNext()) {
-					for (Subject subject : plan.next().getDayContent()) {
-						Date begin = timeParser.parse(subject.getBegin());
-						Date end = timeParser.parse(subject.getEnd());
-						if (userDate.after(begin) && userDate.before(end)) {
-							add = false;
-							break label;
-						} else {
-							add = true;
-						}
-					}
-				}
-				if (add) {
-					String bid = geb.getKey();
-					if (bid.contains("=")) {
-						bid = bid.split("=")[0].trim();
-					}
-					whiteListedRooms.put(bid, room);
-				}
-			}
-		}
-		return whiteListedRooms.asMap();
-	}
+    for (Entry<String, Collection<Room>> geb : roomMap.asMap().entrySet()) {
+      boolean add = false;
+      for (Room room : geb.getValue()) {
+        Iterator<Day<Subject>> plan = getRoomPlan(semester, room.getId(), kw, "" + day).iterator();
+        label: while (plan.hasNext()) {
+          for (Subject subject : plan.next().getDayContent()) {
+            Date begin = timeParser.parse(subject.getBegin());
+            Date end = timeParser.parse(subject.getEnd());
+            if (userDate.after(begin) && userDate.before(end)) {
+              add = false;
+              break label;
+            } else {
+              add = true;
+            }
+          }
+        }
+        if (add) {
+          String bid = geb.getKey();
+          if (bid.contains("=")) {
+            bid = bid.split("=")[0].trim();
+          }
+          whiteListedRooms.put(bid, room);
+        }
+      }
+    }
+    return whiteListedRooms.asMap();
+  }
 
-	public Map<Long, Collection<Room>> getFreeRoomByLocation(String semester, String kw, int day, String location)
-			throws Exception {
-		List<Building> destinations = new ArrayList<Building>();
-		Map<String, Collection<Room>> roomMap = getFreeRoom(semester, kw, day);
-		for (Entry<String, Collection<Room>> entry : roomMap.entrySet()) {
-			String key = entry.getKey();
-			String bid = "";
-			if (key.contains("=")) {
-				bid = key.split("=")[0].trim();
-				logger.info("" + bid);
-				destinations.add(informationRepo.getBuilding(bid));
+  public Map<Long, Collection<Room>> getFreeRoomByLocation(String semester, String kw, int day,
+      String location) throws Exception {
+    List<Building> destinations = new ArrayList<Building>();
+    Map<String, Collection<Room>> roomMap = getFreeRoom(semester, kw, day);
+    for (Entry<String, Collection<Room>> entry : roomMap.entrySet()) {
+      String key = entry.getKey();
+      String bid = "";
+      if (key.contains("=")) {
+        bid = key.split("=")[0].trim();
+        logger.info("" + bid);
+        destinations.add(informationRepo.getBuilding(bid));
 
-			}
-		}
-		Map<Long, Collection<Room>> map = new TreeMap<Long, Collection<Room>>();
-		int i = 0;
-		for (Entry<Long, Building> entry : distanceService.getDistances(location, destinations).entrySet()) {
-			map.put(entry.getKey(), new ArrayList<Collection<Room>>(roomMap.values()).get(i));
-			i++;
-		}
-		return map;
-	}
+      }
+    }
+    Map<Long, Collection<Room>> map = new TreeMap<Long, Collection<Room>>();
+    int i = 0;
+    for (Entry<Long, Building> entry : distanceService.getDistances(location, destinations)
+        .entrySet()) {
+      map.put(entry.getKey(), new ArrayList<Collection<Room>>(roomMap.values()).get(i));
+      i++;
+    }
+    return map;
+  }
+
+  public String getRoomPlanUrl() {
+    return roomPlanUrl;
+  }
+
+  public void setRoomPlanUrl(String roomPlanUrl) {
+    this.roomPlanUrl = roomPlanUrl;
+  }
+
+  public String getRoomPlanRoomList() {
+    return roomPlanRoomList;
+  }
+
+  public void setRoomPlanRoomList(String roomPlanRoomList) {
+    this.roomPlanRoomList = roomPlanRoomList;
+  }
+
+  public String getRoomReport() {
+    return roomReport;
+  }
+
+  public void setRoomReport(String roomReport) {
+    this.roomReport = roomReport;
+  }
+
+  public String getTimetableProfs() {
+    return timetableProfs;
+  }
+
+  public void setTimetableProfs(String timetableProfs) {
+    this.timetableProfs = timetableProfs;
+  }
 }

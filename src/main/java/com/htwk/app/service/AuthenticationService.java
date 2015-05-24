@@ -30,4 +30,20 @@ public class AuthenticationService {
 		return new Credentials(decrypted[0], decrypted[1]);
 	}
 
+  public final String getSalt() {
+    return salt;
+  }
+
+  public final void setSalt(String salt) {
+    this.salt = salt;
+  }
+
+  public final String getSecret() {
+    return secret;
+  }
+
+  public final void setSecret(String secret) {
+    this.secret = secret;
+  }
+
 }

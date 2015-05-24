@@ -15,7 +15,6 @@ import javax.imageio.ImageIO;
 import javax.management.InvalidAttributeValueException;
 import javax.naming.directory.InvalidAttributesException;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

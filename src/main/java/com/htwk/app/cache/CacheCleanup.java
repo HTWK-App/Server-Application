@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.guava.GuavaCache;
 import org.springframework.stereotype.Service;
 
 @Service

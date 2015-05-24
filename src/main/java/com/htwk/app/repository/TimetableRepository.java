@@ -32,220 +32,245 @@ import com.htwk.app.repository.helper.impl.TimetableConverter;
 @Repository
 public class TimetableRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(TimetableRepository.class);
+  private static Logger logger = LoggerFactory.getLogger(TimetableRepository.class);
 
-	private RestTemplate restTemplate = null;
-	private ResponseEntity<String> response = null;
-	private HttpHeaders headers = null;
-	private TimetableConverter conv = null;
-	private Cache<String, Object> cache;
+  private RestTemplate restTemplate = null;
+  private ResponseEntity<String> response = null;
+  private HttpHeaders headers = null;
+  private TimetableConverter conv = null;
+  private Cache<String, Object> cache;
 
-	@Value("${timetable.url}")
-	private String timetableUrl;
+  @Value("${timetable.url}")
+  private String timetableUrl;
 
-	@Value("${timetable.report}")
-	private String timetableReport;
+  @Value("${timetable.report}")
+  private String timetableReport;
 
-	@Value("${timetable.cal}")
-	private String timetableCal;
+  @Value("${timetable.cal}")
+  private String timetableCal;
 
-	@Value("${timetable.semgr}")
-	private String timetableSemGroup;
+  @Value("${timetable.semgr}")
+  private String timetableSemGroup;
 
-	@Value("${timetable.profs}")
-	private String timetableProfs;
+  @Value("${timetable.profs}")
+  private String timetableProfs;
 
-	@Autowired
-	private CacheManager cacheManager;
+  @Autowired
+  private CacheManager cacheManager;
 
-	@SuppressWarnings("unchecked")
-	@PostConstruct
-	public void init() {
-		restTemplate = new RestTemplate();
-		headers = new HttpHeaders();
-		headers.add("Content-Type", "text/xml;charset=UTF-8");
-		conv = new TimetableConverter();
-		cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
-	}
+  @SuppressWarnings("unchecked")
+  @PostConstruct
+  public void init() {
+    restTemplate = new RestTemplate();
+    headers = new HttpHeaders();
+    headers.add("Content-Type", "text/xml;charset=UTF-8");
+    conv = new TimetableConverter();
+    cache = (Cache<String, Object>) cacheManager.getCache("timeCache").getNativeCache();
+    logger.debug("initialized TimetableRepository");
+  }
 
-	public synchronized final List<Faculty> getSemGroups(String semester) throws IOException {
-		Object semGroups = cache.getIfPresent(semester);
-		if (semGroups != null) {
-			return conv.getSemGroup(semGroups.toString());
-		}
-		timetableSemGroup = MessageFormat.format(timetableSemGroup, semester);
+  public List<Faculty> getSemGroups(String semester) throws IOException {
+    Object semGroups = cache.getIfPresent(semester);
+    if (semGroups != null) {
+      return conv.getSemGroup(semGroups.toString());
+    }
+    timetableSemGroup = MessageFormat.format(timetableSemGroup, semester);
 
-		response = restTemplate.exchange(timetableUrl + timetableSemGroup, HttpMethod.GET, new HttpEntity<Object>(
-				headers), String.class);
-		if (response.hasBody()) {
-			cache.put(semester, response.getBody().toString());
-			return conv.getSemGroup(response.getBody());
-		}
-		return null;
-	}
+    response =
+        restTemplate.exchange(timetableUrl + timetableSemGroup, HttpMethod.GET,
+            new HttpEntity<Object>(headers), String.class);
+    if (response.hasBody()) {
+      cache.put(semester, response.getBody().toString());
+      return conv.getSemGroup(response.getBody());
+    }
+    return null;
+  }
 
-	public synchronized final Faculty getSemGroups(String semester, String fak) throws IOException {
-		for (Faculty fac : getSemGroups(semester)) {
-			if (fac.getId().equalsIgnoreCase(fak)) {
-				return fac;
-			}
-		}
-		return null;
-	}
+  public Faculty getSemGroups(String semester, String fak) throws IOException {
+    for (Faculty fac : getSemGroups(semester)) {
+      if (fac.getId().equalsIgnoreCase(fak)) {
+        return fac;
+      }
+    }
+    return null;
+  }
 
-	public synchronized final Map<String, String> getCalendar() throws IOException {
-		Object cal = cache.getIfPresent("cal");
-		if (cal != null) {
-			return conv.getCal(cal.toString());
-		}
+  public Map<String, String> getCalendar() throws IOException {
+    Object cal = cache.getIfPresent("cal");
+    if (cal != null) {
+      return conv.getCal(cal.toString());
+    }
 
-		String uri = timetableUrl + timetableCal;
-		logger.debug("getData from URI: " + uri);
-		response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+    String uri = timetableUrl + timetableCal;
+    logger.debug("getData from URI: " + uri);
+    response =
+        restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
 
-		if (response != null) {
-			cache.put("cal", response.getBody().toString());
-			return conv.getCal(response.getBody());
-		}
-		return null;
-	}
+    if (response != null) {
+      cache.put("cal", response.getBody().toString());
+      return conv.getCal(response.getBody());
+    }
+    return null;
+  }
 
-	public synchronized final List<Day<Subject>> getTimetable(String semester, String semgroup) throws IOException {
-		String kw = getCalendar().get("all");
-		if (getCalendar().containsKey(kw)) {
+  public List<Day<Subject>> getTimetable(String semester, String semgroup) throws IOException {
+    String kw = getCalendar().get("all");
+    if (getCalendar().containsKey(kw)) {
 
-			String uri = timetableUrl + MessageFormat.format(timetableReport, semester, semgroup, kw, "");
-			String profsUri = timetableUrl + MessageFormat.format(timetableProfs, semester);
-			logger.debug("getData from URI: " + uri + profsUri);
-			response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
-			ResponseEntity<String> profsContent = restTemplate.exchange(profsUri, HttpMethod.GET,
-					new HttpEntity<Object>(headers), String.class);
-			if (response.hasBody() && profsContent.hasBody()) {
-				return conv.getTimetable(response.getBody(), profsContent.getBody());
-			}
-		}
-		return null;
-	}
+      String uri = timetableUrl + MessageFormat.format(timetableReport, semester, semgroup, kw, "");
+      String profsUri = timetableUrl + MessageFormat.format(timetableProfs, semester);
+      logger.debug("getData from URI: " + uri + profsUri);
+      response =
+          restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<Object>(headers), String.class);
+      ResponseEntity<String> profsContent =
+          restTemplate.exchange(profsUri, HttpMethod.GET, new HttpEntity<Object>(headers),
+              String.class);
+      if (response.hasBody() && profsContent.hasBody()) {
+        return conv.getTimetable(response.getBody(), profsContent.getBody());
+      }
+    }
+    return null;
+  }
 
-	public synchronized final List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid) throws RestClientException,
-			IOException {
-		if (suid == null || suid.length == 0) {
-			return getTimetable(semester, semgroup);
-		}
-		List<Day<Subject>> timetable = getTimetable(semester, semgroup);
-		for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
-			List<Subject> subjList = day.next().getDayContent();
-			for (Iterator<Subject> subj = subjList.iterator(); subj.hasNext();) {
-				if (!ArrayUtils.contains(suid, subj.next().getSuid())) {
-					subj.remove();
-				}
-			}
-		}
-		return timetable;
+  public List<Day<Subject>> getTimetable(String semester, String semgroup, String[] suid)
+      throws RestClientException, IOException {
+    if (suid == null || suid.length == 0) {
+      return getTimetable(semester, semgroup);
+    }
+    List<Day<Subject>> timetable = getTimetable(semester, semgroup);
+    for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
+      List<Subject> subjList = day.next().getDayContent();
+      for (Iterator<Subject> subj = subjList.iterator(); subj.hasNext();) {
+        if (!ArrayUtils.contains(suid, subj.next().getSuid())) {
+          subj.remove();
+        }
+      }
+    }
+    return timetable;
 
-	}
+  }
 
-	public synchronized final List<Day<Subject>> getTimetable(String semester, String semgroup, String kw) throws RestClientException,
-			IOException {
+  public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw)
+      throws RestClientException, IOException {
 
-		List<Day<Subject>> timetable = getTimetable(semester, semgroup);
-		for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
-			List<Subject> subjList = day.next().getDayContent();
-			for (Iterator<Subject> subj = subjList.iterator(); subj.hasNext();) {
-				if (!ArrayUtils.contains(subj.next().getKw(), kw)) {
-					subj.remove();
-				}
-			}
-		}
-		return timetable;
+    List<Day<Subject>> timetable = getTimetable(semester, semgroup);
+    for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
+      List<Subject> subjList = day.next().getDayContent();
+      for (Iterator<Subject> subj = subjList.iterator(); subj.hasNext();) {
+        if (!ArrayUtils.contains(subj.next().getKw(), kw)) {
+          subj.remove();
+        }
+      }
+    }
+    return timetable;
 
-	}
+  }
 
-	public synchronized final List<Day<Subject>> getTimetable(String semester, String semgroup, String kw, String[] suid)
-			throws RestClientException, IOException {
-		if (suid == null || suid.length == 0) {
-			return getTimetable(semester, semgroup, kw);
-		}
-		List<Day<Subject>> timetable = getTimetable(semester, semgroup, kw);
-		for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
-			List<Subject> subjList = day.next().getDayContent();
-			for (Iterator<Subject> subj = subjList.iterator(); subj.hasNext();) {
-				if (!ArrayUtils.contains(suid, subj.next().getSuid())) {
-					subj.remove();
-				}
-			}
-		}
-		return timetable;
+  public List<Day<Subject>> getTimetable(String semester, String semgroup, String kw, String[] suid)
+      throws RestClientException, IOException {
+    if (suid == null || suid.length == 0) {
+      return getTimetable(semester, semgroup, kw);
+    }
+    List<Day<Subject>> timetable = getTimetable(semester, semgroup, kw);
+    for (Iterator<Day<Subject>> day = timetable.iterator(); day.hasNext();) {
+      List<Subject> subjList = day.next().getDayContent();
+      for (Iterator<Subject> subj = subjList.iterator(); subj.hasNext();) {
+        if (!ArrayUtils.contains(suid, subj.next().getSuid())) {
+          subj.remove();
+        }
+      }
+    }
+    return timetable;
 
-	}
+  }
 
-	public synchronized final Day<Subject> getTimetable(String semester, String semgroup, String kw, int day) throws RestClientException,
-			IOException {
-		day = day - 1;
-		List<Day<Subject>> days = getTimetable(semester, semgroup, kw);
-		if (days != null && days.size() > 0) {
-			return days.get(day);
-		}
-		return null;
-	}
+  public Day<Subject> getTimetable(String semester, String semgroup, String kw, int day)
+      throws RestClientException, IOException {
+    day = day - 1;
+    List<Day<Subject>> days = getTimetable(semester, semgroup, kw);
+    if (days != null && days.size() > 0) {
+      return days.get(day);
+    }
+    return null;
+  }
 
-	public synchronized final Map<String, String> getCourse(String semester, String semgroup) throws IOException {
-		Map<String, String> response = new TreeMap<String, String>();
-		for (Day<Subject> day : getTimetable(semester, semgroup)) {
-			for (Subject subj : day.getDayContent()) {
-				response.put(subj.getSuid(), subj.getDescription());
-			}
-		}
-		return response;
-	}
+  public Map<String, String> getCourse(String semester, String semgroup) throws IOException {
+    Map<String, String> response = new TreeMap<String, String>();
+    for (Day<Subject> day : getTimetable(semester, semgroup)) {
+      for (Subject subj : day.getDayContent()) {
+        response.put(subj.getSuid(), subj.getDescription());
+      }
+    }
+    return response;
+  }
 
-	public synchronized final Subject getCourse(String semester, String semgroup, String id) throws IOException {
-		for (Day<Subject> day : getTimetable(semester, semgroup)) {
-			for (Subject subj : day.getDayContent()) {
-				if (subj.getSuid().equals(id)) {
-					return subj;
-				}
-			}
-		}
-		return null;
-	}
+  public Subject getCourse(String semester, String semgroup, String id) throws IOException {
+    for (Day<Subject> day : getTimetable(semester, semgroup)) {
+      for (Subject subj : day.getDayContent()) {
+        if (subj.getSuid().equals(id)) {
+          return subj;
+        }
+      }
+    }
+    return null;
+  }
 
-	public RestTemplate getTemplate() {
-		return restTemplate;
-	}
+  public RestTemplate getTemplate() {
+    return restTemplate;
+  }
 
-	/**
-	 * @return the timetableUrl
-	 */
-	public synchronized final String getTimetableUrl() {
-		return timetableUrl;
-	}
+  /**
+   * @return the timetableUrl
+   */
+  public String getTimetableUrl() {
+    return timetableUrl;
+  }
 
-	/**
-	 * @return the timetableReport
-	 */
-	public synchronized final String getTimetableReport() {
-		return timetableReport;
-	}
+  /**
+   * @return the timetableReport
+   */
+  public String getTimetableReport() {
+    return timetableReport;
+  }
 
-	/**
-	 * @return the timetableCal
-	 */
-	public synchronized final String getTimetableCal() {
-		return timetableCal;
-	}
+  /**
+   * @return the timetableCal
+   */
+  public String getTimetableCal() {
+    return timetableCal;
+  }
 
-	/**
-	 * @return the timetableSemGroup
-	 */
-	public synchronized final String getTimetableSemGroup() {
-		return timetableSemGroup;
-	}
+  /**
+   * @return the timetableSemGroup
+   */
+  public String getTimetableSemGroup() {
+    return timetableSemGroup;
+  }
 
-	/**
-	 * @return the timetableProfs
-	 */
-	public synchronized final String getTimetableProfs() {
-		return timetableProfs;
-	}
+  /**
+   * @return the timetableProfs
+   */
+  public String getTimetableProfs() {
+    return timetableProfs;
+  }
+
+  public void setTimetableUrl(String timetableUrl) {
+    this.timetableUrl = timetableUrl;
+  }
+
+  public void setTimetableReport(String timetableReport) {
+    this.timetableReport = timetableReport;
+  }
+
+  public void setTimetableCal(String timetableCal) {
+    this.timetableCal = timetableCal;
+  }
+
+  public void setTimetableSemGroup(String timetableSemGroup) {
+    this.timetableSemGroup = timetableSemGroup;
+  }
+
+  public void setTimetableProfs(String timetableProfs) {
+    this.timetableProfs = timetableProfs;
+  }
 }

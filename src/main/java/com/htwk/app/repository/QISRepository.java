@@ -32,93 +32,106 @@ import com.htwk.app.service.AuthenticationService;
 @Repository
 public class QISRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(QISRepository.class);
+  private static Logger logger = LoggerFactory.getLogger(QISRepository.class);
 
-	RestTemplate restTemplate = null;
-	HttpHeaders headers = null;
-	URI uri = null;
-	QISConverter conv = null;
+  RestTemplate restTemplate = null;
+  HttpHeaders headers = null;
+  URI uri = null;
+  QISConverter conv = null;
 
-	@Value("${qis.url}")
-	private String qisUrl;
+  @Value("${qis.url}")
+  private String qisUrl;
 
-	@Autowired
-	private AuthenticationService authService;
+  @Autowired
+  private AuthenticationService authService;
 
-	@PostConstruct
-	public void init() {
-		restTemplate = new RestTemplate();
-		headers = new HttpHeaders();
-		conv = new QISConverter();
-	}
+  @PostConstruct
+  public void init() {
+    restTemplate = new RestTemplate();
+    headers = new HttpHeaders();
+    conv = new QISConverter();
+    logger.debug("initialized QisRepository");
+  }
 
-	public synchronized final List<Semester> getQISData(String enryptedCredentials, String salt)
-			throws RestClientException, UnsupportedEncodingException {
+  public List<Semester> getQISData(String enryptedCredentials, String salt)
+      throws RestClientException, UnsupportedEncodingException {
 
-		EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
-		Credentials credentials = authService.decryptCredentials(encCred);
-		return getNewQISData(credentials);
-	}
+    EncryptedCredentials encCred = new EncryptedCredentials(enryptedCredentials, salt);
+    Credentials credentials = authService.decryptCredentials(encCred);
+    return getNewQISData(credentials);
+  }
 
-	private synchronized final List<Semester> getNewQISData(Credentials credentials) throws RestClientException,
-			UnsupportedEncodingException {
-		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		map.add("username", "" + credentials.getUsername());
-		map.add("password", "" + credentials.getPassword());
+  private List<Semester> getNewQISData(Credentials credentials) throws RestClientException,
+      UnsupportedEncodingException {
+    MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+    map.add("username", "" + credentials.getUsername());
+    map.add("password", "" + credentials.getPassword());
 
-		map.add("submit", "Anmelden");
+    map.add("submit", "Anmelden");
 
-		// get authenticated
-		ResponseEntity<String> response = restTemplate.postForEntity(qisUrl, map, String.class);
+    // get authenticated
+    ResponseEntity<String> response = restTemplate.postForEntity(qisUrl, map, String.class);
 
-		String loggedinUrl = response.getHeaders().getLocation().toString();
-		String asi = getQueryMap(loggedinUrl).get("asi");
+    String loggedinUrl = response.getHeaders().getLocation().toString();
+    String asi = getQueryMap(loggedinUrl).get("asi");
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Cookie", "JSESSIONID=" + getSessionId(response.getHeaders()));
-		// get link to detailed view
-		response = restTemplate
-				.exchange(
-						"https://qisserver.htwk-leipzig.de/qisserver/rds?state=notenspiegelStudent&next=tree.vm&nextdir=qispos/notenspiegel/student&navigationPosition=functions%2CnotenspiegelStudent&breadcrumb=notenspiegel&topitem=functions&subitem=notenspiegelStudent&asi="
-								+ asi, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Cookie", "JSESSIONID=" + getSessionId(response.getHeaders()));
+    // get link to detailed view
+    response =
+        restTemplate
+            .exchange(
+                "https://qisserver.htwk-leipzig.de/qisserver/rds?state=notenspiegelStudent&next=tree.vm&nextdir=qispos/notenspiegel/student&navigationPosition=functions%2CnotenspiegelStudent&breadcrumb=notenspiegel&topitem=functions&subitem=notenspiegelStudent&asi="
+                    + asi, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
 
-		// get mark
-		response = restTemplate.exchange(getDetailLink(response.getBody().toString()), HttpMethod.GET,
-				new HttpEntity<String>(headers), String.class);
+    // get mark
+    response =
+        restTemplate.exchange(getDetailLink(response.getBody().toString()), HttpMethod.GET,
+            new HttpEntity<String>(headers), String.class);
 
-		return conv.getSemesterAsList(response.getBody().toString());
-	}
+    return conv.getSemesterAsList(response.getBody().toString());
+  }
 
-	private synchronized final String getSessionId(HttpHeaders headers) {
-		List<String> cookies = headers.get("Cookie");
+  private String getSessionId(HttpHeaders headers) {
+    List<String> cookies = headers.get("Cookie");
 
-		// assuming only one cookie with jsessionid as the only value
-		if (cookies == null) {
-			cookies = headers.get("Set-Cookie");
-		}
-		String cookie = cookies.get(cookies.size() - 1);
-		int start = cookie.indexOf('=');
-		int end = cookie.indexOf(';');
+    // assuming only one cookie with jsessionid as the only value
+    if (cookies == null) {
+      cookies = headers.get("Set-Cookie");
+    }
+    String cookie = cookies.get(cookies.size() - 1);
+    int start = cookie.indexOf('=');
+    int end = cookie.indexOf(';');
 
-		return cookie.substring(start + 1, end);
-	}
+    return cookie.substring(start + 1, end);
+  }
 
-	private synchronized final String getDetailLink(String content) throws UnsupportedEncodingException {
-		String temp = content.substring(content.indexOf("class=\"Konto\" href=") + "class=\"Konto\" href=".length(),
-				content.indexOf(" title=\"Leistungen anzeigen\""));
-		return URLDecoder.decode(temp.replace("&amp;", "&"), "UTF-8");
-	}
+  private String getDetailLink(String content) throws UnsupportedEncodingException {
+    String temp =
+        content.substring(
+            content.indexOf("class=\"Konto\" href=") + "class=\"Konto\" href=".length(),
+            content.indexOf(" title=\"Leistungen anzeigen\""));
+    return URLDecoder.decode(temp.replace("&amp;", "&"), "UTF-8");
+  }
 
-	private synchronized final Map<String, String> getQueryMap(String url) {
-		String[] params = url.split("[&]");
-		Map<String, String> map = new HashMap<String, String>();
-		for (String param : params) {
-			String[] para = param.split("=");
-			if (para.length >= 2) {
-				map.put(para[0], para[1]);
-			}
-		}
-		return map;
-	}
+  private Map<String, String> getQueryMap(String url) {
+    String[] params = url.split("[&]");
+    Map<String, String> map = new HashMap<String, String>();
+    for (String param : params) {
+      String[] para = param.split("=");
+      if (para.length >= 2) {
+        map.put(para[0], para[1]);
+      }
+    }
+    return map;
+  }
+
+  public String getQisUrl() {
+    return qisUrl;
+  }
+
+  public void setQisUrl(String qisUrl) {
+    this.qisUrl = qisUrl;
+  }
 
 }

@@ -136,4 +136,12 @@ public class GoogleDistanceMatrixService {
 		}
 		return distanceMap;
 	}
+
+  public final String getBaseUri() {
+    return baseUri;
+  }
+
+  public final void setBaseUri(String baseUri) {
+    this.baseUri = baseUri;
+  }
 }
