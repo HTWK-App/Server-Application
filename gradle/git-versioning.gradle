@@ -1,0 +1,34 @@
+/**
+ *
+ * Simple Git versioning support for gradle.
+ *
+ * Available global properties when applying this file:
+ * - gitVersion: version number returned by 'git describe'
+ * - gitBranchName: name of the current branch
+ *
+ */
+
+
+/*
+ * @return version based on 'git describe'
+ */
+def getVersion() {
+  def cmd = 'git describe --always --dirty'
+  def proc = cmd.execute()
+  return proc.text.trim()
+}
+
+/*
+ * @return name of the current branch
+ */
+def getBranchName() {
+  def cmd = 'git rev-parse --abbrev-ref HEAD'
+  def proc = cmd.execute()
+  return proc.text.trim()
+}
+
+// set properties
+ext {
+  gitVersion = getVersion()
+  gitBranchName = getBranchName()
+}
