@@ -1,5 +1,11 @@
-FROM dockerfile/java
+FROM java:openjdk-8u45
 MAINTAINER hknochi@gmail.com
+
+RUN \
+  apt-get update && \
+  apt-get install -y git && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add project files and NewRelic Agent
 ADD . /opt/server-app/
