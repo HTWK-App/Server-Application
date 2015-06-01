@@ -54,7 +54,7 @@ public class AdministrationController {
 	public String redirectIndex(Locale locale, Model model) {
 		return "redirect:/admin/";
 	}
-
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		model.addAttribute("staff", stats.getStaffRequests());
