@@ -9,6 +9,7 @@ import java.net.URI;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,6 +21,7 @@ import javax.annotation.PostConstruct;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +32,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.codec.Base64;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.util.ByteArrayBuilder;
 import com.google.common.cache.Cache;
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
@@ -76,6 +80,7 @@ public class InformationRepository {
   @PostConstruct
   public void init() {
     restTemplate = new RestTemplate();
+    restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
     headers = new HttpHeaders();
     headers.add("Content-Type", "text/xml;charset=utf-8");
     conv = new InformationConverter();
@@ -254,34 +259,38 @@ public class InformationRepository {
   }
 
   public String getPicData(String uri) throws Exception {
-    if (uri == null || uri.isEmpty()) {
-      return null;
-    }
-    HttpHeaders headers = new HttpHeaders();
-    String prefix = "";
-    boolean compress = true;
-    if (uri.contains("gif")) {
-      prefix = "data:image/gif;base64,";
-      headers.set("Content-Type", "image/gif");
-      compress = false;
-    } else if (uri.contains("jpeg")) {
-      prefix = "data:image/jpeg;base64,";
-      headers.set("Content-Type", "image/jpeg");
-    } else if (uri.contains("jpg")) {
-      prefix = "data:image/jpg;base64,";
-      headers.set("Content-Type", "image/jpeg");
-    } else if (uri.contains("tiff")) {
-      prefix = "data:image/tiff;base64,";
-      headers.set("Content-Type", "image/tiff");
-    } else {
-      prefix = "data:image/png;base64,";
-      headers.set("Content-Type", "image/png");
-    }
+    StringBuilder pictureString = new StringBuilder();
+      if (uri == null || uri.isEmpty()) {
+        return null;
+      }
+      HttpHeaders headers = new HttpHeaders();
+      boolean compress = true;
+      if (uri.contains("gif")) {
+        pictureString.append("data:image/gif;base64,");
+        headers.set("Content-Type", "image/gif");
+        compress = false;
+      } else if (uri.contains("jpeg")) {
+        pictureString.append("data:image/jpeg;base64,");
+        headers.set("Content-Type", "image/jpeg");
+      } else if (uri.contains("jpg")) {
+        pictureString.append("data:image/jpeg;base64,");
+        headers.set("Content-Type", "image/jpeg");
+      } else if (uri.contains("tiff")) {
+        pictureString.append("data:image/tiff;base64,");
+        headers.set("Content-Type", "image/tiff");
+      } else {
+        pictureString.append("data:image/png;base64,");
+        headers.set("Content-Type", "image/png");
+      }
 
-    HttpEntity<String> entity = new HttpEntity<String>(headers);
-    ResponseEntity<byte[]> response =
-        restTemplate.exchange(uri, HttpMethod.GET, entity, byte[].class);
-    return prefix + Base64.encode(compress ? compressPic(response.getBody()) : response.getBody());
+
+      HttpEntity<String> entity = new HttpEntity<String>(headers);
+      restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+      ResponseEntity<byte[]> response =
+          restTemplate.exchange(uri, HttpMethod.GET, entity, byte[].class, 1);
+      pictureString.append(Base64.getEncoder().encodeToString(
+          compress ? compressPic(response.getBody()) : response.getBody()));
+      return pictureString.toString();
   }
 
   private byte[] compressPic(byte[] data) throws Exception {
