@@ -11,35 +11,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-//@Configuration
-//@EnableConfigurationProperties
-//@ConfigurationProperties
+@Component
+@EnableConfigurationProperties
+@ConfigurationProperties()
 public class RssMapProperties {
 
-  private static final Logger logger = LoggerFactory.getLogger(RssMapProperties.class);
+    private HashMap<String, String> rss;
 
-//  @Value("${rss}")
-  private Map<String, Object> rssMap;
-
-  public RssMapProperties() {}
-
-  @PostConstruct
-  public void init() {
-    logger.info(getRssMap().toString());
-  }
-
-  public Map<String, Object> getRssMap() {
-    return rssMap;
-  }
-
-  public void setRssMap(Map<String, Object> rssMap) {
-    if(rssMap == null ){
-      rssMap = new HashMap<String, Object>();
+    public HashMap<String, String> getRss() {
+        return rss;
     }
-    this.rssMap = rssMap;
-  }
 
-
+    public void setRss(HashMap<String, String> rss) {
+        this.rss = rss;
+    }
 
 }

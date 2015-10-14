@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.htwk.app.config.RssMapProperties;
 import com.htwk.app.model.info.News;
 
 @Repository
@@ -36,6 +37,9 @@ public class NewsRepository {
 
   @Autowired
   private ApplicationContext context;
+  
+  @Autowired
+  private RssMapProperties props;
 
   @PostConstruct
   public void init() {
@@ -45,7 +49,7 @@ public class NewsRepository {
 
   @SuppressWarnings("unchecked")
   private Map<String, String> getNewsCategories() {
-    return new TreeMap<String, String>((Map<String, String>) context.getBean("rssMap"));
+    return new TreeMap<String, String>((Map<String, String>) props.getRss());
   }
 
   public List<News> getNews() throws UnsupportedEncodingException {
