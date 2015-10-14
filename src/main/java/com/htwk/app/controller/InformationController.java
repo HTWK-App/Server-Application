@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
 import com.htwk.app.model.info.StaffShort;
@@ -94,23 +93,6 @@ public class InformationController {
 	public @ResponseBody
 	ResponseEntity<byte[]> getStaffPic(@PathVariable(value = "cuid") String cuid) throws Exception {
 		return repo.getStaffPic(cuid);
-	}
-
-	@RequestMapping(value = "/building", method = RequestMethod.GET)
-	public @ResponseBody
-	List<Building> getBuildings() throws InvalidAttributesException, IOException, ParseException {
-		return repo.getBuildings();
-	}
-
-	@Cacheable("timeCache")
-	@RequestMapping(value = "/building/{id}", method = RequestMethod.GET)
-	public @ResponseBody
-	Building getBuilding(@PathVariable(value = "id") String id) throws Exception {
-		Building building = repo.getBuilding(id);
-		if (building == null) {
-			throw new InvalidAttributeValueException("invalid building-id");
-		}
-		return building;
 	}
 
 	@RequestMapping(value = "/sport", method = RequestMethod.GET)
