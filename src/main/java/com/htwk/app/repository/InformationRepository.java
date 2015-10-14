@@ -21,7 +21,6 @@ import javax.annotation.PostConstruct;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +33,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.util.ByteArrayBuilder;
 import com.google.common.cache.Cache;
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;

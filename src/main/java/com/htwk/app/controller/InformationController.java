@@ -13,7 +13,6 @@ import java.util.Map;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.management.InvalidAttributeValueException;
-import javax.naming.directory.InvalidAttributesException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

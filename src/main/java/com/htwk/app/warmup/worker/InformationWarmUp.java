@@ -1,10 +1,7 @@
 package com.htwk.app.warmup.worker;
 
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +11,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.google.common.cache.Cache;
-import com.google.gson.Gson;
 import com.htwk.app.model.info.Building;
 import com.htwk.app.model.info.Sport;
 import com.htwk.app.model.info.Staff;
-import com.htwk.app.model.info.StaffShort;
 import com.htwk.app.repository.InformationRepository;
 import com.htwk.app.warmup.WarmUp;
 
