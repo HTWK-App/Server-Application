@@ -281,7 +281,6 @@ public class InformationRepository {
 
 
       HttpEntity<String> entity = new HttpEntity<String>(headers);
-      restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
       ResponseEntity<byte[]> response =
           restTemplate.exchange(uri, HttpMethod.GET, entity, byte[].class, 1);
       pictureString.append(Base64.getEncoder().encodeToString(
