@@ -3,6 +3,8 @@ package com.htwk.app.controller;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import javax.naming.directory.InvalidAttributesException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class NewsController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public @ResponseBody
-	List<News> home() throws UnsupportedEncodingException {
+	List<News> home() throws UnsupportedEncodingException, InvalidAttributesException {
 		return repo.getNews();
 	}
 
@@ -41,7 +43,7 @@ public class NewsController {
 	public @ResponseBody
 	String home(@RequestParam(value = "feed", required = false, defaultValue = "") String key,
 			@RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
-			@RequestParam(value = "offset", required = false, defaultValue = "0") int offset) {
+			@RequestParam(value = "offset", required = false, defaultValue = "0") int offset) throws InvalidAttributesException {
 		return new Gson().toJson(repo.getNewsFeed(key, limit, offset));
 	}
 }

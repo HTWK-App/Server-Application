@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
+import javax.naming.directory.InvalidAttributesException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -37,7 +39,7 @@ public class NewsRepository {
 
   @Autowired
   private ApplicationContext context;
-  
+
   @Autowired
   private RssMapProperties props;
 
@@ -49,15 +51,15 @@ public class NewsRepository {
 
   @SuppressWarnings("unchecked")
   private Map<String, String> getNewsCategories() {
-    //fix problems with missing rss.* for the keys
+    // fix problems with missing rss.* for the keys
     TreeMap<String, String> rssMap = new TreeMap<String, String>();
     for (Entry<String, String> element : props.getRss().entrySet()) {
-      rssMap.put("rss."+element.getKey(), element.getValue());
+      rssMap.put("rss." + element.getKey(), element.getValue());
     }
     return rssMap;
   }
 
-  public List<News> getNews() throws UnsupportedEncodingException {
+  public List<News> getNews() throws UnsupportedEncodingException, InvalidAttributesException {
     Map<String, String> rssMap = getNewsCategories();
 
     List<News> news = new ArrayList<News>();
@@ -89,14 +91,17 @@ public class NewsRepository {
     return news;
   }
 
-  public JsonObject getNewsFeed(String key, int limit, int offset) {
-
+  public JsonObject getNewsFeed(String key, int limit, int offset)
+      throws InvalidAttributesException {
     limit = limit + offset;
     JsonObject response = parser.parse(getFeed(key, limit, offset)).getAsJsonObject();
     JsonObject responseData = null;
     int status = response.get("responseStatus").getAsInt();
-    if (status == 200 && response != null && response.has("responseData")) {
+    if (status == 200 && response != null && response.has("responseData")
+        && response.get("responseData") != null) {
       responseData = response.get("responseData").getAsJsonObject();
+    } else {
+      throw new InvalidAttributesException("the given feed-key was not found");
     }
 
     if (offset > 0) {
