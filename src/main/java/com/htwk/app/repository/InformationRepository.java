@@ -77,7 +77,6 @@ public class InformationRepository {
   @PostConstruct
   public void init() {
     restTemplate = new RestTemplate();
-    restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
     headers = new HttpHeaders();
     headers.add("Content-Type", "text/xml;charset=utf-8");
     conv = new InformationConverter();
