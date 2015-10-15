@@ -49,7 +49,12 @@ public class NewsRepository {
 
   @SuppressWarnings("unchecked")
   private Map<String, String> getNewsCategories() {
-    return new TreeMap<String, String>((Map<String, String>) props.getRss());
+    //fix problems with missing rss.* for the keys
+    TreeMap<String, String> rssMap = new TreeMap<String, String>();
+    for (Entry<String, String> element : props.getRss().entrySet()) {
+      rssMap.put("rss."+element.getKey(), element.getValue());
+    }
+    return rssMap;
   }
 
   public List<News> getNews() throws UnsupportedEncodingException {

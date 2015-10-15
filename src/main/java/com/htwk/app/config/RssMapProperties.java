@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @EnableConfigurationProperties
-@ConfigurationProperties()
+@ConfigurationProperties
 public class RssMapProperties {
 
     private HashMap<String, String> rss;
